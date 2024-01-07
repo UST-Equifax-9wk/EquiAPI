@@ -1,13 +1,25 @@
 package com.revature.ecommerce;
 
+import com.revature.ecommerce.controllers.InventoryController;
+import com.revature.ecommerce.services.CartService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@SpringBootApplication
+@EnableTransactionManagement
+@SpringBootApplication (scanBasePackages = {"com.revature.ecommerce.services",
+		"com.revature.ecommerce.repositories", "com.revature.ecommerce.controllers"})
 public class EcommerceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EcommerceApplication.class, args);
+
+		ApplicationContext iocContainer = SpringApplication.run(EcommerceApplication.class, args);
+
+		CartService cartService = (CartService) iocContainer.getBean(CartService.class);
+		InventoryController userController = (InventoryController) iocContainer.getBean(InventoryController.class);
 	}
+
+
 
 }
