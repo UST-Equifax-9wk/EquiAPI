@@ -13,11 +13,12 @@ public class ProductService {
     public ProductService(ProductRepository productRepository){
         this.productRepository = productRepository;
     }
-//
-//    public Product addItemToProducts (Product product){
-//        Product newProduct = new Product(product.getType(), product.getQuantity(),
-//                product.getName(),product.getDescription());
-//
-//        return productRepository.save(newProduct);
-//    }
+
+    public Product addProduct(Product product) {
+        return productRepository.save(product);
+    }
+
+    public Product addItemToProducts (Product product){
+        return productRepository.save(product);
+    }
 }
