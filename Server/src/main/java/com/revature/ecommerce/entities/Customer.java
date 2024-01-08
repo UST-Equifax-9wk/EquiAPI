@@ -7,10 +7,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    @Column(name = "customer_id")
+    Integer customerId;
     @Column
     String email;
     @Column(name="first_name")
@@ -22,13 +23,13 @@ public class User {
     @Column
     String password;  //Remove password since there is an auth dto
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user" /* supposed to be customer? */)
     private Set<Cart> cart;
 
-    public User() {
+    public Customer() {
     }
 
-    public User(String email, String firstName, String lastName, String password, Set<Cart> cart) {
+    public Customer(String email, String firstName, String lastName, String password, Set<Cart> cart) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -36,8 +37,8 @@ public class User {
         this.cart = cart;
     }
 
-    public User(Integer id, String email, String firstName, String lastName, String password, Set<Cart> cart) {
-        this.id = id;
+    public Customer(Integer customerId, String email, String firstName, String lastName, String password, Set<Cart> cart) {
+        this.customerId = customerId;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -45,17 +46,11 @@ public class User {
         this.cart = cart;
     }
 
-    public Integer getId() {
-        return id;
+
+    public Integer getCustomerId() {
+        return customerId;
     }
 
-    /*
-    Setter method for customerId is commented out
-     */
-
-//    public void setCustomerId(Integer customerId) {
-//        this.customerId = customerId;
-//    }
 
     public String getEmail() {
         return email;
@@ -101,19 +96,21 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(password, user.password) && Objects.equals(cart, user.cart);
+        Customer customer = (Customer) o;
+        return Objects.equals(customerId, customer.customerId) && Objects.equals(email, customer.email) && Objects.equals(firstName, customer.firstName) && Objects.equals(lastName, customer.lastName) && Objects.equals(password, customer.password) && Objects.equals(cart, customer.cart);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, firstName, lastName, password, cart);
+        return Objects.hash(customerId, email, firstName, lastName, password, cart);
     }
 
     @Override
     public String toString() {
-        return "User{" +
-                "customerId=" + id +
+
+
+        return "Customer{" +
+                "customerId=" + customerId +
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

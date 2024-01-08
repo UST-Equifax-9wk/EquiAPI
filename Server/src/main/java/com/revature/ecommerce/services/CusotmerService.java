@@ -1,9 +1,9 @@
 package com.revature.ecommerce.services;
 
-import com.revature.ecommerce.entities.User;
+import com.revature.ecommerce.entities.Customer;
 import com.revature.ecommerce.exceptions.UserAlreadyExistsException;
 import com.revature.ecommerce.exceptions.UserDoesNotExistException;
-import com.revature.ecommerce.repositories.UserRepository;
+import com.revature.ecommerce.repositories.CustomerRepository;
 import jakarta.transaction.Transactional;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,30 +15,32 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Service
 @EnableTransactionManagement
 @jakarta.transaction.Transactional(Transactional.TxType.REQUIRED)
-public class UserService {
-    private UserRepository userRepository;
+public class CusotmerService {
+    private CustomerRepository customerRepository;
 
     @Autowired
-    public UserService (UserRepository userRepository){
-        this.userRepository = userRepository;
+    public CusotmerService(CustomerRepository customerRepository){
+        this.customerRepository = customerRepository;
     }
 
-    public User AddUser(User user) throws UserAlreadyExistsException{
-        if(userRepository.findByEmail(user.getEmail()) !=null){
+    public Customer addUser(Customer customer) throws UserAlreadyExistsException{
+        if(customerRepository.findByEmail(customer.getEmail()) !=null){
             throw new UserAlreadyExistsException("Email already associated with user. Forgot password?");
         }
-        user.setPassword(hash(user.getPassword()));
-        return userRepository.save(user);
+        customer.setPassword(hash(customer.getPassword()));
+        return customerRepository.save(customer);
         //isMatch($Person/EmailAddress ,'^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$')
     }
 
-    public Boolean authenticateUser(User user) throws UserDoesNotExistException{
-        User authUser = userRepository.findByEmail(user.getEmail());
-        if(authUser==null){
-            throw new UserDoesNotExistException("This user is not in database");
+    public Boolean authenticateUser(Customer customer) throws UserDoesNotExistException{
+
+        Customer authCustomer = customerRepository.findByEmail(customer.getEmail());
+        if(authCustomer ==null){
+            throw new UserDoesNotExistException("This customer is not in database");
+
         }
 
-        if(checkHash(user.getPassword(), authUser.getPassword())){
+        if(checkHash(customer.getPassword(), authCustomer.getPassword())){
             return true;
         }
         return false;
