@@ -1,6 +1,17 @@
 package com.revature.ecommerce.repositories;
 
+import com.revature.ecommerce.entities.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
-public interface CartRepository extends JpaRepository {
+import java.util.List;
+import java.util.Set;
+
+@Repository
+public interface CartRepository extends JpaRepository <Cart, List<Integer>>{
+
+//    @Query(nativeQuery = true, value = "SELECT * FROM carts WHERE customer_id=?1")
+    Cart findCartByCustomerId(Integer customerId);
+    Set<Cart> findAllCartByUserId(Integer userId);
 }
