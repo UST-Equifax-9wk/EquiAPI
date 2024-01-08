@@ -2,28 +2,46 @@ package com.revature.ecommerce.entities;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity(name = "products")
 public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "reviews_id")
     private Integer productId;
+
     private String type;
+
+
     private Integer quantity;
+
+    private Integer threshold;
+
     private String name;
+
     private String description;
+
+    @OneToMany(mappedBy = "product")
+    private Set<Review> reviews;
 
     public Product() {
     }
 
-    public Product(String type, Integer quantity, String name, String description) {
+    public Product(String type, Integer quantity, Integer threshold, String name, String description) {
         this.type = type;
         this.quantity = quantity;
+        this.threshold = threshold;
         this.name = name;
         this.description = description;
     }
 
-    public Product(Integer productId, String type, Integer quantity, String name, String description) {
+    public Product(Integer productId, String type, Integer quantity, Integer threshold, String name, String description) {
         this.productId = productId;
         this.type = type;
         this.quantity = quantity;
+        this.threshold = threshold;
         this.name = name;
         this.description = description;
     }
@@ -72,5 +90,13 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getThreshold() {
+        return threshold;
+    }
+
+    public void setThreshold(Integer threshold) {
+        this.threshold = threshold;
     }
 }

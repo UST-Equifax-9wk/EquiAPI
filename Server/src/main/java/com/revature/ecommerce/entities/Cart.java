@@ -8,7 +8,6 @@ import java.util.Objects;
 
 @Entity
 @Data
-
 public class Cart {
 
     @Id

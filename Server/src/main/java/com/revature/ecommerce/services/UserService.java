@@ -23,7 +23,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User AddUser(User user) throws UserAlreadyExistsException{
+    public User addUser(User user) throws UserAlreadyExistsException{
         if(userRepository.findUserByEmail(user.getEmail()) !=null){
             throw new UserAlreadyExistsException("Email already associated with user. Forgot password?");
         }

@@ -25,6 +25,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Cart> cart;
 
+
+
     public User() {
     }
 
@@ -52,10 +54,6 @@ public class User {
     /*
     Setter method for customerId is commented out
      */
-
-//    public void setCustomerId(Integer customerId) {
-//        this.customerId = customerId;
-//    }
 
     public String getEmail() {
         return email;

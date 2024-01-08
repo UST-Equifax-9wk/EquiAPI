@@ -55,7 +55,7 @@ public class CartService {
     public Set<String> viewCart (String email){
         User user = userRepository.findUserByEmail(email);
         Set<Cart> itemsInCart = cartRepository.findAllCartByUserId(user.getUserId());
-        Set<String> allItems = new HashSet<String>();
+        Set<String> allItems = new HashSet<>();
         for(Cart c : itemsInCart){
             Product product = productRepository.findProductByProductId(c.getProductId());
             String [] itemData = {String.valueOf(product.getProductId()), product.getName(),
