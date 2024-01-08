@@ -24,7 +24,7 @@ public class UserService {
     }
 
     public User AddUser(User user) throws UserAlreadyExistsException{
-        if(userRepository.findUserByEmail(user.getEmail()) !=null){
+        if(userRepository.findByEmail(user.getEmail()) !=null){
             throw new UserAlreadyExistsException("Email already associated with user. Forgot password?");
         }
         user.setPassword(hash(user.getPassword()));
@@ -33,7 +33,7 @@ public class UserService {
     }
 
     public Boolean authenticateUser(User user) throws UserDoesNotExistException{
-        User authUser = userRepository.findUserByEmail(user.getEmail());
+        User authUser = userRepository.findByEmail(user.getEmail());
         if(authUser==null){
             throw new UserDoesNotExistException("This user is not in database");
         }
