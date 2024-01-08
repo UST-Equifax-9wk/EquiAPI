@@ -51,6 +51,7 @@ public class Customer {
         return customerId;
     }
 
+
     public String getEmail() {
         return email;
     }
@@ -106,6 +107,8 @@ public class Customer {
 
     @Override
     public String toString() {
+
+
         return "Customer{" +
                 "customerId=" + customerId +
                 ", email='" + email + '\'' +

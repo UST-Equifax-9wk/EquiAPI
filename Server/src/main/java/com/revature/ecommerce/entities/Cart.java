@@ -7,7 +7,6 @@ import java.util.Objects;
 
 @Entity
 @Data
-
 public class Cart {
 
     @Id
@@ -18,6 +17,7 @@ public class Cart {
     @Column
     Integer quantity;
     @ManyToOne
+    @JoinColumn(name="customer_id")
     private Customer customer;
 
     public Cart() {

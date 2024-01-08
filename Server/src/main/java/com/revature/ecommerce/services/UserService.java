@@ -23,9 +23,9 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Customer AddUser(Customer customer) throws UserAlreadyExistsException{
-        if(userRepository.findByEmail(customer.getEmail()) !=null){
-            throw new UserAlreadyExistsException("Email already associated with customer. Forgot password?");
+    public Customer addUser(Customer customer) throws UserAlreadyExistsException{
+        if(userRepository.findUserByEmail(customer.getEmail()) !=null){
+            throw new UserAlreadyExistsException("Email already associated with user. Forgot password?");
         }
         customer.setPassword(hash(customer.getPassword()));
         return userRepository.save(customer);
@@ -33,9 +33,11 @@ public class UserService {
     }
 
     public Boolean authenticateUser(Customer customer) throws UserDoesNotExistException{
+
         Customer authCustomer = userRepository.findByEmail(customer.getEmail());
         if(authCustomer ==null){
             throw new UserDoesNotExistException("This customer is not in database");
+
         }
 
         if(checkHash(customer.getPassword(), authCustomer.getPassword())){
