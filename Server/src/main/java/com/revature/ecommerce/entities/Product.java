@@ -16,8 +16,10 @@ public class Product {
     private Integer id;
     @Column
     private String type;
+    @Column(columnDefinition = "integer default 0")
+    private Integer quantity = 0;
     @Column
-    private Integer quantity;
+    private Integer inventory;
     @Column
     private String name;
     @Column(length = 2000)

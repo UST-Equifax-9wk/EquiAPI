@@ -20,7 +20,7 @@ public class SellerController {
 
     @GetMapping(path = "/{sellerId}")
     public ResponseEntity<SellerResponse> getSeller(@PathVariable String sellerId) {
-        Seller seller = sellerService.findById(sellerId);
+        Seller seller = sellerService.findById(Integer.valueOf(sellerId));
         SellerResponse response = new SellerResponse(
                 seller.getId(),
                 seller.getFirstName(),
@@ -32,6 +32,11 @@ public class SellerController {
 
     @PostMapping(path = "/{sellerId}/products")
     public ResponseEntity<Product> addProduct(@PathVariable String sellerId, @RequestBody Product product) {
-        return ResponseEntity.ok(sellerService.addProduct(sellerId, product));
+        return ResponseEntity.ok(sellerService.addProduct(Integer.valueOf(sellerId), product));
+    }
+
+    @PutMapping(path = "/{sellerId}/products/{productId}/inventory")
+    public ResponseEntity<Product> updateInventory(@PathVariable String sellerId, @PathVariable String productId, @RequestBody Product product) {
+        return ResponseEntity.ok(sellerService.updateInventory(Integer.valueOf(productId), product.getInventory()));
     }
 }

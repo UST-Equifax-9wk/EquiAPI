@@ -15,8 +15,8 @@ public class SellerService {
     private final SellerRepository sellerRepository;
     private final ProductService productService;
 
-    public Seller findById(String sellerId) {
-        Optional<Seller> found = sellerRepository.findById(Integer.valueOf(sellerId));
+    public Seller findById(Integer sellerId) {
+        Optional<Seller> found = sellerRepository.findById(sellerId);
         if (found.isPresent()) {
             return found.get();
         } else {
@@ -28,9 +28,13 @@ public class SellerService {
         sellerRepository.save(seller);
     }
 
-    public Product addProduct(String sellerId, Product product) {
+    public Product addProduct(Integer sellerId, Product product) {
         Seller seller = findById(sellerId);
         product.setSeller(seller);
         return productService.addProduct(product);
+    }
+
+    public Product updateInventory(Integer productId, Integer inventory) {
+        return productService.updateInventory(productId, inventory);
     }
 }
