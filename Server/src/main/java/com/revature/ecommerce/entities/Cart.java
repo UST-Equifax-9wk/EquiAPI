@@ -3,7 +3,6 @@ package com.revature.ecommerce.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -19,7 +18,7 @@ public class Cart {
     @Column
     Integer quantity;
     @ManyToOne
-    private User user;
+    private Customer customer;
 
     public Cart() {
     }
@@ -29,17 +28,17 @@ public class Cart {
         this.quantity = quantity;
     }
 
-    public Cart(Integer productId, Integer quantity, User user) {
+    public Cart(Integer productId, Integer quantity, Customer customer) {
         this.productId = productId;
         this.quantity = quantity;
-        this.user = user;
+        this.customer = customer;
     }
 
-    public Cart(Integer serialNumber, Integer productId, Integer quantity, User user) {
+    public Cart(Integer serialNumber, Integer productId, Integer quantity, Customer customer) {
         this.serialNumber = serialNumber;
         this.productId = productId;
         this.quantity = quantity;
-        this.user = user;
+        this.customer = customer;
     }
 
     public Integer getSerialNumber() {
@@ -66,12 +65,12 @@ public class Cart {
         this.quantity = quantity;
     }
 
-    public User getUser() {
-        return user;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     @Override
@@ -79,12 +78,12 @@ public class Cart {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cart cart = (Cart) o;
-        return Objects.equals(serialNumber, cart.serialNumber) && Objects.equals(productId, cart.productId) && Objects.equals(quantity, cart.quantity) && Objects.equals(user, cart.user);
+        return Objects.equals(serialNumber, cart.serialNumber) && Objects.equals(productId, cart.productId) && Objects.equals(quantity, cart.quantity) && Objects.equals(customer, cart.customer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(serialNumber, productId, quantity, user);
+        return Objects.hash(serialNumber, productId, quantity, customer);
     }
 
     @Override
@@ -93,7 +92,7 @@ public class Cart {
                 "serialNumber=" + serialNumber +
                 ", productId=" + productId +
                 ", quantity=" + quantity +
-                ", user=" + user +
+                ", customer=" + customer +
                 '}';
     }
 }
