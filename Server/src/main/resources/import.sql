@@ -1,0 +1,1 @@
+insert into sellers (first_name, last_name, email, password) values ("Jane", "Doe", "jane@email.com", "123")
