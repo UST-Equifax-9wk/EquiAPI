@@ -3,7 +3,7 @@ package com.revature.ecommerce.services;
 import com.revature.ecommerce.entities.Customer;
 import com.revature.ecommerce.exceptions.UserAlreadyExistsException;
 import com.revature.ecommerce.exceptions.UserDoesNotExistException;
-import com.revature.ecommerce.repositories.UserRepository;
+import com.revature.ecommerce.repositories.CustomerRepository;
 import jakarta.transaction.Transactional;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,26 +15,26 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Service
 @EnableTransactionManagement
 @jakarta.transaction.Transactional(Transactional.TxType.REQUIRED)
-public class UserService {
-    private UserRepository userRepository;
+public class CusotmerService {
+    private CustomerRepository customerRepository;
 
     @Autowired
-    public UserService (UserRepository userRepository){
-        this.userRepository = userRepository;
+    public CusotmerService(CustomerRepository customerRepository){
+        this.customerRepository = customerRepository;
     }
 
     public Customer addUser(Customer customer) throws UserAlreadyExistsException{
-        if(userRepository.findUserByEmail(customer.getEmail()) !=null){
+        if(customerRepository.findByEmail(customer.getEmail()) !=null){
             throw new UserAlreadyExistsException("Email already associated with user. Forgot password?");
         }
         customer.setPassword(hash(customer.getPassword()));
-        return userRepository.save(customer);
+        return customerRepository.save(customer);
         //isMatch($Person/EmailAddress ,'^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$')
     }
 
     public Boolean authenticateUser(Customer customer) throws UserDoesNotExistException{
 
-        Customer authCustomer = userRepository.findByEmail(customer.getEmail());
+        Customer authCustomer = customerRepository.findByEmail(customer.getEmail());
         if(authCustomer ==null){
             throw new UserDoesNotExistException("This customer is not in database");
 
