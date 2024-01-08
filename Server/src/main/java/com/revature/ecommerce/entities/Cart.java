@@ -19,7 +19,6 @@ public class Cart {
     @Column
     Integer quantity;
     @ManyToOne
-    @JoinColumn(name="customer_id")
     private User user;
 
     public Cart() {

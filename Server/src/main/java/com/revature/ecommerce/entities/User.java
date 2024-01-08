@@ -10,7 +10,7 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer userId;
+    Integer id;
     @Column
     String email;
     @Column(name="first_name")
@@ -36,8 +36,8 @@ public class User {
         this.cart = cart;
     }
 
-    public User(Integer userId, String email, String firstName, String lastName, String password, Set<Cart> cart) {
-        this.userId = userId;
+    public User(Integer id, String email, String firstName, String lastName, String password, Set<Cart> cart) {
+        this.id = id;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -45,8 +45,8 @@ public class User {
         this.cart = cart;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getId() {
+        return id;
     }
 
     /*
@@ -102,18 +102,18 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(userId, user.userId) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(password, user.password) && Objects.equals(cart, user.cart);
+        return Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(password, user.password) && Objects.equals(cart, user.cart);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, email, firstName, lastName, password, cart);
+        return Objects.hash(id, email, firstName, lastName, password, cart);
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "customerId=" + userId +
+                "customerId=" + id +
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
