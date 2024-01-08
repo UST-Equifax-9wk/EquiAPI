@@ -20,12 +20,14 @@ public class Product {
     private Integer quantity;
     @Column
     private String name;
-    @Column
+    @Column(length = 2000)
     private String description;
     @Column(name = "retail_price")
     private Double retailPrice;
     @Column(name = "discounted_price")
     private Double discountedPrice;
+    @Column
+    private Integer threshold;
     @ManyToOne
     @JsonBackReference(value = "seller-products")
     private Seller seller;
