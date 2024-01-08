@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -36,7 +37,9 @@ public class CartService {
     }
 
     public Cart addProductToCart (Cart cart, String email) throws UnableToAddItemException{
-        Product product = productRepository.findById(cart.getProductId());
+
+        Product product = productRepository.findById(cart.getProductId()).get();
+
         if(product.getQuantity() < cart.getQuantity()){
             throw new UnableToAddItemException("Quantity available is less than your request");
         }
@@ -54,17 +57,18 @@ public class CartService {
         return itemsInCart;
     }
 
-    public Set<String> viewCart (String email){
+    public Set<String> viewCart (String email) {
         Customer customer = customerRepository.findByEmail(email);
         Set<Cart> itemsInCart = cartRepository.findAllCartByCustomerId(customer.getCustomerId());
         Set<String> allItems = new HashSet<>();
-        for(Cart c : itemsInCart){
-            Product product = productRepository.findProductByProductId(c.getProductId());
-            String [] itemData = {String.valueOf(product.getProductId()), product.getName(),
+        for (Cart c : itemsInCart) {
+            Product product = productRepository.findById(c.getProductId()).get();
+            String[] itemData = {String.valueOf(product.getProductId()), product.getName(),
                     product.getDescription(), product.getType()};
             allItems.add(Arrays.toString(itemData));
         }
         return allItems;
+    }
 
 //        Product product = productRepository.findProductByProductId(cart.getProductId());
 //        if(product.getQuantity() < cart.getQuantity()){
