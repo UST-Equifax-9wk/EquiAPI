@@ -1,10 +1,17 @@
 package com.revature.ecommerce.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
 @Entity(name = "products")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Product {
 
     @Id
@@ -22,9 +29,18 @@ public class Product {
     private String name;
 
     private String description;
+ 
+    @Column(name = "retail_price")
+    private Double retailPrice;
+    @Column(name = "discounted_price")
+    private Double discountedPrice;
+    @ManyToOne
+    @JsonBackReference(value = "seller-products")
+    private Seller seller;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private Set<Review> reviews;
+  
 
     public Product() {
     }
@@ -46,57 +62,8 @@ public class Product {
         this.description = description;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer getProductId() {
-        return productId;
-    }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
 
-    @Column
-    public String getType() {
-        return type;
-    }
 
-    public void setType(String type) {
-        this.type = type;
-    }
 
-    @Column
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    @Column
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Column
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getThreshold() {
-        return threshold;
-    }
-
-    public void setThreshold(Integer threshold) {
-        this.threshold = threshold;
-    }
 }

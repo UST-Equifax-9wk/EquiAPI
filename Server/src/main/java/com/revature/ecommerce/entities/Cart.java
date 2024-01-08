@@ -92,7 +92,7 @@ public class Cart {
                 "serialNumber=" + serialNumber +
                 ", productId=" + productId +
                 ", quantity=" + quantity +
-                ", user=" + customer +
+                ", customer=" + customer +
                 '}';
     }
 }

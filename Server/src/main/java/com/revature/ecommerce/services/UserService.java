@@ -33,9 +33,11 @@ public class UserService {
     }
 
     public Boolean authenticateUser(Customer customer) throws UserDoesNotExistException{
-        Customer authCustomer = userRepository.findUserByEmail(customer.getEmail());
+
+        Customer authCustomer = userRepository.findByEmail(customer.getEmail());
         if(authCustomer ==null){
-            throw new UserDoesNotExistException("This user is not in database");
+            throw new UserDoesNotExistException("This customer is not in database");
+
         }
 
         if(checkHash(customer.getPassword(), authCustomer.getPassword())){

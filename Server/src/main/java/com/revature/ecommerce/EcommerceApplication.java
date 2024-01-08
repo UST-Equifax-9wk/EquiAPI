@@ -14,10 +14,5 @@ public class EcommerceApplication {
 	public static void main(String[] args) {
 
 		ApplicationContext iocContainer = SpringApplication.run(EcommerceApplication.class, args);
-
-		CartService cartService = (CartService) iocContainer.getBean(CartService.class);
 	}
-
-
-
 }

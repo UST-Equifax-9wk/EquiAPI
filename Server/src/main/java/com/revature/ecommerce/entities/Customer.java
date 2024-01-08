@@ -26,8 +26,6 @@ public class Customer {
     @OneToMany(mappedBy = "user")
     private Set<Cart> cart;
 
-
-
     public Customer() {
     }
 
@@ -48,13 +46,11 @@ public class Customer {
         this.cart = cart;
     }
 
+
     public Integer getCustomerId() {
         return customerId;
     }
 
-    /*
-    Setter method for customerId is commented out
-     */
 
     public String getEmail() {
         return email;
@@ -111,7 +107,9 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "User{" +
+
+
+        return "Customer{" +
                 "customerId=" + customerId +
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
