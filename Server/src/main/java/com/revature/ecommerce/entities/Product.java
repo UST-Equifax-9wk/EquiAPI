@@ -4,13 +4,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
 @Entity(name = "products")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class Product {
 
@@ -20,20 +18,20 @@ public class Product {
     private Integer productId;
 
     private String type;
-
-
-    private Integer quantity;
-
-    private Integer threshold;
-
+    @Column(columnDefinition = "integer default 0")
+    private Integer quantity = 0;
+    @Column
+    private Integer inventory;
+    @Column
     private String name;
-
+    @Column(length = 2000)
     private String description;
- 
     @Column(name = "retail_price")
     private Double retailPrice;
     @Column(name = "discounted_price")
     private Double discountedPrice;
+    @Column
+    private Integer threshold;
     @ManyToOne
     @JsonBackReference(value = "seller-products")
     private Seller seller;
@@ -41,7 +39,6 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private Set<Review> reviews;
   
-
     public Product() {
     }
 
@@ -61,9 +58,4 @@ public class Product {
         this.name = name;
         this.description = description;
     }
-
-
-
-
-
 }

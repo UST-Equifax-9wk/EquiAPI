@@ -23,7 +23,7 @@ public class Customer {
     @Column
     String password;  //Remove password since there is an auth dto
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user" /* supposed to be customer? */)
     private Set<Cart> cart;
 
     public Customer() {
