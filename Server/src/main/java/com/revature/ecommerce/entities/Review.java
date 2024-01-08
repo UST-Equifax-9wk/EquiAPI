@@ -11,7 +11,6 @@ public class Review {
     @Column(name = "reviews_id")
     private Integer reviewsId;
 
-    @Column
     private String comment;
 
     @Column(name= "rating")

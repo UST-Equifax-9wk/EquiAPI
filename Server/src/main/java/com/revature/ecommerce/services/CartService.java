@@ -1,8 +1,8 @@
 package com.revature.ecommerce.services;
 
 import com.revature.ecommerce.entities.Cart;
+import com.revature.ecommerce.entities.Customer;
 import com.revature.ecommerce.entities.Product;
-import com.revature.ecommerce.entities.User;
 import com.revature.ecommerce.exceptions.UnableToAddItemException;
 import com.revature.ecommerce.exceptions.UnableToDeleteItemException;
 import com.revature.ecommerce.repositories.CartRepository;
@@ -38,14 +38,14 @@ public class CartService {
         if(product.getQuantity() < cart.getQuantity()){
             throw new UnableToAddItemException("Quantity available is less than your request");
         }
-        User user = userRepository.findUserByEmail(email);
-        cart.setUser(user);
+        Customer customer = userRepository.findUserByEmail(email);
+        cart.setCustomer(customer);
         return cartRepository.save(cart);
     }
 
     public Set<Cart> removeProductFromCart (Cart cart, String email) throws UnableToDeleteItemException {
-        User user = userRepository.findUserByEmail(email);
-        Set<Cart> itemsInCart = cartRepository.findAllCartByUserId(user.getUserId());
+        Customer customer = userRepository.findUserByEmail(email);
+        Set<Cart> itemsInCart = cartRepository.findAllCartByCustomerId(customer.getCustomerId());
         if(!itemsInCart.remove(cart)){
             throw new UnableToDeleteItemException("Item not in cart");
         }
@@ -53,8 +53,8 @@ public class CartService {
     }
 
     public Set<String> viewCart (String email){
-        User user = userRepository.findUserByEmail(email);
-        Set<Cart> itemsInCart = cartRepository.findAllCartByUserId(user.getUserId());
+        Customer customer = userRepository.findUserByEmail(email);
+        Set<Cart> itemsInCart = cartRepository.findAllCartByCustomerId(customer.getCustomerId());
         Set<String> allItems = new HashSet<>();
         for(Cart c : itemsInCart){
             Product product = productRepository.findProductByProductId(c.getProductId());

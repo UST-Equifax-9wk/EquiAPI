@@ -23,7 +23,7 @@ public class Product {
 
     private String description;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private Set<Review> reviews;
 
     public Product() {

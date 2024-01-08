@@ -1,6 +1,6 @@
 package com.revature.ecommerce.services;
 
-import com.revature.ecommerce.entities.User;
+import com.revature.ecommerce.entities.Customer;
 import com.revature.ecommerce.exceptions.UserAlreadyExistsException;
 import com.revature.ecommerce.exceptions.UserDoesNotExistException;
 import com.revature.ecommerce.repositories.UserRepository;
@@ -23,22 +23,22 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User addUser(User user) throws UserAlreadyExistsException{
-        if(userRepository.findUserByEmail(user.getEmail()) !=null){
+    public Customer addUser(Customer customer) throws UserAlreadyExistsException{
+        if(userRepository.findUserByEmail(customer.getEmail()) !=null){
             throw new UserAlreadyExistsException("Email already associated with user. Forgot password?");
         }
-        user.setPassword(hash(user.getPassword()));
-        return userRepository.save(user);
+        customer.setPassword(hash(customer.getPassword()));
+        return userRepository.save(customer);
         //isMatch($Person/EmailAddress ,'^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$')
     }
 
-    public Boolean authenticateUser(User user) throws UserDoesNotExistException{
-        User authUser = userRepository.findUserByEmail(user.getEmail());
-        if(authUser==null){
+    public Boolean authenticateUser(Customer customer) throws UserDoesNotExistException{
+        Customer authCustomer = userRepository.findUserByEmail(customer.getEmail());
+        if(authCustomer ==null){
             throw new UserDoesNotExistException("This user is not in database");
         }
 
-        if(checkHash(user.getPassword(), authUser.getPassword())){
+        if(checkHash(customer.getPassword(), authCustomer.getPassword())){
             return true;
         }
         return false;
