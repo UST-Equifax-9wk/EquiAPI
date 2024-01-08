@@ -20,7 +20,7 @@ public class User {
     String lastName;
 
     @Column
-    String password;
+    String password;  //Remove password since there is an auth dto
 
     @OneToMany(mappedBy = "user")
     private Set<Cart> cart;

@@ -13,6 +13,21 @@ public class Product {
     public Product() {
     }
 
+    public Product(String type, Integer quantity, String name, String description) {
+        this.type = type;
+        this.quantity = quantity;
+        this.name = name;
+        this.description = description;
+    }
+
+    public Product(Integer productId, String type, Integer quantity, String name, String description) {
+        this.productId = productId;
+        this.type = type;
+        this.quantity = quantity;
+        this.name = name;
+        this.description = description;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getProductId() {
