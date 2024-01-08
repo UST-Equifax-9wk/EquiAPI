@@ -10,39 +10,69 @@ import java.util.Objects;
 @Data
 
 public class Cart {
-    @Column(name = "list_of_items")
-    List<String> productId;  //maybe use a map here? product id to quantity of product
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer serialNumber;
     @Column
-    List<Integer> quantity; //map<String productId, Integer Quantity>
+    Integer productId;
     @Column
-    Integer customerId;
+    Integer quantity;
+    @ManyToOne
+    @JoinColumn(name="customer_id")
+    private User user;
 
     public Cart() {
     }
 
-    public Cart(List<String> productId, Integer customerId) {
+    public Cart(Integer productId, Integer quantity) {
         this.productId = productId;
-        this.customerId = customerId;
+        this.quantity = quantity;
     }
 
-    public List<String> getProductId() {
+    public Cart(Integer productId, Integer quantity, User user) {
+        this.productId = productId;
+        this.quantity = quantity;
+        this.user = user;
+    }
+
+    public Cart(Integer serialNumber, Integer productId, Integer quantity, User user) {
+        this.serialNumber = serialNumber;
+        this.productId = productId;
+        this.quantity = quantity;
+        this.user = user;
+    }
+
+    public Integer getSerialNumber() {
+        return serialNumber;
+    }
+
+//    public void setSerialNumber(Integer serialNumber) {
+//        this.serialNumber = serialNumber;
+//    }
+
+    public Integer getProductId() {
         return productId;
     }
 
-    public void setProductId(List<String> productId) {
+    public void setProductId(Integer productId) {
         this.productId = productId;
     }
 
-    public Integer getCustomerId() {
-        return customerId;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -50,19 +80,21 @@ public class Cart {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cart cart = (Cart) o;
-        return Objects.equals(productId, cart.productId) && Objects.equals(customerId, cart.customerId);
+        return Objects.equals(serialNumber, cart.serialNumber) && Objects.equals(productId, cart.productId) && Objects.equals(quantity, cart.quantity) && Objects.equals(user, cart.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, customerId);
+        return Objects.hash(serialNumber, productId, quantity, user);
     }
 
     @Override
     public String toString() {
         return "Cart{" +
-                "productId=" + productId +
-                ", customerId=" + customerId +
+                "serialNumber=" + serialNumber +
+                ", productId=" + productId +
+                ", quantity=" + quantity +
+                ", user=" + user +
                 '}';
     }
 }
