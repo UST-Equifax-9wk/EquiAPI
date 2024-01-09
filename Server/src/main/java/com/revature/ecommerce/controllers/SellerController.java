@@ -3,14 +3,10 @@ package com.revature.ecommerce.controllers;
 import com.revature.ecommerce.dto.SellerResponse;
 import com.revature.ecommerce.entities.Product;
 import com.revature.ecommerce.entities.Seller;
-import com.revature.ecommerce.services.ProductService;
 import com.revature.ecommerce.services.SellerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
-import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,7 +31,7 @@ public class SellerController {
         return ResponseEntity.ok(sellerService.addProduct(Integer.valueOf(sellerId), product));
     }
 
-    @PutMapping(path = "/{sellerId}/products/{productId}/inventory")
+    @PutMapping(path = "/{sellerId}/products/{productId}/update-inventory")
     public ResponseEntity<Product> updateInventory(@PathVariable String sellerId, @PathVariable String productId, @RequestBody Product product) {
         return ResponseEntity.ok(sellerService.updateInventory(Integer.valueOf(productId), product.getInventory()));
     }
