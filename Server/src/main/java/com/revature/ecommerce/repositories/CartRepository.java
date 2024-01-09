@@ -12,7 +12,7 @@ public interface CartRepository extends JpaRepository <Cart, Integer>{
 
 //    @Query(nativeQuery = true, value = "SELECT * FROM carts WHERE customer_id=?1")
 
-    Cart findCartByCustomerId(Integer customerId);
-    Set<Cart> findAllCartByCustomerId(Integer customerId);
+//    Cart findCartByCustomerId(Integer customerId);
+//    Set<Cart> findAllCartByCustomerId(Integer customerId);
 
 }

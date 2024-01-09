@@ -15,19 +15,21 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Service
 @EnableTransactionManagement
 @jakarta.transaction.Transactional(Transactional.TxType.REQUIRED)
-public class CusotmerService {
+public class CustomerService {
     private CustomerRepository customerRepository;
 
     @Autowired
-    public CusotmerService(CustomerRepository customerRepository){
+    public CustomerService(CustomerRepository customerRepository){
         this.customerRepository = customerRepository;
     }
 
-    public Customer addUser(Customer customer) throws UserAlreadyExistsException{
+    public Customer addCustomer(Customer customer) throws UserAlreadyExistsException{
         if(customerRepository.findByEmail(customer.getEmail()) !=null){
             throw new UserAlreadyExistsException("Email already associated with user. Forgot password?");
         }
         customer.setPassword(hash(customer.getPassword()));
+
+
         return customerRepository.save(customer);
         //isMatch($Person/EmailAddress ,'^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$')
     }

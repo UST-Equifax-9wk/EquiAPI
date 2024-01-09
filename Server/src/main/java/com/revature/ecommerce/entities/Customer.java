@@ -23,8 +23,11 @@ public class Customer {
     @Column
     String password;  //Remove password since there is an auth dto
 
-    @OneToMany(mappedBy = "customer" /* supposed to be customer? */)
-    private Set<Cart> cart;
+    @OneToMany(mappedBy = "customer")
+    private Set<Cart> carts;   //CHECK THIS
+
+//    @OneToMany(mappedBy = "user" /* supposed to be customer? */)
+//    private Set<Card> cart;
 
     public Customer() {
     }
@@ -34,7 +37,7 @@ public class Customer {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-        this.cart = cart;
+//        this.cart = cart;
     }
 
     public Customer(Integer customerId, String email, String firstName, String lastName, String password, Set<Cart> cart) {
@@ -43,7 +46,7 @@ public class Customer {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-        this.cart = cart;
+//        this.cart = cart;
     }
 
 
@@ -84,25 +87,27 @@ public class Customer {
         this.password = password;
     }
 
-    public Set<Cart> getCart() {
-        return cart;
-    }
+//    public Set<Cart> getCart() {
+//        return cart;
+//    }
 
-    public void setCart(Set<Cart> cart) {
-        this.cart = cart;
-    }
+//    public void setCart(Set<Cart> cart) {
+//        this.cart = cart;
+//    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return Objects.equals(customerId, customer.customerId) && Objects.equals(email, customer.email) && Objects.equals(firstName, customer.firstName) && Objects.equals(lastName, customer.lastName) && Objects.equals(password, customer.password) && Objects.equals(cart, customer.cart);
+        return Objects.equals(customerId, customer.customerId) && Objects.equals(email, customer.email)
+                && Objects.equals(firstName, customer.firstName) && Objects.equals(lastName, customer.lastName)
+                && Objects.equals(password, customer.password);// && Objects.equals(cart, customer.cart);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(customerId, email, firstName, lastName, password, cart);
+        return Objects.hash(customerId, email, firstName, lastName, password); //, cart);
     }
 
     @Override
@@ -114,8 +119,8 @@ public class Customer {
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", password='" + password + '\'' +
-                ", cart=" + cart +
-                '}';
+                ", password='" + password + '}'; //\'' +
+//                ", cart=" + cart +
+//                '}';
     }
 }
