@@ -23,8 +23,11 @@ public class Customer {
     @Column
     String password;  //Remove password since there is an auth dto
 
+    @OneToMany(mappedBy = "customer")
+    private Set<Cart> carts;   //CHECK THIS
+
 //    @OneToMany(mappedBy = "user" /* supposed to be customer? */)
-//    private Set<Card> card;
+//    private Set<Card> cart;
 
     public Customer() {
     }

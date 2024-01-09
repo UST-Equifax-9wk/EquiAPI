@@ -36,25 +36,12 @@ public class CartService {
         this.productRepository = productRepository;
     }
 
-    public Cart addProductToCart (Cart cart, String email) throws UnableToAddItemException{
-
-        Product product = productRepository.findById(cart.getProductId()).get();
-
-        if(product.getQuantity() < cart.getQuantity()){
-            throw new UnableToAddItemException("Quantity available is less than your request");
-        }
-        Customer customer = customerRepository.findByEmail(email);
-        cart.setCustomer(customer);
+    public Cart addProductToCart (Cart cart) throws UnableToAddItemException{
         return cartRepository.save(cart);
     }
 
-    public Set<Cart> removeProductFromCart (Cart cart, String email) throws UnableToDeleteItemException {
-        Customer customer = customerRepository.findByEmail(email);
-        Set<Cart> itemsInCart = cartRepository.findAllCartByCustomerId(customer.getCustomerId());
-        if(!itemsInCart.remove(cart)){
-            throw new UnableToDeleteItemException("Item not in cart");
-        }
-        return itemsInCart;
+    public Set<Cart> removeProductFromCart (Cart cart, Product product) throws UnableToDeleteItemException {
+
     }
 
     public Set<String> viewCart (String email) {

@@ -28,6 +28,8 @@ public class CustomerService {
             throw new UserAlreadyExistsException("Email already associated with user. Forgot password?");
         }
         customer.setPassword(hash(customer.getPassword()));
+
+
         return customerRepository.save(customer);
         //isMatch($Person/EmailAddress ,'^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$')
     }

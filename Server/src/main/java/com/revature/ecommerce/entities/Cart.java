@@ -16,29 +16,47 @@ public class Cart {
 
     @Column
     Integer quantity;
-//    @ManyToOne
-//    @JoinColumn(name="customer_id")
-//    private Customer customer;
-//
-//    @OneToMany
-//    private Set<Product> product;
+    @ManyToOne
+    private Customer customer;
+
+    @OneToOne
+    private Product product;
 
     public Cart() {
     }
 
-    public Cart(Integer quantity) {
+    public Cart(Integer quantity, Customer customer, Product product) {
         this.quantity = quantity;
+        this.customer = customer;
+        this.product = product;
     }
 
-//    public Cart(Integer quantity){//}, Customer customer) {
+//    public Cart(Integer quantity, Customer customer) {
 //        this.quantity = quantity;
 ////        this.customer = customer;
 //    }
 
-    public Cart(Integer serialNumber, Integer quantity){//, Customer customer) {
+    public Cart(Integer serialNumber, Integer quantity, Customer customer, Product product) {
         this.serialNumber = serialNumber;
         this.quantity = quantity;
-//        this.customer = customer;
+        this.product = product;
+        this.customer = customer;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Integer getSerialNumber() {
@@ -57,11 +75,13 @@ public class Cart {
 //        this.productId = productId;
 //    }
 
-    public Integer getQuantity() {
+
+
+    public Set<Integer> getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(Set<Integer> quantity) {
         this.quantity = quantity;
     }
 
