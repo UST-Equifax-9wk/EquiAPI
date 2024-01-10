@@ -14,9 +14,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Service
 @EnableTransactionManagement
-@jakarta.transaction.Transactional(Transactional.TxType.REQUIRED)
+@Transactional(Transactional.TxType.REQUIRED)
 public class CustomerService {
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
     @Autowired
     public CustomerService(CustomerRepository customerRepository){
@@ -27,7 +27,7 @@ public class CustomerService {
         if(customerRepository.findByEmail(customer.getEmail()) !=null){
             throw new UserAlreadyExistsException("Email already associated with user. Forgot password?");
         }
-        customer.setPassword(hash(customer.getPassword()));
+//        customer.setPassword(hash(customer.getPassword()));
 
 
         return customerRepository.save(customer);
@@ -59,4 +59,7 @@ public class CustomerService {
     }
 
 
+    public Customer findByEmail(String email) {
+        return customerRepository.findByEmail(email);
+    }
 }
