@@ -20,9 +20,14 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public Page<Product> getAllProducts(Integer pageNum, Integer pageSize) {
+    public List<Product> getAllProducts(Integer pageNum, Integer pageSize) {
         Pageable paging = PageRequest.of(pageNum, pageSize);
-        return productRepository.findAll(paging);
+        Page<Product> products = productRepository.findAll(paging);
+        if (products.hasContent()) {
+            return products.getContent();
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     public Product addProduct(Product product) {

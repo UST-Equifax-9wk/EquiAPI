@@ -3,7 +3,6 @@ package com.revature.ecommerce.controllers;
 import com.revature.ecommerce.entities.Product;
 import com.revature.ecommerce.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +21,7 @@ public class ProductController {
     }
 
     @GetMapping(path = "/")
-    public ResponseEntity<Page<Product>> getAllProducts(
+    public ResponseEntity<List<Product>> getAllProducts(
             @RequestParam(name = "pg_no", defaultValue = "0") Integer pageNum,
             @RequestParam(name = "pg_size", defaultValue = "10") Integer pageSize
     ) {
