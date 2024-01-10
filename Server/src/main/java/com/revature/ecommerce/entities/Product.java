@@ -16,7 +16,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
-    private Integer id;  //fix this
+    private Integer productId;  //fix this
 
     @Column
     private String productType;
@@ -55,8 +55,8 @@ public class Product {
         this.description = description;
     }
 
-    public Product(Integer id, String productType, Integer inventory, Integer threshold, String name, String description) {
-        this.id = id;
+    public Product(Integer productId, String productType, Integer inventory, Integer threshold, String name, String description) {
+        this.productId = productId;
         this.productType = productType;
         this.inventory = inventory;
         this.threshold = threshold;
@@ -64,12 +64,12 @@ public class Product {
         this.description = description;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getProductId() {
+        return productId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 
     public String getProductType() {
@@ -133,7 +133,7 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(id, product.id) && Objects.equals(productType, product.productType)
+        return Objects.equals(productId, product.productId) && Objects.equals(productType, product.productType)
                 && Objects.equals(inventory, product.inventory) && Objects.equals(name, product.name)
                 && Objects.equals(description, product.description) && Objects.equals(retailPrice, product.retailPrice)
                 && Objects.equals(discountedPrice, product.discountedPrice) && Objects.equals(threshold, product.threshold);
@@ -141,13 +141,13 @@ public class Product {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, productType, inventory, name, description, retailPrice, discountedPrice, threshold);
+        return Objects.hash(productId, productType, inventory, name, description, retailPrice, discountedPrice, threshold);
     }
 
     @Override
     public String toString() {
         return "Product{" +
-                "id=" + id +
+                "productId=" + productId +
                 ", productType='" + productType + '\'' +
                 ", inventory=" + inventory +
                 ", name='" + name + '\'' +
