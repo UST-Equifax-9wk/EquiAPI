@@ -28,10 +28,10 @@ public class SellerService {
         return  sellerRepository.save(seller);
     }
 
-    public Product addProduct(Integer sellerId, Product product) {
+    public Product addNewProduct(Integer sellerId, Product product) {
         Seller seller = findById(sellerId);
         product.setSeller(seller);
-        return productService.addProduct(product);
+        return productService.addNewProduct(product);
     }
 
     public Product updateInventory(Integer productId, Integer inventory) {

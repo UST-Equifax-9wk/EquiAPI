@@ -27,8 +27,8 @@ public class SellerController {
     }
 
     @PostMapping(path = "/{sellerId}/products")
-    public ResponseEntity<Product> addProduct(@PathVariable String sellerId, @RequestBody Product product) {
-        return ResponseEntity.ok(sellerService.addProduct(Integer.valueOf(sellerId), product));
+    public ResponseEntity<Product> addNewProduct(@PathVariable String sellerId, @RequestBody Product product) {
+        return ResponseEntity.ok(sellerService.addNewProduct(Integer.valueOf(sellerId), product));
     }
 
     @PutMapping(path = "/{sellerId}/products/{productId}/update-inventory")

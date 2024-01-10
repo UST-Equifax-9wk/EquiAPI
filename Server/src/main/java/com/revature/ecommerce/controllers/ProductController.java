@@ -29,13 +29,13 @@ public class ProductController {
     }
 
     @GetMapping(path = "/{productId}")
-    public ResponseEntity<Product> getProductById(@PathVariable String productId) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Product> getProductByProductId(@PathVariable String productId) {
+        return new ResponseEntity<>(productService.findById(Integer.valueOf(productId)), HttpStatus.OK);
     }
 
     @PostMapping(path = "/")
     public ResponseEntity<Product> addNewProduct(@RequestBody Product product) {
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(productService.addNewProduct(product), HttpStatus.OK);
     }
 
     @PutMapping(path = "/{productId}")

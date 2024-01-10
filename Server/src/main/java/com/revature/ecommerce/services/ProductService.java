@@ -30,7 +30,7 @@ public class ProductService {
         }
     }
 
-    public Product addProduct(Product product) {
+    public Product addNewProduct(Product product) {
         return productRepository.save(product);
     }
 
@@ -40,12 +40,8 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product addItemToProducts (Product product){
-        return productRepository.save(product);
-    }
-
-    public Product findById(Integer id) {
-        Optional<Product> found = productRepository.findById(id);
+    public Product findById(Integer productId) {
+        Optional<Product> found = productRepository.findById(productId);
         if (found.isPresent()) {
             return found.get();
         } else {
