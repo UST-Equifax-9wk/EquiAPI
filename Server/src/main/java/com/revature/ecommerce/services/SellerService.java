@@ -37,4 +37,8 @@ public class SellerService {
     public Product updateInventory(Integer productId, Integer inventory) {
         return productService.updateInventory(productId, inventory);
     }
+
+    public Seller findByEmail(String email){
+        return sellerRepository.findByEmail(email);
+    }
 }

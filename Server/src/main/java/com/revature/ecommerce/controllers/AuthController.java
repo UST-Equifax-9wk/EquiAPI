@@ -1,8 +1,13 @@
 package com.revature.ecommerce.controllers;
 
+import com.revature.ecommerce.dto.CustomerResponse;
 import com.revature.ecommerce.dto.SellerResponse;
 
+import com.revature.ecommerce.entities.Customer;
 import com.revature.ecommerce.entities.Seller;
+import com.revature.ecommerce.exceptions.UserAlreadyExistsException;
+import com.revature.ecommerce.exceptions.UserDoesNotExistException;
+import com.revature.ecommerce.services.CustomerService;
 import com.revature.ecommerce.services.SellerService;
 import com.revature.ecommerce.util.JwtUtil;
 import jakarta.servlet.http.Cookie;
@@ -18,8 +23,10 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final SellerService sellerService;
+    private final CustomerService customerService;
     private final JwtUtil jwtUtil;
 
+    /* SIGN UP FUNCTIONS FOR SELLER & CUSTOMER*/
 
     @PostMapping("/seller/sign-up")
     public ResponseEntity<SellerResponse> signUpSeller(@RequestBody Seller seller, HttpServletResponse response){
@@ -41,4 +48,84 @@ public class AuthController {
 
         return ResponseEntity.ok(res);
     }
+
+
+    @PostMapping("/customer/sign-up")
+    public ResponseEntity<CustomerResponse> signUpCustomer(@RequestBody Customer customer, HttpServletResponse response) throws UserAlreadyExistsException {
+        Customer newCustomer = customerService.addCustomer(customer);
+        String jwt = jwtUtil.generateToken(newCustomer.getEmail());
+        Cookie cookie = new Cookie("jwt", jwt);
+        cookie.setSecure(true); // Send over HTTPS only
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(10800);
+        response.addCookie(cookie);
+
+        CustomerResponse res = new CustomerResponse(
+                newCustomer.getCustomerId(),
+                newCustomer.getFirstName(),
+                newCustomer.getLastName(),
+                newCustomer.getEmail()
+        );
+
+        return ResponseEntity.ok(res);
+    }
+
+    /* SIGN IN FUNCTIONS FOR SELLER & CUSTOMER*/
+
+    @PostMapping("/seller/sign-in")
+    public ResponseEntity<SellerResponse> signInSeller(@RequestBody Seller seller, HttpServletResponse response) throws UserDoesNotExistException {
+        Seller auth = sellerService.findByEmail(seller.getEmail());
+        
+
+        if(auth == null || !auth.getPassword().equals(seller.getPassword())){
+            throw new UserDoesNotExistException("Username or password incorrect");
+        }
+
+        String jwt = jwtUtil.generateToken(auth.getEmail());
+        Cookie cookie = new Cookie("jwt", jwt);
+        cookie.setSecure(true); // Send over HTTPS only
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(10800);
+        response.addCookie(cookie);
+
+        SellerResponse res = new  SellerResponse(
+                auth.getId(),
+                auth.getFirstName(),
+                auth.getLastName(),
+                auth.getEmail()
+        );
+
+        return ResponseEntity.ok(res);
+    }
+
+
+    @PostMapping("/customer/sign-in")
+    public ResponseEntity<CustomerResponse> signInCustomer(@RequestBody Customer customer, HttpServletResponse response) throws UserDoesNotExistException {
+        Customer auth = customerService.findByEmail(customer.getEmail());
+
+        if(auth == null || !auth.getPassword().equals(customer.getPassword())){
+            throw new UserDoesNotExistException("Username or password incorrect");
+        }
+
+        String jwt = jwtUtil.generateToken(auth.getEmail());
+        Cookie cookie = new Cookie("jwt", jwt);
+        cookie.setSecure(true); // Send over HTTPS only
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(10800);
+        response.addCookie(cookie);
+
+        CustomerResponse res = new CustomerResponse(
+                auth.getCustomerId(),
+                auth.getFirstName(),
+                auth.getLastName(),
+                auth.getEmail()
+        );
+
+        return ResponseEntity.ok(res);
+    }
+
+
 }
