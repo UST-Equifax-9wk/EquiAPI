@@ -9,25 +9,25 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-@AllArgsConstructor
-public class JwtCustomerRequestFilter extends OncePerRequestFilter {
-
-    private JwtUtil jwtUtil;
-    private CookieUtil cookieUtil;
-
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException{
-
-        String token = cookieUtil.getCookie(request, "jwt");
-        if(token != null){
-            try{
-                SecurityContextHolder.getContext().setAuthentication(jwtUtil.getCustomerAuthentication(token));
-            }catch (Exception e){
-                throw new RuntimeException(e);
-            }
-        }
-
-        filterChain.doFilter(request, response);
-    }
-}
+//@AllArgsConstructor
+//public class JwtCustomerRequestFilter extends OncePerRequestFilter {
+//
+//    private JwtUtil jwtUtil;
+//    private CookieUtil cookieUtil;
+//
+//    @Override
+//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+//            throws ServletException, IOException{
+//
+//        String token = cookieUtil.getCookie(request, "jwt");
+//        if(token != null){
+//            try{
+//                SecurityContextHolder.getContext().setAuthentication(jwtUtil.getCustomerAuthentication(token));
+//            }catch (Exception e){
+//                throw new RuntimeException(e);
+//            }
+//        }
+//
+//        filterChain.doFilter(request, response);
+//    }
+//}

@@ -3,13 +3,12 @@ package com.revature.ecommerce.controllers;
 import com.revature.ecommerce.entities.Product;
 import com.revature.ecommerce.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
@@ -23,15 +22,11 @@ public class ProductController {
     }
 
     @GetMapping(path = "/")
-    public ResponseEntity<Set<Product>> getAllProducts() {
-        productService.getAllProducts();
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @GetMapping(path = "/")
-    public ResponseEntity<Set<Product>> getAllProducts(@RequestParam(defaultValue = "0") Integer pageNum, @RequestParam(defaultValue = "10") Integer pageSize) {
-        productService.getAllProducts(pageNum, pageSize);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Page<Product>> getAllProducts(
+            @RequestParam(name = "pg_no", defaultValue = "0") Integer pageNum,
+            @RequestParam(name = "pg_size", defaultValue = "10") Integer pageSize
+    ) {
+        return ResponseEntity.ok(productService.getAllProducts(pageNum, pageSize));
     }
 
     @GetMapping(path = "/{productId}")

@@ -7,6 +7,7 @@ import com.revature.ecommerce.repositories.CustomerRepository;
 import com.revature.ecommerce.repositories.SellerRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,11 @@ public class JwtUtil {
     private CustomerRepository customerRepository;
     private SellerRepository sellerRepository;
 
+    @Autowired
+    public JwtUtil(CustomerRepository customerRepository, SellerRepository sellerRepository) {
+        this.customerRepository = customerRepository;
+        this.sellerRepository = sellerRepository;
+    }
 
     @Value("${secret.key}")
     private String secret;

@@ -4,13 +4,12 @@ import com.revature.ecommerce.entities.Product;
 import com.revature.ecommerce.repositories.ProductRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ProductService {
@@ -21,14 +20,9 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public Set<Product> getAllProducts() {
-        return new HashSet<>();
-    }
-
-    public Set<Product> getAllProducts(Integer pageNum, Integer pageSize) {
+    public Page<Product> getAllProducts(Integer pageNum, Integer pageSize) {
         Pageable paging = PageRequest.of(pageNum, pageSize);
-        productRepository.findAll(paging);
-        return new HashSet<>();
+        return productRepository.findAll(paging);
     }
 
     public Product addProduct(Product product) {

@@ -1,8 +1,8 @@
 package com.revature.ecommerce.config;
 
 import com.revature.ecommerce.util.CookieUtil;
-import com.revature.ecommerce.util.JwtCustomerRequestFilter;
-import com.revature.ecommerce.util.JwtSellerRequestFilter;
+//import com.revature.ecommerce.util.JwtCustomerRequestFilter;
+//import com.revature.ecommerce.util.JwtSellerRequestFilter;
 import com.revature.ecommerce.util.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -24,10 +24,10 @@ public class SecurityConfig {
     private JwtUtil jwtUtil;
     private CookieUtil cookieUtil;
 
-    @Bean
-    public JwtCustomerRequestFilter jwtCustomerRequestFilter(){return new JwtCustomerRequestFilter(jwtUtil, cookieUtil);}
-    @Bean
-    public JwtSellerRequestFilter jwtSellerRequestFilter(){return new JwtSellerRequestFilter(jwtUtil, cookieUtil);}
+//    @Bean
+//    public JwtCustomerRequestFilter jwtCustomerRequestFilter(){return new JwtCustomerRequestFilter(jwtUtil, cookieUtil);}
+//    @Bean
+//    public JwtSellerRequestFilter jwtSellerRequestFilter(){return new JwtSellerRequestFilter(jwtUtil, cookieUtil);}
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
@@ -36,16 +36,17 @@ public class SecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("auth/**").permitAll()
-                        .anyRequest().authenticated()
+//                        .requestMatchers("auth/**").permitAll()
+//                        .anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 )
-                .exceptionHandling(ex -> ex.authenticationEntryPoint((request, response, authException) ->
-                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage())
-                ))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .httpBasic(Customizer.withDefaults())
-                .addFilterAfter(jwtCustomerRequestFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterAfter(jwtSellerRequestFilter(), UsernamePasswordAuthenticationFilter.class)
+//                .exceptionHandling(ex -> ex.authenticationEntryPoint((request, response, authException) ->
+//                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage())
+//                ))
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .httpBasic(Customizer.withDefaults())
+//                .addFilterAfter(jwtCustomerRequestFilter(), UsernamePasswordAuthenticationFilter.class)
+//                .addFilterAfter(jwtSellerRequestFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

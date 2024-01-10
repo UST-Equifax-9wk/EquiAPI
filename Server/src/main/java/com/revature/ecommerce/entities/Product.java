@@ -16,9 +16,9 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
-    private Integer productId;  //fix this
+    private Integer productId;
 
-    @Column
+    @Column(name = "product_type")
     private String productType;
     @Column  //Setting default values ???
     private Integer inventory;
