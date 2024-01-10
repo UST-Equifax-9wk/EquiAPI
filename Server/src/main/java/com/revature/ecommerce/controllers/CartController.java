@@ -23,6 +23,7 @@ public class CartController {
     @PostMapping("/users/{email}/add-to-cart")
     @ResponseStatus(HttpStatus.OK)
     public Cart addProduct(@PathVariable String email, @RequestBody Cart cart, HttpServletResponse response)
+
     throws UnableToAddItemException {
         return cartService.addProductToCart(cart);
     }

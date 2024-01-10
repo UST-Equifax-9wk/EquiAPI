@@ -100,7 +100,7 @@ public class Cart {
         Cart cart = (Cart) o;
         return Objects.equals(serialNumber, cart.serialNumber)
                 && Objects.equals(quantity, cart.quantity);
-                //&& Objects.equals(customer, cart.customer);
+        //&& Objects.equals(customer, cart.customer);
     }
 
     @Override
@@ -118,4 +118,3 @@ public class Cart {
                 '}';
     }
 }
-
