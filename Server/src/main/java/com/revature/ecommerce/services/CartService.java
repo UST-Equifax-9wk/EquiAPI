@@ -1,11 +1,8 @@
 package com.revature.ecommerce.services;
 
 import com.revature.ecommerce.entities.Cart;
-import com.revature.ecommerce.entities.Customer;
-import com.revature.ecommerce.entities.Product;
 
 import com.revature.ecommerce.exceptions.UnableToAddItemException;
-import com.revature.ecommerce.exceptions.UnableToDeleteItemException;
 import com.revature.ecommerce.repositories.CartRepository;
 import com.revature.ecommerce.repositories.ProductRepository;
 import com.revature.ecommerce.repositories.CustomerRepository;
@@ -13,11 +10,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
 
 @Service
 @EnableTransactionManagement
@@ -36,39 +28,26 @@ public class CartService {
         this.productRepository = productRepository;
     }
 
-    public Cart addProductToCart (Cart cart, String email) throws UnableToAddItemException{
-
-        Product product = productRepository.findById(cart.getProductId()).get();
-
-        if(product.getQuantity() < cart.getQuantity()){
-            throw new UnableToAddItemException("Quantity available is less than your request");
-        }
-        Customer customer = customerRepository.findByEmail(email);
-        cart.setCustomer(customer);
+    public Cart addProductToCart (Cart cart) throws UnableToAddItemException{
         return cartRepository.save(cart);
     }
 
-    public Set<Cart> removeProductFromCart (Cart cart, String email) throws UnableToDeleteItemException {
-        Customer customer = customerRepository.findByEmail(email);
-        Set<Cart> itemsInCart = cartRepository.findAllCartByCustomerId(customer.getCustomerId());
-        if(!itemsInCart.remove(cart)){
-            throw new UnableToDeleteItemException("Item not in cart");
-        }
-        return itemsInCart;
-    }
+//    public Set<Cart> removeProductFromCart (Cart cart, Product product) throws UnableToDeleteItemException {
+//
+//    }
 
-    public Set<String> viewCart (String email) {
-        Customer customer = customerRepository.findByEmail(email);
-        Set<Cart> itemsInCart = cartRepository.findAllCartByCustomerId(customer.getCustomerId());
-        Set<String> allItems = new HashSet<>();
-        for (Cart c : itemsInCart) {
-            Product product = productRepository.findById(c.getProductId()).get();
-            String[] itemData = {String.valueOf(product.getProductId()), product.getName(),
-                    product.getDescription(), product.getType()};
-            allItems.add(Arrays.toString(itemData));
-        }
-        return allItems;
-    }
+//    public Set<String> viewCart (String email) {
+//        Customer customer = customerRepository.findByEmail(email);
+//        Set<Cart> itemsInCart = cartRepository.findAllCartByCustomerId(customer.getCustomerId());
+//        Set<String> allItems = new HashSet<>();
+//        for (Cart c : itemsInCart) {
+//            Product product = productRepository.findById(c.getProductId()).get();
+//            String[] itemData = {String.valueOf(product.getProductId()), product.getName(),
+//                    product.getDescription(), product.getType()};
+//            allItems.add(Arrays.toString(itemData));
+//        }
+//        return allItems;
+//    }
 
 //        Product product = productRepository.findProductByProductId(cart.getProductId());
 //        if(product.getQuantity() < cart.getQuantity()){

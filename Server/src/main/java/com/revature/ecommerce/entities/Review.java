@@ -4,13 +4,14 @@ package com.revature.ecommerce.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 
-@Entity(name= "addresses")
+@Entity(name= "reviews")
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reviews_id")
     private Integer reviewsId;
 
+    @Column
     private String comment;
 
     @Column(name= "rating")
@@ -21,20 +22,22 @@ public class Review {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    //customer ID Needed
+
     public Review() {
     }
 
-    public Review(String comment, Double rating, Product product) {
+    public Review(String comment, Double rating){//}, Product product) {
         this.comment = comment;
         this.rating = rating;
-        this.product = product;
+//        this.product = product;
     }
 
-    public Review(Integer reviewsId, String comment, Double rating, Product product) {
+    public Review(Integer reviewsId, String comment, Double rating){//}, Product product) {
         this.reviewsId = reviewsId;
         this.comment = comment;
         this.rating = rating;
-        this.product = product;
+//        this.product = product;
     }
 
 
@@ -62,11 +65,11 @@ public class Review {
         this.rating = rating;
     }
 
-    public Product getProduct() {
-        return product;
-    }
+//    public Product getProduct() {
+//        return product;
+//    }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
+//    public void setProduct(Product product) {
+//        this.product = product;
+//    }
 }
