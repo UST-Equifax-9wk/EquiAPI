@@ -1,33 +1,43 @@
 package com.revature.ecommerce.config;
 
-import com.revature.ecommerce.util.CookieUtil;
-import com.revature.ecommerce.util.JwtCustomerRequestFilter;
-import com.revature.ecommerce.util.JwtSellerRequestFilter;
-import com.revature.ecommerce.util.JwtUtil;
+import com.revature.ecommerce.util.*;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @AllArgsConstructor
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class SecurityConfig  {
 
     private JwtUtil jwtUtil;
     private CookieUtil cookieUtil;
+    private CustomUserDetailsService userDetailsService;
+
 
     @Bean
-    public JwtCustomerRequestFilter jwtCustomerRequestFilter(){return new JwtCustomerRequestFilter(jwtUtil, cookieUtil);}
+    public JwtRequestFilter jwtRequestFilter(){return new JwtRequestFilter(jwtUtil, cookieUtil);}
+
+
     @Bean
-    public JwtSellerRequestFilter jwtSellerRequestFilter(){return new JwtSellerRequestFilter(jwtUtil, cookieUtil);}
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService);
+    }
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
@@ -38,16 +48,21 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("auth/**").permitAll()
                         .anyRequest().authenticated()
+                        .requestMatchers("customer/**").hasRole("CUSTOMER").anyRequest().authenticated()
+                        .requestMatchers("seller/**").hasRole("SELLER").anyRequest().authenticated()
                 )
                 .exceptionHandling(ex -> ex.authenticationEntryPoint((request, response, authException) ->
                         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage())
                 ))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(Customizer.withDefaults())
-                .addFilterAfter(jwtCustomerRequestFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterAfter(jwtSellerRequestFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(jwtRequestFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 }

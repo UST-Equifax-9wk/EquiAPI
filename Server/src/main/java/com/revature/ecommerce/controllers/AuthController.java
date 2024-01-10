@@ -24,7 +24,7 @@ public class AuthController {
     @PostMapping("/seller/sign-up")
     public ResponseEntity<SellerResponse> signUpSeller(@RequestBody Seller seller, HttpServletResponse response){
         Seller newSeller = sellerService.save(seller);
-        String jwt = jwtUtil.generateToken(newSeller.getEmail());
+        String jwt = jwtUtil.generateToken(newSeller.getEmail(), newSeller.getRole());
         Cookie cookie = new Cookie("jwt", jwt);
         cookie.setSecure(true); // Send over HTTPS only
         cookie.setHttpOnly(true);

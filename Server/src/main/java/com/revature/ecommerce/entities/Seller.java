@@ -23,6 +23,8 @@ public class Seller {
     private String email;
     @Column
     private String password;
+    @Column(columnDefinition = "varchar(255) default 'SELLER'")
+    String role;
     @OneToMany(mappedBy = "seller")
     @JsonManagedReference(value = "seller-products")
     private Set<Product> products;
@@ -83,6 +85,14 @@ public class Seller {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override

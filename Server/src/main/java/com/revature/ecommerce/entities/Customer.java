@@ -23,11 +23,16 @@ public class Customer {
     @Column
     String password;  //Remove password since there is an auth dto
 
+    @Column(columnDefinition = "varchar(255) default 'CUSTOMER'")
+    String role;
+
     @OneToMany(mappedBy = "customer")
     private Set<Cart> carts;   //CHECK THIS
 
 //    @OneToMany(mappedBy = "user" /* supposed to be customer? */)
 //    private Set<Card> cart;
+
+
 
     public Customer() {
     }
@@ -94,6 +99,15 @@ public class Customer {
 //    public void setCart(Set<Cart> cart) {
 //        this.cart = cart;
 //    }
+
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     @Override
     public boolean equals(Object o) {
