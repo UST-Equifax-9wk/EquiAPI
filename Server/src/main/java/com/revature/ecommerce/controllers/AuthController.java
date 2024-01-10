@@ -9,35 +9,38 @@ import com.revature.ecommerce.exceptions.UserAlreadyExistsException;
 import com.revature.ecommerce.exceptions.UserDoesNotExistException;
 import com.revature.ecommerce.services.CustomerService;
 import com.revature.ecommerce.services.SellerService;
-import com.revature.ecommerce.util.JwtUtil;
+//import com.revature.ecommerce.util.JwtUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
 @RequestMapping(path = "/auth")
+@PreAuthorize("permitAll()")
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class AuthController {
 
     private final SellerService sellerService;
     private final CustomerService customerService;
-    private final JwtUtil jwtUtil;
+//    private final JwtUtil jwtUtil;
 
     /* SIGN UP FUNCTIONS FOR SELLER & CUSTOMER*/
 
     @PostMapping("/seller/sign-up")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<SellerResponse> signUpSeller(@RequestBody Seller seller, HttpServletResponse response){
         Seller newSeller = sellerService.save(seller);
-        String jwt = jwtUtil.generateToken(newSeller.getEmail(), newSeller.getRole());
-        Cookie cookie = new Cookie("jwt", jwt);
-        cookie.setSecure(true); // Send over HTTPS only
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(10800);
-        response.addCookie(cookie);
+//        String jwt = jwtUtil.generateToken(newSeller.getEmail(), newSeller.getRole());
+//        Cookie cookie = new Cookie("jwt", jwt);
+//        cookie.setSecure(true); // Send over HTTPS only
+//        cookie.setHttpOnly(true);
+//        cookie.setPath("/");
+//        cookie.setMaxAge(10800);
+//        response.addCookie(cookie);
 
         SellerResponse res = new  SellerResponse(
                 newSeller.getId(),
@@ -53,13 +56,13 @@ public class AuthController {
     @PostMapping("/customer/sign-up")
     public ResponseEntity<CustomerResponse> signUpCustomer(@RequestBody Customer customer, HttpServletResponse response) throws UserAlreadyExistsException {
         Customer newCustomer = customerService.addCustomer(customer);
-        String jwt = jwtUtil.generateToken(newCustomer.getEmail());
-        Cookie cookie = new Cookie("jwt", jwt);
-        cookie.setSecure(true); // Send over HTTPS only
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(10800);
-        response.addCookie(cookie);
+//        String jwt = jwtUtil.generateToken(newCustomer.getEmail(), newCustomer.getRole());
+//        Cookie cookie = new Cookie("jwt", jwt);
+//        cookie.setSecure(true); // Send over HTTPS only
+//        cookie.setHttpOnly(true);
+//        cookie.setPath("/");
+//        cookie.setMaxAge(10800);
+//        response.addCookie(cookie);
 
         CustomerResponse res = new CustomerResponse(
                 newCustomer.getCustomerId(),
@@ -82,13 +85,13 @@ public class AuthController {
             throw new UserDoesNotExistException("Username or password incorrect");
         }
 
-        String jwt = jwtUtil.generateToken(auth.getEmail());
-        Cookie cookie = new Cookie("jwt", jwt);
-        cookie.setSecure(true); // Send over HTTPS only
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(10800);
-        response.addCookie(cookie);
+//        String jwt = jwtUtil.generateToken(auth.getEmail(), auth.getRole());
+//        Cookie cookie = new Cookie("jwt", jwt);
+//        cookie.setSecure(true); // Send over HTTPS only
+//        cookie.setHttpOnly(true);
+//        cookie.setPath("/");
+//        cookie.setMaxAge(10800);
+//        response.addCookie(cookie);
 
         SellerResponse res = new  SellerResponse(
                 auth.getId(),
@@ -109,13 +112,13 @@ public class AuthController {
             throw new UserDoesNotExistException("Username or password incorrect");
         }
 
-        String jwt = jwtUtil.generateToken(auth.getEmail());
-        Cookie cookie = new Cookie("jwt", jwt);
-        cookie.setSecure(true); // Send over HTTPS only
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(10800);
-        response.addCookie(cookie);
+//        String jwt = jwtUtil.generateToken(auth.getEmail(), auth.getRole());
+//        Cookie cookie = new Cookie("jwt", jwt);
+//        cookie.setSecure(true); // Send over HTTPS only
+//        cookie.setHttpOnly(true);
+//        cookie.setPath("/");
+//        cookie.setMaxAge(10800);
+//        response.addCookie(cookie);
 
         CustomerResponse res = new CustomerResponse(
                 auth.getCustomerId(),
