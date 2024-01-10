@@ -24,8 +24,8 @@ public class SellerService {
         }
     }
 
-    public void save(Seller seller) {
-        sellerRepository.save(seller);
+    public Seller save(Seller seller) {
+        return  sellerRepository.save(seller);
     }
 
     public Product addProduct(Integer sellerId, Product product) {
