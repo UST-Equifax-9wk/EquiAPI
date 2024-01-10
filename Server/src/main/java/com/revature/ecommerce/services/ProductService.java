@@ -1,5 +1,6 @@
 package com.revature.ecommerce.services;
 
+import com.revature.ecommerce.dto.ProductDto;
 import com.revature.ecommerce.entities.Product;
 import com.revature.ecommerce.repositories.ProductRepository;
 import org.hibernate.ObjectNotFoundException;
@@ -14,10 +15,15 @@ import java.util.*;
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
 
     @Autowired
-    public ProductService(ProductRepository productRepository){
+    public ProductService(
+            ProductRepository productRepository,
+            ProductMapper productMapper
+    ){
         this.productRepository = productRepository;
+        this.productMapper = productMapper;
     }
 
     public List<Product> getAllProducts(Integer pageNum, Integer pageSize) {
@@ -47,5 +53,26 @@ public class ProductService {
         } else {
             throw new ObjectNotFoundException(Product.class, "Product");
         }
+    }
+
+    /**
+     *
+     * @param productDto
+     * @return
+     */
+    public Product updateProduct(ProductDto productDto) {
+        Optional<Product> optionalProduct = productRepository.findById(productDto.productId);
+        if (optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+            productMapper.updateProductFromDto(productDto, product);
+            return productRepository.save(product);
+        } else {
+            throw new ObjectNotFoundException(Product.class, "Product");
+        }
+    }
+
+    public void deleteProduct(String productId) {
+        Product product = findById(Integer.valueOf(productId));
+        productRepository.delete(product);
     }
 }

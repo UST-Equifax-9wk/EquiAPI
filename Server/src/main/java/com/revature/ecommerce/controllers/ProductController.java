@@ -1,5 +1,6 @@
 package com.revature.ecommerce.controllers;
 
+import com.revature.ecommerce.dto.ProductDto;
 import com.revature.ecommerce.entities.Product;
 import com.revature.ecommerce.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,13 +39,19 @@ public class ProductController {
         return new ResponseEntity<>(productService.addNewProduct(product), HttpStatus.OK);
     }
 
+    /**
+     * @param productDto only the productId and the updating fields are required
+     *                   overwriting the existing field with null doesn't work
+     * @return the response with details of the updated product and 'ok' status
+     */
     @PutMapping(path = "/{productId}")
-    public ResponseEntity<Product> updateProduct(@PathVariable String productId, @RequestBody Product product) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Product> updateProduct(@RequestBody ProductDto productDto) {
+        return new ResponseEntity<>(productService.updateProduct(productDto), HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{productId}")
-    public ResponseEntity<Product> deleteProduct(@PathVariable String productId) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<String> deleteProduct(@PathVariable String productId) {
+        productService.deleteProduct(productId);
+        return ResponseEntity.ok().build();
     }
 }
