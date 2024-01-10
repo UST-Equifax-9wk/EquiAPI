@@ -15,8 +15,8 @@ public class CreditCards {
     private Integer cardId;
 
     @Column(name= "card_number", length = 16)
-//    @Max(16)
-//    @Min(16)
+    @Max(16)
+    @Min(16)
     private String cardNumber;
 
     @Column(name = "cvv")
@@ -30,9 +30,9 @@ public class CreditCards {
     @Column(name = "expiry_date")
     private String expiryDate;
 
-//    @ManyToOne
-//    @JoinColumn(name = "customer_id")
-//    private Customer customer;
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
 
     public CreditCards() {
