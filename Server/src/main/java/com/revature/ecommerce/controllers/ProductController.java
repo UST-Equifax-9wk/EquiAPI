@@ -3,10 +3,12 @@ package com.revature.ecommerce.controllers;
 import com.revature.ecommerce.entities.Product;
 import com.revature.ecommerce.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.util.Set;
 
 @RestController
@@ -22,6 +24,13 @@ public class ProductController {
 
     @GetMapping(path = "/")
     public ResponseEntity<Set<Product>> getAllProducts() {
+        productService.getAllProducts();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/")
+    public ResponseEntity<Set<Product>> getAllProducts(@RequestParam(defaultValue = "0") Integer pageNum, @RequestParam(defaultValue = "10") Integer pageSize) {
+        productService.getAllProducts(pageNum, pageSize);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -37,6 +46,11 @@ public class ProductController {
 
     @PutMapping(path = "/{productId}")
     public ResponseEntity<Product> updateProduct(@PathVariable String productId, @RequestBody Product product) {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/{productId}")
+    public ResponseEntity<Product> deleteProduct(@PathVariable String productId) {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
