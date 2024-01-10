@@ -31,5 +31,14 @@ public class AddressController {
         return addressService.saveOrUpdate(address);
     }
 
-
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteAddress(@RequestBody Address address){
+        addressService.deleteAddress(address);
+    }
+    @DeleteMapping(path = "/{addressId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteAddressById(@PathVariable String addressId){
+        addressService.deleteAddress(Integer.valueOf(addressId));
+    }
 }
