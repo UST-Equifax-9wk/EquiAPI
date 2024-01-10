@@ -40,12 +40,6 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product updateInventory(Integer productId, Integer inventory) {
-        Product product = findById(productId);
-        product.setInventory(inventory);
-        return productRepository.save(product);
-    }
-
     public Product findById(Integer productId) {
         Optional<Product> found = productRepository.findById(productId);
         if (found.isPresent()) {
@@ -55,11 +49,6 @@ public class ProductService {
         }
     }
 
-    /**
-     *
-     * @param productDto
-     * @return
-     */
     public Product updateProduct(ProductDto productDto) {
         Optional<Product> optionalProduct = productRepository.findById(productDto.productId);
         if (optionalProduct.isPresent()) {
@@ -74,5 +63,9 @@ public class ProductService {
     public void deleteProduct(String productId) {
         Product product = findById(Integer.valueOf(productId));
         productRepository.delete(product);
+    }
+
+    public List<Product> findBySellerId(Integer sellerId) {
+        return productRepository.findBySellerId(sellerId);
     }
 }

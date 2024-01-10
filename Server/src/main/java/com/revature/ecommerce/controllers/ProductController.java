@@ -4,7 +4,6 @@ import com.revature.ecommerce.dto.ProductDto;
 import com.revature.ecommerce.entities.Product;
 import com.revature.ecommerce.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,12 +30,7 @@ public class ProductController {
 
     @GetMapping(path = "/{productId}")
     public ResponseEntity<Product> getProductByProductId(@PathVariable String productId) {
-        return new ResponseEntity<>(productService.findById(Integer.valueOf(productId)), HttpStatus.OK);
-    }
-
-    @PostMapping(path = "/")
-    public ResponseEntity<Product> addNewProduct(@RequestBody Product product) {
-        return new ResponseEntity<>(productService.addNewProduct(product), HttpStatus.OK);
+        return ResponseEntity.ok(productService.findById(Integer.valueOf(productId)));
     }
 
     /**
@@ -46,7 +40,7 @@ public class ProductController {
      */
     @PutMapping(path = "/{productId}")
     public ResponseEntity<Product> updateProduct(@RequestBody ProductDto productDto) {
-        return new ResponseEntity<>(productService.updateProduct(productDto), HttpStatus.OK);
+        return ResponseEntity.ok(productService.updateProduct(productDto));
     }
 
     @DeleteMapping(path = "/{productId}")
