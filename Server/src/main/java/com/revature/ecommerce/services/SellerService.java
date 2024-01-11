@@ -26,6 +26,7 @@ public class SellerService {
 
     public Seller save(Seller seller) {
         seller.setRole("SELLER");
+//        seller.setPassword(seller.getPassword()); TODO: ADD Bcrypt
         return sellerRepository.save(seller);
     }
 

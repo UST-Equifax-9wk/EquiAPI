@@ -43,12 +43,13 @@ public class JwtUtil {
     }
 
     public String generateToken(String email, String role){
-        Date exp = new Date(System.currentTimeMillis() + 60 * 60 * 24 * 7);
+        Date exp = new Date(System.currentTimeMillis()*1000 + 60 * 60 * 24 * 7);
 
         return Jwts.builder()
                 .subject(email+","+role)
                 .signWith(getKey())
-//                .expiration(exp)
+                .expiration(exp)
+//                Fix expiration date
                 .compact();
     }
 
@@ -59,8 +60,6 @@ public class JwtUtil {
                 .parseSignedClaims(token)
                 .getPayload()
                 .getSubject().split(",")[0];
-
-
 
     }
 
@@ -99,15 +98,12 @@ public class JwtUtil {
         GrantedAuthority customerAuthority = new SimpleGrantedAuthority(role);
         Collection<GrantedAuthority> authorities = Collections.singleton(customerAuthority);
 
-
         if(role.equals("CUSTOMER")){
             Customer customer = customerService.findByEmail(email);
-            return new UsernamePasswordAuthenticationToken(customer.getEmail(), null, authorities);
+            return new UsernamePasswordAuthenticationToken(customer.getEmail(), customer.getPassword(), authorities);
         } else {
             Seller seller = sellerService.findByEmail(email);
-            UsernamePasswordAuthenticationToken tokened = new UsernamePasswordAuthenticationToken(seller.getEmail(), seller.getPassword(), authorities);
-            System.out.println(tokened);
-            return tokened;
+            return new UsernamePasswordAuthenticationToken(seller.getEmail(), seller.getPassword(), authorities);
         }
 
 

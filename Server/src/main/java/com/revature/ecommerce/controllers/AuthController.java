@@ -1,8 +1,6 @@
 package com.revature.ecommerce.controllers;
-
 import com.revature.ecommerce.dto.CustomerResponse;
 import com.revature.ecommerce.dto.SellerResponse;
-
 import com.revature.ecommerce.entities.Customer;
 import com.revature.ecommerce.entities.Seller;
 import com.revature.ecommerce.exceptions.UserAlreadyExistsException;
@@ -16,7 +14,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
@@ -36,7 +33,9 @@ public class AuthController {
     @PreAuthorize("permitAll()")
     public ResponseEntity<SellerResponse> signUpSeller(@RequestBody Seller seller, HttpServletResponse response){
         Seller newSeller = sellerService.save(seller);
+
         String jwt = jwtUtil.generateToken(newSeller.getEmail(), newSeller.getRole());
+
         Cookie cookie = new Cookie("jwt", jwt);
         cookie.setSecure(true); // Send over HTTPS only
         cookie.setHttpOnly(true);
