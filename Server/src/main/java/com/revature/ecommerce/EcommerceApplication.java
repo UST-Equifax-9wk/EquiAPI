@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableTransactionManagement
 @SpringBootApplication
-@EnableMethodSecurity
 public class EcommerceApplication {
 
 	public static void main(String[] args) {

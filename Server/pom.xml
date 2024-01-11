@@ -56,10 +56,7 @@
 			<version>9.37.3</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-		</dependency>
+
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -75,11 +72,12 @@
             <artifactId>jakarta.validation-api</artifactId>
             <version>3.0.2</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.security</groupId>-->
-<!--			<artifactId>spring-security-test</artifactId>-->
-<!--            <scope>test</scope>-->
-<!--		</dependency>-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+		</dependency>
+
 
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>

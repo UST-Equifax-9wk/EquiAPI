@@ -25,7 +25,8 @@ public class SellerService {
     }
 
     public Seller save(Seller seller) {
-        return  sellerRepository.save(seller);
+        seller.setRole("SELLER");
+        return sellerRepository.save(seller);
     }
 
     public Product addProduct(Integer sellerId, Product product) {

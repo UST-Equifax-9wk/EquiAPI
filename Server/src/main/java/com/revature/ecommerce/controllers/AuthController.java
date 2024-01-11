@@ -9,24 +9,26 @@ import com.revature.ecommerce.exceptions.UserAlreadyExistsException;
 import com.revature.ecommerce.exceptions.UserDoesNotExistException;
 import com.revature.ecommerce.services.CustomerService;
 import com.revature.ecommerce.services.SellerService;
-//import com.revature.ecommerce.util.JwtUtil;
+import com.revature.ecommerce.util.JwtUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
 @RequestMapping(path = "/auth")
-@PreAuthorize("permitAll()")
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class AuthController {
 
     private final SellerService sellerService;
     private final CustomerService customerService;
-//    private final JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
+    private AuthenticationManager authenticationManager;
 
     /* SIGN UP FUNCTIONS FOR SELLER & CUSTOMER*/
 
@@ -34,13 +36,13 @@ public class AuthController {
     @PreAuthorize("permitAll()")
     public ResponseEntity<SellerResponse> signUpSeller(@RequestBody Seller seller, HttpServletResponse response){
         Seller newSeller = sellerService.save(seller);
-//        String jwt = jwtUtil.generateToken(newSeller.getEmail(), newSeller.getRole());
-//        Cookie cookie = new Cookie("jwt", jwt);
-//        cookie.setSecure(true); // Send over HTTPS only
-//        cookie.setHttpOnly(true);
-//        cookie.setPath("/");
-//        cookie.setMaxAge(10800);
-//        response.addCookie(cookie);
+        String jwt = jwtUtil.generateToken(newSeller.getEmail(), newSeller.getRole());
+        Cookie cookie = new Cookie("jwt", jwt);
+        cookie.setSecure(true); // Send over HTTPS only
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(10800);
+        response.addCookie(cookie);
 
         SellerResponse res = new  SellerResponse(
                 newSeller.getId(),
