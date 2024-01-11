@@ -48,8 +48,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .subject(email+","+role)
                 .signWith(getKey())
-                .issuedAt(new Date())
-                .expiration(exp)
+//                .expiration(exp)
                 .compact();
     }
 
