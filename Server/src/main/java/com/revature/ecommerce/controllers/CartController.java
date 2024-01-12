@@ -6,6 +6,9 @@ import com.revature.ecommerce.entities.Product;
 import com.revature.ecommerce.exceptions.UnableToAddItemException;
 import com.revature.ecommerce.exceptions.UnableToDeleteItemException;
 import com.revature.ecommerce.services.CartService;
+import com.revature.ecommerce.util.CookieUtil;
+import com.revature.ecommerce.util.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,34 +22,39 @@ import java.util.Set;
 public class CartController {
 
     private final CartService cartService;
+    private JwtUtil jwtUtil;
+    private CookieUtil cookieUtil;
 
     @Autowired
 
-    public CartController(CartService cartService){
+    public CartController(CartService cartService, JwtUtil jwtUtil, CookieUtil cookieUtil){
         this.cartService = cartService;
+        this.jwtUtil = jwtUtil;
+        this.cookieUtil = cookieUtil;
     }
 
-    @PostMapping("/customers/{email}/add-to-cart")
+    @PostMapping("/customers/add-to-cart")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('CUSTOMER')")
-    public Cart addProduct(@PathVariable String email, @RequestBody AddToCart addToCart, HttpServletResponse response)
-
-
+    public Cart addProduct(@RequestBody AddToCart addToCart, HttpServletRequest request, HttpServletResponse response)
     throws UnableToAddItemException {
+        String email = jwtUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
+        addToCart.setCustomerEmail(email);
         return cartService.addProductToCart(addToCart);
     }
 
-    @GetMapping("/customers/{email}/view-cart")
+    @GetMapping("/customers/view-cart")
     @ResponseStatus(HttpStatus.OK)
-    public Set<Cart> viewAllCart(@PathVariable String email){
+    public Set<Cart> viewAllCart(HttpServletRequest request){
+        String email = jwtUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
         return cartService.viewCart(email);
     }
 
-    @PostMapping(path = "/customers/{email}/remove-item")
+    @PostMapping(path = "/customers/remove-item")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public Set<Cart> deleteFromCart
-            (@PathVariable String email,
-             @RequestBody AddToCart addToCart, HttpServletResponse response) throws UnableToDeleteItemException {
+            (@RequestBody AddToCart addToCart, HttpServletRequest request, HttpServletResponse response) throws UnableToDeleteItemException {
+        String email = jwtUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
         return cartService.removeProductFromCart(email, addToCart);
     }
     @GetMapping(path = "/customer/{email}/cart/get-total")

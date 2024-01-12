@@ -10,6 +10,7 @@ import com.revature.ecommerce.exceptions.UnableToDeleteItemException;
 import com.revature.ecommerce.repositories.CartRepository;
 import com.revature.ecommerce.repositories.ProductRepository;
 import com.revature.ecommerce.repositories.CustomerRepository;
+import com.revature.ecommerce.util.JwtUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ public class CartService {
     private CartRepository cartRepository;
     private CustomerRepository customerRepository;
     private ProductRepository productRepository;
+
 
     @Autowired
     public CartService(CartRepository cartRepository, CustomerRepository customerRepository,

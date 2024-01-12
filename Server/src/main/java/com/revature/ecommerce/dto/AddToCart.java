@@ -16,6 +16,12 @@ public class AddToCart {
         this.price = price;
     }
 
+    public AddToCart(Integer productId, Integer quantity, Double price) {
+        this.productId = productId;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
     public Integer getProductId() {
         return productId;
     }

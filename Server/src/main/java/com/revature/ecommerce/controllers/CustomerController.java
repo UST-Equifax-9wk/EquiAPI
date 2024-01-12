@@ -30,7 +30,7 @@ public class CustomerController {
     @PreAuthorize("hasAnyAuthority('CUSTOMER')")
     public Customer viewCustomer(HttpServletRequest request){
         String email = jwtUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
-        System.out.println(email);
+
         return customerService.findByEmail(email);
     }
 

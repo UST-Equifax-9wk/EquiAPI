@@ -1,0 +1,47 @@
+What Peter did on Friday
+Worked on the Server-side cart entity:
+created cart entity
+created cart repository
+created cart service
+	Added services like add to cart, remove from cart, view cart
+created cart controller
+	Created endpoints to be hit by Postmaster
+
+created user entity
+created user repository
+created user service
+
+created product repository
+created product service
+created product controller
+
+created auth entity
+created auth repository
+created auth service
+	Created services - utilized BCrypt for encryption
+
+created NewUserDto
+
+created Exceptions folder and some exceptions
+
+What Peter would work on:
+Submit to Thein for updates on what is required for backend
+Submit to team for review
+Generate tests
+
+Blockers:
+None at the moment
+
+
+What Mitchell did on Friday
+
+
+What Christopher did on Friday
+
+
+What Thein did on Friday
+
+
+
+
+

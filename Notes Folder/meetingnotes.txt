@@ -1,0 +1,46 @@
+Identify the different roles:
+
+Address
+*
+Billing
+Attribute
+Card
+Customer
+Inventory
+Order
+Seller
+Shipment
+
+
+
+Meeting 1/5/2024
+
+Previously:
+Designated roles for team members:
+Head the Backend: Thein
+Head the FrontEnd: Mitchell
+Head the DevOPs: Chris
+SCRUM: Peter
+
+Trillo Kanban board:
+
+Set assignments:
+Create Repo
+Create SpringBoot App
+and 
+
+Discussed
+Branching styles
+Discussed code reviews, how we discussed - Especially that we maintain the ideas formulated for the different 
+
+What we are working on today
+
+Design ERD Diagram
+Identify the entities
+Identify the Services
+Identify the Controllers
+Identify the FrontEnd components
+
+Testing
+
+No blockers

@@ -1,0 +1,14 @@
+What did each person do:
+Peter created Repo
+Thein created the Server-side SpringBoot Application
+Mitchell created the Client-side Angular Application
+Peter created an example ERD diagram and shared with group the link
+Christopher created the Kanban baord and introduced us to Trillo
+
+We plan to:
+Create the ERD diagram to identify entities
+Create these entities on Server-side
+Identify Services we intend for the entities
+Plan out the task we need to complete, fill the Kanban board with assigned tasks
+
+No blockers presently
