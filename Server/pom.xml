@@ -49,10 +49,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+			<groupId>com.nimbusds</groupId>
+			<artifactId>nimbus-jose-jwt</artifactId>
+			<version>9.37.3</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -92,12 +95,14 @@
 			<scope>runtime</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
+<!--		This dependency allows us to update the record in DB partially by mapping DTO and Entity. -->
+<!--		It can skip the fields with null value and update only the fields with actual value,-->
+<!--		so that we don't need separate methods just to update individual field.-->
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
 			<version>1.6.0.Beta1</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -112,6 +117,8 @@
 				<version>3.11.0</version>
 				<configuration>
 					<annotationProcessorPaths>
+<!--						These config are required because lombok and mapstruct can't be used together-->
+<!--						without these config.-->
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>

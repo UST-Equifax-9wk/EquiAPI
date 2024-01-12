@@ -12,6 +12,24 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 public class Product {
+    /*
+        These fields are all we need to render the product card
+        It is used as a response body for GET /products
+        Reference: https://docs.spring.io/spring-data/jpa/reference/repositories/projections.html#projections.interfaces
+     */
+    public interface ProductCard {
+        Integer getProductId();
+        String getName();
+        Double getRetailPrice();
+        Double getDiscountedPrice();
+        SellerSummary getSeller();
+
+        interface SellerSummary {
+            Integer getId();
+            String getFirstName();
+            String getLastName();
+        }
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +53,8 @@ public class Product {
     private Integer threshold;
 
     @ManyToOne
-    @JsonBackReference(value = "seller-products")
+//    @JoinColumn(name = "seller_id")
+//    @JsonBackReference(value = "seller-products")
     private Seller seller;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)

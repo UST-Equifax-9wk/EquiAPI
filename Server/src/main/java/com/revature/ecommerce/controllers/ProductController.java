@@ -20,8 +20,8 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping(path = "/")
-    public ResponseEntity<List<Product>> getAllProducts(
+    @GetMapping(path = "")
+    public ResponseEntity<List<Product.ProductCard>> getAllProducts(
             @RequestParam(name = "pg_no", defaultValue = "0") Integer pageNum,
             @RequestParam(name = "pg_size", defaultValue = "10") Integer pageSize
     ) {

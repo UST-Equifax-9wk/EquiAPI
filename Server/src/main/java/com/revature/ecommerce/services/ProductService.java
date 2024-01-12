@@ -26,9 +26,9 @@ public class ProductService {
         this.productMapper = productMapper;
     }
 
-    public List<Product> getAllProducts(Integer pageNum, Integer pageSize) {
+    public List<Product.ProductCard> getAllProducts(Integer pageNum, Integer pageSize) {
         Pageable paging = PageRequest.of(pageNum, pageSize);
-        Page<Product> products = productRepository.findAll(paging);
+        Page<Product.ProductCard> products = productRepository.findAllProjectedBy(paging);
         if (products.hasContent()) {
             return products.getContent();
         } else {

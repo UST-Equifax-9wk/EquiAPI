@@ -4,7 +4,6 @@ import com.revature.ecommerce.dto.SellerResponse;
 import com.revature.ecommerce.entities.Product;
 import com.revature.ecommerce.entities.Seller;
 import com.revature.ecommerce.services.SellerService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

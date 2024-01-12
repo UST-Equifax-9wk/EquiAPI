@@ -1,10 +1,8 @@
 package com.revature.ecommerce.services;
 
-import com.revature.ecommerce.dto.ProductDto;
 import com.revature.ecommerce.entities.Product;
 import com.revature.ecommerce.entities.Seller;
 import com.revature.ecommerce.repositories.SellerRepository;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
