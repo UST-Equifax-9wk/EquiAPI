@@ -34,8 +34,8 @@ public class ProductController {
     }
 
     /**
-     * @param productDto only the productId and the updating fields are required
-     *                   overwriting the existing field with null doesn't work
+     * @param productDto Only the productId and the updating fields are required
+     *                   Overwriting the existing field with null doesn't work
      * @return the response with details of the updated product and 'ok' status
      */
     @PutMapping(path = "/{productId}")

@@ -2,6 +2,7 @@ package com.revature.ecommerce.services;
 
 import com.revature.ecommerce.dto.ProductDto;
 import com.revature.ecommerce.entities.Product;
+import com.revature.ecommerce.mappers.ProductMapper;
 import com.revature.ecommerce.repositories.ProductRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

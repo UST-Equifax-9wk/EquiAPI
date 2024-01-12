@@ -3,8 +3,9 @@ package com.revature.ecommerce.services;
 import com.revature.ecommerce.entities.Product;
 import com.revature.ecommerce.entities.Seller;
 import com.revature.ecommerce.repositories.SellerRepository;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.ObjectNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,8 @@ import java.util.Optional;
 public class SellerService {
     private final SellerRepository sellerRepository;
     private final ProductService productService;
+//    private final PasswordEncoder passwordEncoder;
+
 
     @Autowired
     public SellerService(SellerRepository sellerRepository, ProductService productService) {
@@ -31,7 +34,9 @@ public class SellerService {
     }
 
     public Seller save(Seller seller) {
-        return  sellerRepository.save(seller);
+        seller.setRole("SELLER");
+//        seller.setPassword(passwordEncoder.encode(seller.getPassword()));
+        return sellerRepository.save(seller);
     }
 
     public Product addNewProduct(Integer sellerId, Product product) {

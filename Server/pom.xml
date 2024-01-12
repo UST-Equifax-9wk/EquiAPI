@@ -55,7 +55,6 @@
 			<artifactId>nimbus-jose-jwt</artifactId>
 			<version>9.37.3</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -76,6 +75,7 @@
 			<artifactId>spring-security-test</artifactId>
             <scope>test</scope>
 		</dependency>
+
 
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>

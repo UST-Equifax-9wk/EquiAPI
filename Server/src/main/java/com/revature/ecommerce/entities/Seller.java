@@ -1,5 +1,6 @@
 package com.revature.ecommerce.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -20,19 +21,20 @@ public class Seller {
     @Column
     private String password;
     @Column(columnDefinition = "varchar(255) default 'SELLER'")
-    String role;
-    @OneToMany(mappedBy = "seller", fetch = FetchType.EAGER)
+    private String role;
+    @OneToMany(mappedBy = "seller")
 //    @JsonManagedReference(value = "seller-products")
     private Set<Product> products;
 
     public Seller() {
     }
 
-    public Seller(String firstName, String lastName, String email, String password) {
+    public Seller(String firstName, String lastName, String email, String password, String role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     public Seller(Integer id, String firstName, String lastName, String email, String password) {

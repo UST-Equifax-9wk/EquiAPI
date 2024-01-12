@@ -22,20 +22,19 @@ import io.jsonwebtoken.io.Decoders;
 import javax.crypto.SecretKey;
 import java.util.*;
 
-
 @Component
 public class JwtUtil {
 
-    private final CustomerService customerService;
-    private final SellerService sellerService;
-    private final String secret;
+  private final CustomerService customerService;
+  private final SellerService sellerService;
+  private final String secret;
 
-    @Autowired
-    public JwtUtil(CustomerService customerService, SellerService sellerService, @Value("${secret.key}") String secret){
-        this.customerService = customerService;
-        this.sellerService = sellerService;
-        this.secret = secret;
-    }
+  @Autowired
+  public JwtUtil(CustomerService customerService, SellerService sellerService, @Value("${secret.key}") String secret){
+       this.customerService = customerService;
+       this.sellerService = sellerService;
+       this.secret = secret;
+  }
 
     private SecretKey getKey(){
         byte[] keyBytes = Decoders.BASE64.decode(this.secret);
@@ -86,10 +85,9 @@ public class JwtUtil {
                 .before(new Date());
     }
 
-
-    /**
-     * For customer authentication filter
-     */
+/**
+ * For customer authentication filter
+ */
     public Authentication getAuthentication(String token) throws UserDoesNotExistException {
         String role = parseRole(token);
         String email = parseEmail(token);
@@ -100,10 +98,10 @@ public class JwtUtil {
 
         if(role.equals("CUSTOMER")){
             Customer customer = customerService.findByEmail(email);
-            return new UsernamePasswordAuthenticationToken(customer.getEmail(), customer.getPassword(), authorities);
+            return new UsernamePasswordAuthenticationToken(customer.getEmail(), null, authorities);
         } else {
             Seller seller = sellerService.findByEmail(email);
-            return new UsernamePasswordAuthenticationToken(seller.getEmail(), seller.getPassword(), authorities);
+            return new UsernamePasswordAuthenticationToken(seller.getEmail(), null, authorities);
         }
 
 
