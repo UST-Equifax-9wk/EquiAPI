@@ -60,8 +60,8 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private Set<Review> reviews;
 
-    @OneToOne
-    private Cart cart;
+//    @OneToOne(mappedBy = "product")
+//    private Cart cart;
   
     public Product() {
     }

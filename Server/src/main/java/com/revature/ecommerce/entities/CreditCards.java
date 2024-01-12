@@ -30,6 +30,9 @@ public class CreditCards {
     @Column(name = "expiry_date")
     private String expiryDate;
 
+    @Column(name = "available_balance")
+    private Double availableBalance;
+
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
@@ -38,19 +41,33 @@ public class CreditCards {
     public CreditCards() {
     }
 
-    public CreditCards(String cardNumber, Integer cvv, String nameOnCard, String expiryDate) {
+    public CreditCards(String cardNumber, Integer cvv, String nameOnCard, String expiryDate,
+                       Double availableBalance, Customer customer) {
         this.cardNumber = cardNumber;
         this.cvv = cvv;
         this.nameOnCard = nameOnCard;
         this.expiryDate = expiryDate;
+        this.availableBalance = availableBalance;
+        this.customer = customer;
     }
 
-    public CreditCards(Integer cardId, String cardNumber, Integer cvv, String nameOnCard, String expiryDate) {
+    public CreditCards(Integer cardId, String cardNumber, Integer cvv, String nameOnCard, String expiryDate,
+                       Double availableBalance, Customer customer) {
         this.cardId = cardId;
         this.cardNumber = cardNumber;
         this.cvv = cvv;
         this.nameOnCard = nameOnCard;
         this.expiryDate = expiryDate;
+        this.availableBalance = availableBalance;
+        this.customer = customer;
+    }
+
+    public Double getAvailableBalance() {
+        return availableBalance;
+    }
+
+    public void setAvailableBalance(Double availableBalance) {
+        this.availableBalance = availableBalance;
     }
 
     public Integer getCardId() {

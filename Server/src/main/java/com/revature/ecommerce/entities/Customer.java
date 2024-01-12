@@ -1,18 +1,19 @@
 package com.revature.ecommerce.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "customers")
 public class Customer implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
@@ -26,37 +27,49 @@ public class Customer implements UserDetails {
     String lastName;
 
     @Column
-    String password;  //Remove password since there is an auth dto
+    String password;
 
     @Column(columnDefinition = "varchar(255) default 'CUSTOMER'")
     String role;
 
-    @OneToMany(mappedBy = "customer")
-    private Set<Cart> carts;   //CHECK THIS
 
-//    @OneToMany(mappedBy = "user" /* supposed to be customer? */)
-//    private Set<Card> cart;
+    @JsonIgnore
+    @JsonManagedReference(value = "customerReference")
+    @OneToMany(mappedBy = "customer")
+    private Set<Cart> carts = new HashSet<Cart>();
+
+    @JsonManagedReference(value = "addressReference")
+    @OneToMany(mappedBy = "customer")
+    private Set<Address> addresses = new HashSet<Address>();
+
+    @JsonManagedReference(value = "orderReference")
+    @OneToMany(mappedBy = "customer")
+    private Set<Order> orders = new HashSet<Order>();
 
 
 
     public Customer() {
     }
 
-    public Customer(String email, String firstName, String lastName, String password, Set<Cart> cart) {
+    public Customer(String email, String firstName, String lastName, String password,
+                    Set<Cart> carts, Set<Address> addresses) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-//        this.cart = cart;
+        this.carts = carts;
+        this.addresses = addresses;
     }
 
-    public Customer(Integer customerId, String email, String firstName, String lastName, String password, Set<Cart> cart) {
+    public Customer(Integer customerId, String email, String firstName, String lastName, String password,
+                    Set<Cart> carts, Set<Address> addresses) {
         this.customerId = customerId;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-//        this.cart = cart;
+        this.carts = carts;
+        this.addresses = addresses;
     }
 
     @Override
@@ -127,13 +140,21 @@ public class Customer implements UserDetails {
         this.password = password;
     }
 
-//    public Set<Cart> getCart() {
-//        return cart;
-//    }
+    public Set<Cart> getCart() {
+        return carts;
+    }
 
-//    public void setCart(Set<Cart> cart) {
-//        this.cart = cart;
-//    }
+    public void setCart(Set<Cart> carts) {
+        this.carts = carts;
+    }
+
+    public Set<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses = addresses;
+    }
 
 
     public String getRole() {

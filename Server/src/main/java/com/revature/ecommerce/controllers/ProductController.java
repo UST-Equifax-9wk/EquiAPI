@@ -3,8 +3,10 @@ package com.revature.ecommerce.controllers;
 import com.revature.ecommerce.dto.ProductDto;
 import com.revature.ecommerce.entities.Product;
 import com.revature.ecommerce.services.ProductService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 @RequestMapping(path = "/products")
+
 public class ProductController {
     private final ProductService productService;
 
@@ -48,4 +51,10 @@ public class ProductController {
         productService.deleteProduct(productId);
         return ResponseEntity.ok().build();
     }
+    @PostMapping(path = "/add-product")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Product addProduct(@RequestBody Product product){
+        return productService.addNewProduct(product);
+    }
+
 }
