@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
     @GetMapping("/")
-    @PreAuthorize("hasAuthority('SELLER','CUSTOMER')")
+    @PreAuthorize("hasAnyAuthority('SELLER','CUSTOMER')")
     public ResponseEntity<String> test(HttpServletResponse response){
         return ResponseEntity.ok().body("Hit endpoint test");
     }

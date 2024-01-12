@@ -35,6 +35,12 @@ public class SecurityConfig  {
     private JwtUtil jwtUtil;
     private CookieUtil cookieUtil;
 
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @Bean
     public UserDetailsService userDetailsService(){
         return userDetailsService;
@@ -44,7 +50,7 @@ public class SecurityConfig  {
     public JwtRequestFilter jwtRequestFilter(){return new JwtRequestFilter(jwtUtil, cookieUtil);}
 
     @Bean
-    AuthenticationManager authenticationManager(PasswordEncoder passwordEncoder, UserDetailsService userDetailsService){
+    AuthenticationManager authenticationManager(BCryptPasswordEncoder passwordEncoder, UserDetailsService userDetailsService){
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder);
@@ -67,9 +73,6 @@ public class SecurityConfig  {
                 .build();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+
 
 }

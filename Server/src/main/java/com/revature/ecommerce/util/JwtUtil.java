@@ -22,7 +22,6 @@ import io.jsonwebtoken.io.Decoders;
 import javax.crypto.SecretKey;
 import java.util.*;
 
-
 @Component
 public class JwtUtil {
 
@@ -100,10 +99,10 @@ public class JwtUtil {
 
         if(role.equals("CUSTOMER")){
             Customer customer = customerService.findByEmail(email);
-            return new UsernamePasswordAuthenticationToken(customer.getEmail(), customer.getPassword(), authorities);
+            return new UsernamePasswordAuthenticationToken(customer.getEmail(), null, authorities);
         } else {
             Seller seller = sellerService.findByEmail(email);
-            return new UsernamePasswordAuthenticationToken(seller.getEmail(), seller.getPassword(), authorities);
+            return new UsernamePasswordAuthenticationToken(seller.getEmail(), null, authorities);
         }
 
 
