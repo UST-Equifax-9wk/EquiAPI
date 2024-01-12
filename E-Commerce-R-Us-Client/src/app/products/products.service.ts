@@ -9,8 +9,8 @@ import { Product } from './products.component';
 export class ProductsService {
   constructor(private http: HttpClient) {}
 
-  getAllProducts(): Observable<Product[]> {
-    let url = 'http://localhost:8080/products';
+  getAllProducts(pgNo: number, pgSize: number): Observable<Product[]> {
+    let url: string = `http://localhost:8080/products?pg_no=${pgNo}&pg_size=${pgSize}`;
     let options: object = {};
     return this.http.get<Product[]>(url, options);
   }
