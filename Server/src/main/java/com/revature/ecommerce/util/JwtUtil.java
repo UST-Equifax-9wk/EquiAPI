@@ -3,44 +3,52 @@ package com.revature.ecommerce.util;
 import com.revature.ecommerce.entities.Customer;
 import com.revature.ecommerce.entities.Seller;
 import com.revature.ecommerce.exceptions.UserDoesNotExistException;
-import com.revature.ecommerce.repositories.CustomerRepository;
-import com.revature.ecommerce.repositories.SellerRepository;
+
+import com.revature.ecommerce.services.CustomerService;
+import com.revature.ecommerce.services.SellerService;
+
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import io.jsonwebtoken.io.Decoders;
 
 import javax.crypto.SecretKey;
-import java.util.ArrayList;
-import java.util.Date;
-
+import java.util.*;
 
 @Component
 public class JwtUtil {
 
-    private CustomerRepository customerRepository;
-    private SellerRepository sellerRepository;
+  private final CustomerService customerService;
+  private final SellerService sellerService;
+  private final String secret;
 
-
-    @Value("${secret.key}")
-    private String secret;
+  @Autowired
+  public JwtUtil(CustomerService customerService, SellerService sellerService, @Value("${secret.key}") String secret){
+       this.customerService = customerService;
+       this.sellerService = sellerService;
+       this.secret = secret;
+  }
 
     private SecretKey getKey(){
         byte[] keyBytes = Decoders.BASE64.decode(this.secret);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(String email){
-        Date exp = new Date(System.currentTimeMillis() + 60 * 60 * 24 * 7);
+    public String generateToken(String email, String role){
+        Date exp = new Date(System.currentTimeMillis()*1000 + 60 * 60 * 24 * 7);
 
         return Jwts.builder()
-                .subject(email)
+                .subject(email+","+role)
                 .signWith(getKey())
-                .issuedAt(new Date())
                 .expiration(exp)
+//                Fix expiration date
                 .compact();
     }
 
@@ -50,8 +58,22 @@ public class JwtUtil {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
-                .getSubject();
+                .getSubject().split(",")[0];
+
     }
+
+    public String parseRole(String token){
+        return Jwts.parser()
+                .verifyWith(getKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .getSubject()
+                .split(",")[1];
+
+
+    }
+
 
     public boolean isTokenExpired(String token){
         return !Jwts.parser()
@@ -67,29 +89,23 @@ public class JwtUtil {
 /**
  * For customer authentication filter
  */
-    public Authentication getCustomerAuthentication(String token) throws UserDoesNotExistException {
-        String customerEmail = parseEmail(token);
-        Customer customer = customerRepository.findByEmail(customerEmail);
+    public Authentication getAuthentication(String token) throws UserDoesNotExistException {
+        String role = parseRole(token);
+        String email = parseEmail(token);
 
-        if(customer == null){
-           throw new UserDoesNotExistException("User not found!");
+
+        GrantedAuthority customerAuthority = new SimpleGrantedAuthority(role);
+        Collection<GrantedAuthority> authorities = Collections.singleton(customerAuthority);
+
+        if(role.equals("CUSTOMER")){
+            Customer customer = customerService.findByEmail(email);
+            return new UsernamePasswordAuthenticationToken(customer.getEmail(), null, authorities);
+        } else {
+            Seller seller = sellerService.findByEmail(email);
+            return new UsernamePasswordAuthenticationToken(seller.getEmail(), null, authorities);
         }
 
-        return new UsernamePasswordAuthenticationToken(customer, null, new ArrayList<>());
+
     }
-
-    /**
-     * For Seller authentication filter
-     */
-    public Authentication getSellerAuthentication(String token) throws UserDoesNotExistException {
-        String sellerEmail = parseEmail(token);
-        Seller seller = sellerRepository.findByEmail(sellerEmail);
-
-        if(seller == null){
-            throw new UserDoesNotExistException("User not found!");
-        }
-
-        return new UsernamePasswordAuthenticationToken(seller, null, new ArrayList<>());
-    }
-
 }
+
