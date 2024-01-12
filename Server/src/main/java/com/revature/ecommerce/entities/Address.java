@@ -1,5 +1,6 @@
 package com.revature.ecommerce.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -28,19 +29,42 @@ public class Address {
     @Column(length = 5)
     private String zipcode;
 
+    @Column(name = "is_default")
+    private Boolean defaultAddress;
+
+    @JsonBackReference(value = "addressReference")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
+    private Customer customer;
+
     public Address() {
     }
 
-    public Address(String streetAddress1, String streetAddress2, String apartment, String city, String state, String zipcode) {
+    public Address(String streetAddress1, String streetAddress2, String apartment, String city, String state,
+                   String zipcode, Boolean defaultAddress, Customer customer) {
         this.streetAddress1 = streetAddress1;
         this.streetAddress2 = streetAddress2;
         this.apartment = apartment;
         this.city = city;
         this.state = state;
         this.zipcode = zipcode;
+        this.defaultAddress = defaultAddress;
+        this.customer = customer;
     }
 
-    public Address(Integer addressId, String streetAddress1, String streetAddress2, String apartment, String city, String state, String zipcode) {
+    public Address(String streetAddress1, String streetAddress2, String apartment, String city, String state,
+                   String zipcode, Boolean defaultAddress) {
+        this.streetAddress1 = streetAddress1;
+        this.streetAddress2 = streetAddress2;
+        this.apartment = apartment;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+        this.defaultAddress = defaultAddress;
+    }
+
+    public Address(Integer addressId, String streetAddress1, String streetAddress2, String apartment, String city,
+                   String state, String zipcode, Boolean defaultAddress, Customer customer) {
         this.addressId = addressId;
         this.streetAddress1 = streetAddress1;
         this.streetAddress2 = streetAddress2;
@@ -48,6 +72,20 @@ public class Address {
         this.city = city;
         this.state = state;
         this.zipcode = zipcode;
+        this.defaultAddress = defaultAddress;
+        this.customer = customer;
+    }
+
+    public Address(Integer addressId, String streetAddress1, String streetAddress2, String apartment, String city,
+                   String state, String zipcode, Boolean defaultAddress) {
+        this.addressId = addressId;
+        this.streetAddress1 = streetAddress1;
+        this.streetAddress2 = streetAddress2;
+        this.apartment = apartment;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+        this.defaultAddress = defaultAddress;
     }
 
     public Integer getAddressId() {
@@ -104,6 +142,22 @@ public class Address {
 
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
+    }
+
+    public Boolean getDefaultAddress() {
+        return defaultAddress;
+    }
+
+    public void setDefault(Boolean defaultAddress) {
+        this.defaultAddress = defaultAddress;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     @Override

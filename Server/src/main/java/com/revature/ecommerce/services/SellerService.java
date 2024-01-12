@@ -35,7 +35,6 @@ public class SellerService {
 
     public Seller save(Seller seller) {
         seller.setRole("SELLER");
-//        seller.setPassword(passwordEncoder.encode(seller.getPassword()));
         return sellerRepository.save(seller);
     }
 
