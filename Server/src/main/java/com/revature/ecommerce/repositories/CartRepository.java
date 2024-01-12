@@ -2,6 +2,7 @@ package com.revature.ecommerce.repositories;
 
 import com.revature.ecommerce.entities.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -10,9 +11,9 @@ import java.util.Set;
 @Repository
 public interface CartRepository extends JpaRepository <Cart, Integer>{
 
-//    @Query(nativeQuery = true, value = "SELECT * FROM carts WHERE customer_id=?1")
+    @Query(nativeQuery = true, value = "SELECT * FROM carts WHERE customer_id=?1")
+    Set<Cart> findAllCartByCustomerId(Integer customerId);
 
-//    Cart findCartByCustomerId(Integer customerId);
-//    Set<Cart> findAllCartByCustomerId(Integer customerId);
-
+    @Query(nativeQuery = true, value = "DELETE FROM carts WHERE customer_id=?1")
+    void deleteAllByCustomerId(Integer customerId);
 }
