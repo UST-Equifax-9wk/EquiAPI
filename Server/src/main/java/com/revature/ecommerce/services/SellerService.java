@@ -3,20 +3,26 @@ package com.revature.ecommerce.services;
 import com.revature.ecommerce.entities.Product;
 import com.revature.ecommerce.entities.Seller;
 import com.revature.ecommerce.repositories.SellerRepository;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
 @Service
 public class SellerService {
     private final SellerRepository sellerRepository;
     private final ProductService productService;
 //    private final PasswordEncoder passwordEncoder;
 
+
+    @Autowired
+    public SellerService(SellerRepository sellerRepository, ProductService productService) {
+        this.sellerRepository = sellerRepository;
+        this.productService = productService;
+    }
 
     public Seller findById(Integer sellerId) {
         Optional<Seller> found = sellerRepository.findById(sellerId);
@@ -33,17 +39,17 @@ public class SellerService {
         return sellerRepository.save(seller);
     }
 
-    public Product addProduct(Integer sellerId, Product product) {
+    public Product addNewProduct(Integer sellerId, Product product) {
         Seller seller = findById(sellerId);
         product.setSeller(seller);
-        return productService.addProduct(product);
-    }
-
-    public Product updateInventory(Integer productId, Integer inventory) {
-        return productService.updateInventory(productId, inventory);
+        return productService.addNewProduct(product);
     }
 
     public Seller findByEmail(String email){
         return sellerRepository.findByEmail(email);
+    }
+
+    public List<Product> getProducts(Integer sellerId) {
+        return productService.findBySellerId(sellerId);
     }
 }

@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/sellers")
@@ -27,12 +29,12 @@ public class SellerController {
     }
 
     @PostMapping(path = "/{sellerId}/products")
-    public ResponseEntity<Product> addProduct(@PathVariable String sellerId, @RequestBody Product product) {
-        return ResponseEntity.ok(sellerService.addProduct(Integer.valueOf(sellerId), product));
+    public ResponseEntity<Product> addNewProduct(@PathVariable String sellerId, @RequestBody Product product) {
+        return ResponseEntity.ok(sellerService.addNewProduct(Integer.valueOf(sellerId), product));
     }
 
-    @PutMapping(path = "/{sellerId}/products/{productId}/update-inventory")
-    public ResponseEntity<Product> updateInventory(@PathVariable String sellerId, @PathVariable String productId, @RequestBody Product product) {
-        return ResponseEntity.ok(sellerService.updateInventory(Integer.valueOf(productId), product.getInventory()));
+    @GetMapping(path = "/{sellerId}/products")
+    public ResponseEntity<List<Product>> getProducts(@PathVariable String sellerId) {
+        return ResponseEntity.ok(sellerService.getProducts(Integer.valueOf(sellerId)));
     }
 }

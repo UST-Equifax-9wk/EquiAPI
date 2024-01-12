@@ -35,7 +35,6 @@ public class SecurityConfig  {
     private JwtUtil jwtUtil;
     private CookieUtil cookieUtil;
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -64,7 +63,7 @@ public class SecurityConfig  {
                 .csrf(AbstractHttpConfigurer::disable)
                 .anonymous(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("auth/**").permitAll()
+                        .requestMatchers("auth/**", "products/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -72,7 +71,5 @@ public class SecurityConfig  {
                 .httpBasic(Customizer.withDefaults())
                 .build();
     }
-
-
-
 }
+

@@ -85,7 +85,7 @@ public class AuthController {
     @PostMapping("/seller/sign-in")
     public ResponseEntity<SellerResponse> signInSeller(@RequestBody Seller seller, HttpServletResponse response) throws UserDoesNotExistException {
         Seller auth = sellerService.findByEmail(seller.getEmail());
-        
+
 
         if(auth == null || !passwordEncoder.matches(seller.getPassword(), auth.getPassword())){
             throw new UserDoesNotExistException("Username or password incorrect");

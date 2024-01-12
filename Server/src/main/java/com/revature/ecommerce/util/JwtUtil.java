@@ -85,7 +85,6 @@ public class JwtUtil {
                 .before(new Date());
     }
 
-
 /**
  * For customer authentication filter
  */
@@ -108,4 +107,3 @@ public class JwtUtil {
 
     }
 }
-

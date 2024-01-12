@@ -2,9 +2,6 @@ package com.revature.ecommerce.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 import java.util.Set;
@@ -26,7 +23,7 @@ public class Seller {
     @Column(columnDefinition = "varchar(255) default 'SELLER'")
     private String role;
     @OneToMany(mappedBy = "seller")
-    @JsonManagedReference(value = "seller-products")
+//    @JsonManagedReference(value = "seller-products")
     private Set<Product> products;
 
     public Seller() {
