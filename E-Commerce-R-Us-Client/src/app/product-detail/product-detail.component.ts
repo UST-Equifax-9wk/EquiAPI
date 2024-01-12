@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ProductDetailService } from './product-detail.service';
 import { Product } from '../products/products.component';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
-interface ProductDetail extends Product {
+export interface ProductDetail extends Product {
   description: string;
   inventory: number;
   reviews: Review[];
@@ -18,7 +19,10 @@ interface Review {}
   templateUrl: './product-detail.component.html',
 })
 export class ProductDetailComponent implements OnInit {
-  constructor(private productDetailService: ProductDetailService) {}
+  constructor(
+    private productDetailService: ProductDetailService,
+    private activatedRoute: ActivatedRoute
+  ) {}
   productDetail: ProductDetail = {
     productId: 0,
     name: '',
@@ -33,12 +37,29 @@ export class ProductDetailComponent implements OnInit {
     inventory: 0,
     reviews: [],
   };
-  productId: number = 0;
+  productId: string = '1';
   ngOnInit(): void {
+    this.setProductIdFromUrlSeg();
+    this.getProductDetail(this.productId);
+  }
+
+  setProductIdFromUrlSeg() {
     let that = this;
-    this.productDetailService.getProductDetail(that.productId).subscribe({
+    this.activatedRoute.url.subscribe({
+      next(value) {
+        // console.log('Activated route path: ', value[0].path);
+        let { path } = value[0];
+        that.productId = path;
+      },
+    });
+  }
+
+  getProductDetail(productId: string) {
+    let that = this;
+    this.productDetailService.getProductDetail(productId).subscribe({
       next(value) {
         console.log(value);
+        that.productDetail = value;
       },
     });
   }

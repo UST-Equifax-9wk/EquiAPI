@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Product } from '../products/products.component';
+import { ProductDetail } from './product-detail.component';
 
 @Injectable({
   providedIn: 'root',
@@ -9,9 +10,10 @@ import { Product } from '../products/products.component';
 export class ProductDetailService {
   constructor(private http: HttpClient) {}
 
-  getProductDetail(productId: number): Observable<Product> {
+  getProductDetail(productId: string): Observable<ProductDetail> {
     let url: string = `http://localhost:8080/products/${productId}`;
+    console.log(productId);
     let options: object = {};
-    return this.http.get<Product>(url, options);
+    return this.http.get<ProductDetail>(url, options);
   }
 }
