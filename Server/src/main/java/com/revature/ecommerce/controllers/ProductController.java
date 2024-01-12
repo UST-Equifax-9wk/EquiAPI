@@ -20,8 +20,8 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping(path = "/")
-    public ResponseEntity<List<Product>> getAllProducts(
+    @GetMapping(path = "")
+    public ResponseEntity<List<Product.ProductCard>> getAllProducts(
             @RequestParam(name = "pg_no", defaultValue = "0") Integer pageNum,
             @RequestParam(name = "pg_size", defaultValue = "10") Integer pageSize
     ) {
@@ -34,8 +34,8 @@ public class ProductController {
     }
 
     /**
-     * @param productDto only the productId and the updating fields are required
-     *                   overwriting the existing field with null doesn't work
+     * @param productDto Only the productId and the updating fields are required
+     *                   Overwriting the existing field with null doesn't work
      * @return the response with details of the updated product and 'ok' status
      */
     @PutMapping(path = "/{productId}")

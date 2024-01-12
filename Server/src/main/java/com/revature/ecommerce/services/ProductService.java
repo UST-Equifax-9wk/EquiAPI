@@ -2,6 +2,7 @@ package com.revature.ecommerce.services;
 
 import com.revature.ecommerce.dto.ProductDto;
 import com.revature.ecommerce.entities.Product;
+import com.revature.ecommerce.mappers.ProductMapper;
 import com.revature.ecommerce.repositories.ProductRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,9 @@ public class ProductService {
         this.productMapper = productMapper;
     }
 
-    public List<Product> getAllProducts(Integer pageNum, Integer pageSize) {
+    public List<Product.ProductCard> getAllProducts(Integer pageNum, Integer pageSize) {
         Pageable paging = PageRequest.of(pageNum, pageSize);
-        Page<Product> products = productRepository.findAll(paging);
+        Page<Product.ProductCard> products = productRepository.findAllProjectedBy(paging);
         if (products.hasContent()) {
             return products.getContent();
         } else {
