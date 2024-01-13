@@ -9,13 +9,6 @@ public class AddToCart {
     Double price;
 
 
-    public AddToCart(Integer productId, String customerEmail, Integer quantity, Double price) {
-        this.productId = productId;
-        this.customerEmail = customerEmail;
-        this.quantity = quantity;
-        this.price = price;
-    }
-
     public AddToCart(Integer productId, Integer quantity, Double price) {
         this.productId = productId;
         this.quantity = quantity;

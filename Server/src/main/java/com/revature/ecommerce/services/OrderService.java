@@ -15,10 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.revature.ecommerce.dto.ReceiptDto;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @EnableTransactionManagement
@@ -42,22 +39,19 @@ public class OrderService {
 
     public Order makeAnOrder(String email, MakeOrder makeOrder){
         List<String> list = new ArrayList<String>();
-        StringBuffer listBuffer = new StringBuffer();
+        StringBuilder listBuffer = new StringBuilder();
 
         Date dateOfPurchase = new Date();
         Customer customer = customerService.findByEmail(email);
 
         Order order = new Order();
-        order.setOrderStatus(false);
+        order.setOrderStatus(true);
         order.setDateOfPurchase(dateOfPurchase);
         order.setPaymentMethod(makeOrder.getCreditCard().getCardNumber());
         order.setTotalCost(cartService.getTotal(email));
         order.setShipmentDate(dateOfPurchase);
 
-        /**
-         * I used not too regular symbols to separate the fields and the end of product
-         * This should facilitate easy removal and replacement with new lines
-         */
+
         Set<Cart> customerCarts = customer.getCart();
         for(Cart c : customerCarts){
             list.add(String.valueOf(productService.findById(c.getProductId()).getName()));
@@ -70,7 +64,7 @@ public class OrderService {
             list.add("%");
             list.add(String.valueOf(c.getPrice()));
             list.add("^");
-
+            cartRepository.deleteById(c.getCartId());
         }
         listBuffer.append(list);
         order.setOrderedItems(listBuffer.toString());
@@ -81,30 +75,23 @@ public class OrderService {
         CreditCards creditCards = makeOrder.getCreditCard();
         creditCards.setAvailableBalance(creditCards.getAvailableBalance() - order.getTotalCost());
 
+//        customerCarts = null;
 
 
-        //Empty the carts
-        System.out.println("This is customer id: "+customer.getCustomerId());
-
-        cartRepository.deleteAllByCustomerId(customer.getCustomerId());
-        customerCarts = null;
-
-//        customer.setCart(customerCarts);
+//        Customer savedCustomer = customerService.saveCustomer(customer);
 
         System.out.println(customer.getCart());
 
-        Customer savedCustomer = customerService.saveCustomer(customer);
-
-        System.out.println(savedCustomer.getCart());
-
         Order createdOrder = orderRepository.save(order);
-        ReceiptDto receipt = new ReceiptDto(order.getOrderId(), order.getDateOfPurchase(),order.getPaymentMethod(),order.getTotalCost(), order.getOrderedItems());
+        ReceiptDto receipt = new ReceiptDto(order.getOrderId(), order.getDateOfPurchase(),order.getPaymentMethod(),
+                order.getTotalCost(), order.getOrderedItems());
 
         return createdOrder;
     }
 
     public Order viewOrder(Integer orderNumber){
-        return orderRepository.findById(orderNumber).get();
+        Optional<Order> order = orderRepository.findById(orderNumber);
+        return order.orElse(null);
     }
 
 

@@ -26,40 +26,44 @@ public class CartController {
     private CookieUtil cookieUtil;
 
     @Autowired
-
     public CartController(CartService cartService, JwtUtil jwtUtil, CookieUtil cookieUtil){
         this.cartService = cartService;
         this.jwtUtil = jwtUtil;
         this.cookieUtil = cookieUtil;
     }
 
-    @PostMapping("/customers/add-to-cart")
+    @PostMapping("/customers/cart/add-to-cart")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('CUSTOMER')")
     public Cart addProduct(@RequestBody AddToCart addToCart, HttpServletRequest request, HttpServletResponse response)
     throws UnableToAddItemException {
         String email = jwtUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
         addToCart.setCustomerEmail(email);
-        return cartService.addProductToCart(addToCart);
+        System.out.println(email);
+        return cartService.addProductToCart(email, addToCart);
     }
 
-    @GetMapping("/customers/view-cart")
+    @GetMapping("/customers/cart/view-cart")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     @ResponseStatus(HttpStatus.OK)
     public Set<Cart> viewAllCart(HttpServletRequest request){
         String email = jwtUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
         return cartService.viewCart(email);
     }
 
-    @PostMapping(path = "/customers/remove-item")
+    @PostMapping(path = "/customers/cart/remove-item")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public Set<Cart> deleteFromCart
             (@RequestBody AddToCart addToCart, HttpServletRequest request, HttpServletResponse response) throws UnableToDeleteItemException {
         String email = jwtUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
         return cartService.removeProductFromCart(email, addToCart);
     }
-    @GetMapping(path = "/customer/{email}/cart/get-total")
+    @GetMapping(path = "/customer/cart/get-total")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     @ResponseStatus(HttpStatus.OK)
-    public Double getTotalCost(@PathVariable String email){
+    public Double getTotalCost(HttpServletRequest request, HttpServletResponse response){
+        String email = jwtUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
         return cartService.getTotal(email);
     }
 

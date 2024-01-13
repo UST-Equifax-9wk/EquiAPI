@@ -1,5 +1,6 @@
 package com.revature.ecommerce.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -33,8 +34,9 @@ public class CreditCards {
     @Column(name = "available_balance")
     private Double availableBalance;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JsonBackReference(value = "cardReference")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
     private Customer customer;
 
 
@@ -108,6 +110,14 @@ public class CreditCards {
 
     public void setExpiryDate(String expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     @Override

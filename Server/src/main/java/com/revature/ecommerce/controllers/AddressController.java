@@ -3,10 +3,14 @@ package com.revature.ecommerce.controllers;
 import com.revature.ecommerce.entities.Address;
 import com.revature.ecommerce.exceptions.UnableToAddItemException;
 import com.revature.ecommerce.services.AddressService;
+import com.revature.ecommerce.util.CookieUtil;
+import com.revature.ecommerce.util.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -19,10 +23,14 @@ import java.util.Set;
 public class AddressController {
 
     private final AddressService addressService;
+    private final JwtUtil jwUtil;
+    private final CookieUtil cookieUtil;
 
     @Autowired
-    public AddressController(AddressService addressService) {
+    public AddressController(AddressService addressService, JwtUtil jwtUtil, CookieUtil cookieUtil) {
         this.addressService = addressService;
+        this.jwUtil = jwtUtil;
+        this.cookieUtil = cookieUtil;
     }
 
     @GetMapping(path = "/{addressId}")
@@ -49,30 +57,30 @@ public class AddressController {
     }
 
 
-    @PostMapping(path = "/{email}/add-address")
+    @PostMapping(path = "/add-address")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Address addAddressToCustomer(@PathVariable String email,
-                                    @RequestBody Address address, HttpServletResponse response)
+    @PreAuthorize("hasAuthority('CUSTOMER')")
+    public Address addAddressToCustomer(@RequestBody Address address,
+                                        HttpServletResponse response, HttpServletRequest request)
             throws UnableToAddItemException {
-
+        String email = jwUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
         return addressService.addAddress(email, address);
     }
 
-    @GetMapping(path = "/{email}/get-address")
+    @GetMapping(path = "/get-address")
     @ResponseStatus(HttpStatus.OK)
-    public Set<Address> viewAddress(@PathVariable String email, HttpServletResponse response){
+    @PreAuthorize("hasAuthority('CUSTOMER')")
+    public Set<Address> viewAddress(HttpServletResponse response,HttpServletRequest request ){
+        String email = jwUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
         return addressService.viewAddresses(email);
     }
 
-    @PostMapping(path = "/{email}/delete-address")
+    @PostMapping(path = "/delete-address")
     @ResponseStatus(HttpStatus.OK)
-    public Address deleteAnAddress(@PathVariable String email,
-                                 @RequestBody Address address,
-                                 HttpServletResponse response){
+    public Address deleteAnAddress(@RequestBody Address address,
+                                 HttpServletResponse response, HttpServletRequest request){
+        String email = jwUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
         return addressService.deleteAddress(email, address);
     }
 
-    /**
-     * REMEMBER TO DO: CHECK IF CONFLICTS ARISE WITH ADDRESSES IN CUSTOMER'S CONSTRUCTOR
-     */
 }
