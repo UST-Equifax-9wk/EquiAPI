@@ -37,6 +37,9 @@ public class OrderService {
         this.cartRepository = cartRepository;
     }
 
+    @Autowired
+    EMailService eMailService;
+
     public Order makeAnOrder(String email, MakeOrder makeOrder){
         List<String> list = new ArrayList<String>();
         StringBuilder listBuffer = new StringBuilder();
@@ -85,6 +88,14 @@ public class OrderService {
         Order createdOrder = orderRepository.save(order);
         ReceiptDto receipt = new ReceiptDto(order.getOrderId(), order.getDateOfPurchase(),order.getPaymentMethod(),
                 order.getTotalCost(), order.getOrderedItems());
+
+
+        String subject = "E-Commerce-R-Us";
+        String userEmail = "aekpewoh@gmail.com";
+        String message = "Your order has been processed";
+
+        eMailService.sendEmail(userEmail,subject,message);
+
 
         return createdOrder;
     }
