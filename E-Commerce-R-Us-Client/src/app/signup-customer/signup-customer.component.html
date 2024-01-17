@@ -1,9 +1,9 @@
 <div class="flex w-full justify-center items-center h-[80vh]">
   <form
     (ngSubmit)="onSubmit()"
-    class="flex flex-col rounded-lg w-80 gap-2 [&>div]:flex-col [&>div]:flex [&>input]:border-black [&>input]:border-2 shadow-md p-10"
+    class="flex flex-col rounded-lg w-100 gap-5 shadow-md p-10"
   >
-    <h2 class="font-bold text-2xl text-center">Welcome</h2>
+    <h3 class="text-center">Welcome</h3>
     <div>
       <label for="firstName">First Name</label>
       <input
@@ -46,15 +46,12 @@
       />
     </div>
 
-    <button
-      type="submit"
-      class="w-32 p-2 bg-green-500 border-2 rounded-full mx-auto my-2"
-    >
-      Signup
-    </button>
+    <button type="submit" class="btnRed">Signup</button>
     <p class="text-center">Already have an account?</p>
     <p class="text-center">
-      <a href="/" class="text-blue-700 underline underline-offset-1">Login</a>
+      <a href="/signin" class="text-blue-700 underline underline-offset-1"
+        >Login</a
+      >
     </p>
   </form>
 </div>
