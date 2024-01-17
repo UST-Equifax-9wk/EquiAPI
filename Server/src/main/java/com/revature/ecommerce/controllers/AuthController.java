@@ -1,4 +1,5 @@
 package com.revature.ecommerce.controllers;
+import com.revature.ecommerce.dto.CustomerLoginDto;
 import com.revature.ecommerce.dto.CustomerResponse;
 import com.revature.ecommerce.entities.Customer;
 import com.revature.ecommerce.exceptions.UserAlreadyExistsException;
@@ -51,10 +52,12 @@ public class AuthController {
     /* SIGN IN FUNCTIONS FOR SELLER & CUSTOMER*/
 
     @PostMapping("/customer/sign-in")
-    public ResponseEntity<CustomerResponse> signInCustomer(@RequestBody Customer customer, HttpServletResponse response) throws UserDoesNotExistException {
+    public ResponseEntity<CustomerResponse> signInCustomer(@RequestBody CustomerLoginDto customer, HttpServletResponse response) throws UserDoesNotExistException {
         Customer auth = customerService.findByEmail(customer.getEmail());
+        System.out.println(auth.getEmail());
+        System.out.println(passwordEncoder.matches(customer.getPassword(), auth.getPassword()));
 
-        if(auth == null || !passwordEncoder.matches(customer.getPassword(), auth.getPassword())){
+        if(auth.getEmail() == null || !passwordEncoder.matches(customer.getPassword(), auth.getPassword())){
             throw new UserDoesNotExistException("Username or password incorrect");
         }
 

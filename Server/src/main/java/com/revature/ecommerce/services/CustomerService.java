@@ -34,7 +34,6 @@ public class CustomerService {
             throw new UserAlreadyExistsException("Email already associated with user. Forgot password?");
         }
         customer.setRole("CUSTOMER");
-        customer.setPassword(hash(customer.getPassword()));
 
         return customerRepository.save(customer);
 
@@ -50,21 +49,7 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    /**
-     * Authentication method requires Customer basic fields
-     * @param customer
-     * @return
-     * @throws UserDoesNotExistException
-     */
-    public Boolean authenticateUser(Customer customer) throws UserDoesNotExistException{
 
-        Customer authCustomer = customerRepository.findByEmail(customer.getEmail());
-        if(authCustomer ==null){
-            throw new UserDoesNotExistException("This customer is not in database");
-        }
-
-        return checkHash(customer.getPassword(), authCustomer.getPassword());
-    }
 
     /**
      * View customer by entering email
@@ -75,25 +60,7 @@ public class CustomerService {
         return customerRepository.findByEmail(email);
     }
 
-    /**
-     * BCrypt encryption of password
-     * @param text
-     * @return
-     */
-    public String hash(String text) {
-        String salt = BCrypt.gensalt(12);
-        return BCrypt.hashpw(text, salt);
-    }
 
-    /**
-     * BCrypt comparison of passwords
-     * @param text
-     * @param hash
-     * @return
-     */
-    public boolean checkHash(String text, String hash) {
-        return BCrypt.checkpw(text, hash);
-    }
 
     /**
      * Unsure if this must be used?
