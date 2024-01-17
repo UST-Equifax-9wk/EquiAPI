@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.io.Decoders;
 
 import javax.crypto.SecretKey;
+import java.time.LocalDate;
 import java.util.*;
 
 @Component
@@ -42,7 +43,12 @@ public class JwtUtil {
     }
 
     public String generateToken(String email, String role){
-        Date exp = new Date(System.currentTimeMillis()*1000 + 60 * 60 * 24 * 7);
+      Date currentDate = new Date();
+      Calendar calendar = Calendar.getInstance();
+      calendar.setTime(currentDate);
+      calendar.add(Calendar.DAY_OF_MONTH, 2);
+      Date exp = calendar.getTime();
+//        Date exp = new Date(System.currentTimeMillis()*1000 + 60 * 60 * 24 * 7);
 
         return Jwts.builder()
                 .subject(email+","+role)

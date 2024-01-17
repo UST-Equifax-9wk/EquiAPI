@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,27 +43,36 @@ public class Customer implements UserDetails {
     @OneToMany(mappedBy = "customer")
     private Set<Address> addresses = new HashSet<Address>();
 
+    @Getter
     @JsonManagedReference(value = "orderReference")
     @OneToMany(mappedBy = "customer")
     private Set<Order> orders = new HashSet<Order>();
 
+    @Getter
+    @JsonManagedReference(value = "cardReference")
+    @OneToMany(mappedBy = "customer")
+    private Set<CreditCards> cards = new HashSet<CreditCards>();
 
+    public void setCards(Set<CreditCards> cards) {
+        this.cards = cards;
+    }
 
     public Customer() {
     }
 
     public Customer(String email, String firstName, String lastName, String password,
-                    Set<Cart> carts, Set<Address> addresses) {
+                    Set<Cart> carts, Set<Address> addresses, Set<Order> orders) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.carts = carts;
         this.addresses = addresses;
+        this.orders = orders;
     }
 
     public Customer(Integer customerId, String email, String firstName, String lastName, String password,
-                    Set<Cart> carts, Set<Address> addresses) {
+                    Set<Cart> carts, Set<Address> addresses, Set<Order> orders) {
         this.customerId = customerId;
         this.email = email;
         this.firstName = firstName;
@@ -70,6 +80,7 @@ public class Customer implements UserDetails {
         this.password = password;
         this.carts = carts;
         this.addresses = addresses;
+        this.orders = orders;
     }
 
     @Override

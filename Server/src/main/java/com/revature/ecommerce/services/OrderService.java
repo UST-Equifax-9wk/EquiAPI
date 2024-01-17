@@ -6,6 +6,7 @@ import com.revature.ecommerce.entities.CreditCards;
 import com.revature.ecommerce.entities.Customer;
 import com.revature.ecommerce.entities.Order;
 import com.revature.ecommerce.repositories.CartRepository;
+import com.revature.ecommerce.repositories.CreditCardsRepository;
 import com.revature.ecommerce.repositories.OrderRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.revature.ecommerce.dto.ReceiptDto;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @EnableTransactionManagement
@@ -29,82 +26,91 @@ public class OrderService {
     private CartService cartService;
     private ProductService productService;
     private CartRepository cartRepository;
+    private CreditCardsRepository cardsRepository;
 
     @Autowired
     public OrderService(OrderRepository orderRepository, CustomerService customerService,
-                        CartService cartService, ProductService productService, CartRepository cartRepository){
+                        CartService cartService, ProductService productService,
+                        CartRepository cartRepository, CreditCardsRepository cardsRepository){
         this.orderRepository = orderRepository;
         this.customerService = customerService;
         this.cartService = cartService;
         this.productService = productService;
         this.cartRepository = cartRepository;
+        this.cardsRepository = cardsRepository;
     }
+
+    @Autowired
+    EMailService eMailService;
+
 
     public Order makeAnOrder(String email, MakeOrder makeOrder){
         List<String> list = new ArrayList<String>();
-        StringBuffer listBuffer = new StringBuffer();
+        StringBuilder listBuffer = new StringBuilder();
 
         Date dateOfPurchase = new Date();
         Customer customer = customerService.findByEmail(email);
 
         Order order = new Order();
-        order.setOrderStatus(false);
+        order.setOrderStatus(true);
         order.setDateOfPurchase(dateOfPurchase);
         order.setPaymentMethod(makeOrder.getCreditCard().getCardNumber());
         order.setTotalCost(cartService.getTotal(email));
         order.setShipmentDate(dateOfPurchase);
 
-        /**
-         * I used not too regular symbols to separate the fields and the end of product
-         * This should facilitate easy removal and replacement with new lines
-         */
+
         Set<Cart> customerCarts = customer.getCart();
         for(Cart c : customerCarts){
-            list.add(String.valueOf(productService.findById(c.getProductId()).getName()));
+            list.add("productId: "+String.valueOf(productService.findById(c.getProductId()).getName()));
             list.add("%");
-            list.add(String.valueOf(productService.findById(c.getProductId()).getProductType()));
+            list.add("productType: "+String.valueOf(productService.findById(c.getProductId()).getProductType()));
             list.add("%");
-            list.add(String.valueOf(productService.findById(c.getProductId()).getDescription()));
+            list.add("productDescription: "+String.valueOf(productService.findById(c.getProductId()).getDescription()));
             list.add("%");
-            list.add(String.valueOf(c.getQuantity()));
+            list.add("productQuantity: "+String.valueOf(c.getQuantity()));
             list.add("%");
-            list.add(String.valueOf(c.getPrice()));
-            list.add("^");
+            list.add("productPrice: "+String.valueOf(c.getPrice()));
+            list.add("#");
 
+            cartRepository.deleteById(c.getCartId());
         }
         listBuffer.append(list);
         order.setOrderedItems(listBuffer.toString());
 
-        //Create receipt
 
-        //Correct the balance on card
         CreditCards creditCards = makeOrder.getCreditCard();
         creditCards.setAvailableBalance(creditCards.getAvailableBalance() - order.getTotalCost());
 
 
-
-        //Empty the carts
-        System.out.println("This is customer id: "+customer.getCustomerId());
-
-        cartRepository.deleteAllByCustomerId(customer.getCustomerId());
-        customerCarts = null;
-
-//        customer.setCart(customerCarts);
-
-        System.out.println(customer.getCart());
-
-        Customer savedCustomer = customerService.saveCustomer(customer);
-
-        System.out.println(savedCustomer.getCart());
-
         Order createdOrder = orderRepository.save(order);
-        ReceiptDto receipt = new ReceiptDto(order.getOrderId(), order.getDateOfPurchase(),order.getPaymentMethod(),order.getTotalCost(), order.getOrderedItems());
+        ReceiptDto receipt = new ReceiptDto(order.getOrderId(), order.getDateOfPurchase(),order.getPaymentMethod(),
+                order.getTotalCost(), order.getOrderedItems());
+
+
+        String subject = "E-Commerce-R-Us";
+        String userEmail = "aekpewoh@gmail.com";
+        String message = "Your order has been processed";
+
+        eMailService.sendEmail(userEmail,subject,message);
+
 
         return createdOrder;
     }
 
     public Order viewOrder(Integer orderNumber){
-        return orderRepository.findById(orderNumber).get();
+        Optional<Order> order = orderRepository.findById(orderNumber);
+        return order.orElse(null);
+    }
+
+
+    public Order deleteOrder(String email, Order order){
+        Double value = order.getTotalCost();
+        String cardNumber = order.getPaymentMethod();
+
+        CreditCards card = cardsRepository.findByCardNumber(cardNumber);
+        card.setAvailableBalance(card.getAvailableBalance()+value);
+        orderRepository.delete(order);
+        return order;
     }
 
 
