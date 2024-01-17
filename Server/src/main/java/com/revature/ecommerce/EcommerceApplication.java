@@ -14,13 +14,13 @@ public class EcommerceApplication {
 
 	public static void main(String[] args) {
 
-		ApplicationContext iocContainer = SpringApplication.run(EcommerceApplication.class, args);
-		ProductController productController = (ProductController) iocContainer.getBean(ProductController.class);
-		CustomerController customerController = (CustomerController) iocContainer.getBean(CustomerController.class);
-		CartController cartController = (CartController) iocContainer.getBean(CartController.class);
-		OrderController orderController = (OrderController) iocContainer.getBean(OrderController.class);
-		AddressController addressController = (AddressController) iocContainer.getBean(AddressController.class);
-		CardController cardController = (CardController) iocContainer.getBean(CardController.class);
-		SellerController sellerController = (SellerController) iocContainer.getBean(SellerController.class);
+		SpringApplication.run(EcommerceApplication.class, args);
+//		ProductController productController = (ProductController) iocContainer.getBean(ProductController.class);
+//		CustomerController customerController = (CustomerController) iocContainer.getBean(CustomerController.class);
+//		CartController cartController = (CartController) iocContainer.getBean(CartController.class);
+//		OrderController orderController = (OrderController) iocContainer.getBean(OrderController.class);
+//		AddressController addressController = (AddressController) iocContainer.getBean(AddressController.class);
+//		CardController cardController = (CardController) iocContainer.getBean(CardController.class);
+//		SellerController sellerController = (SellerController) iocContainer.getBean(SellerController.class);
 	}
 }

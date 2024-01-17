@@ -1,11 +1,9 @@
 package com.revature.ecommerce.util;
 
 import com.revature.ecommerce.entities.Customer;
-import com.revature.ecommerce.entities.Seller;
 import com.revature.ecommerce.exceptions.UserDoesNotExistException;
 
 import com.revature.ecommerce.services.CustomerService;
-import com.revature.ecommerce.services.SellerService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -20,20 +18,18 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.io.Decoders;
 
 import javax.crypto.SecretKey;
-import java.time.LocalDate;
 import java.util.*;
 
 @Component
 public class JwtUtil {
 
   private final CustomerService customerService;
-  private final SellerService sellerService;
+
   private final String secret;
 
   @Autowired
-  public JwtUtil(CustomerService customerService, SellerService sellerService, @Value("${secret.key}") String secret){
+  public JwtUtil(CustomerService customerService, @Value("${secret.key}") String secret){
        this.customerService = customerService;
-       this.sellerService = sellerService;
        this.secret = secret;
   }
 
@@ -102,13 +98,9 @@ public class JwtUtil {
         GrantedAuthority customerAuthority = new SimpleGrantedAuthority(role);
         Collection<GrantedAuthority> authorities = Collections.singleton(customerAuthority);
 
-        if(role.equals("CUSTOMER")){
-            Customer customer = customerService.findByEmail(email);
-            return new UsernamePasswordAuthenticationToken(customer.getEmail(), null, authorities);
-        } else {
-            Seller seller = sellerService.findByEmail(email);
-            return new UsernamePasswordAuthenticationToken(seller.getEmail(), null, authorities);
-        }
+        Customer customer = customerService.findByEmail(email);
+        return new UsernamePasswordAuthenticationToken(customer.getEmail(), null, authorities);
+
 
 
     }

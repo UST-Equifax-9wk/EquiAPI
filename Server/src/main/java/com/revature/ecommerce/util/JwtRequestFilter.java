@@ -1,10 +1,6 @@
 package com.revature.ecommerce.util;
 
-import com.revature.ecommerce.entities.Customer;
-import com.revature.ecommerce.entities.Seller;
 import com.revature.ecommerce.exceptions.UserDoesNotExistException;
-import com.revature.ecommerce.repositories.CustomerRepository;
-import com.revature.ecommerce.repositories.SellerRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

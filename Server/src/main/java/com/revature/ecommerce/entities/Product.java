@@ -52,11 +52,6 @@ public class Product {
     @Column
     private Integer threshold;
 
-    @ManyToOne
-//    @JoinColumn(name = "seller_id")
-//    @JsonBackReference(value = "seller-products")
-    private Seller seller;
-
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private Set<Review> reviews;
 

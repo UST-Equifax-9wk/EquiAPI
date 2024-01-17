@@ -39,47 +39,35 @@ public class Customer implements UserDetails {
     @OneToMany(mappedBy = "customer")
     private Set<Cart> carts = new HashSet<Cart>();
 
-    @JsonManagedReference(value = "addressReference")
-    @OneToMany(mappedBy = "customer")
-    private Set<Address> addresses = new HashSet<Address>();
+
 
     @Getter
     @JsonManagedReference(value = "orderReference")
     @OneToMany(mappedBy = "customer")
     private Set<Order> orders = new HashSet<Order>();
 
-    @Getter
-    @JsonManagedReference(value = "cardReference")
-    @OneToMany(mappedBy = "customer")
-    private Set<CreditCards> cards = new HashSet<CreditCards>();
-
-    public void setCards(Set<CreditCards> cards) {
-        this.cards = cards;
-    }
 
     public Customer() {
     }
 
     public Customer(String email, String firstName, String lastName, String password,
-                    Set<Cart> carts, Set<Address> addresses, Set<Order> orders) {
+                    Set<Cart> carts,  Set<Order> orders) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.carts = carts;
-        this.addresses = addresses;
         this.orders = orders;
     }
 
     public Customer(Integer customerId, String email, String firstName, String lastName, String password,
-                    Set<Cart> carts, Set<Address> addresses, Set<Order> orders) {
+                    Set<Cart> carts,  Set<Order> orders) {
         this.customerId = customerId;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.carts = carts;
-        this.addresses = addresses;
         this.orders = orders;
     }
 
@@ -159,13 +147,7 @@ public class Customer implements UserDetails {
         this.carts = carts;
     }
 
-    public Set<Address> getAddresses() {
-        return addresses;
-    }
 
-    public void setAddresses(Set<Address> addresses) {
-        this.addresses = addresses;
-    }
 
 
     public String getRole() {

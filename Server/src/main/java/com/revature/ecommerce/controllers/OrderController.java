@@ -1,6 +1,5 @@
 package com.revature.ecommerce.controllers;
 
-import com.revature.ecommerce.dto.MakeOrder;
 import com.revature.ecommerce.entities.Order;
 import com.revature.ecommerce.services.OrderService;
 import com.revature.ecommerce.util.CookieUtil;
@@ -26,13 +25,13 @@ public class OrderController {
         this.cookieUtil = cookieUtil;
     }
 
-    @PostMapping(path = "/customers/order/checkout")
-    @PreAuthorize("hasAuthority('CUSTOMER')")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public Order makeAnOrder(@RequestBody MakeOrder makeOrder, HttpServletResponse response, HttpServletRequest request){
-        String email = jwUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
-        return orderService.makeAnOrder(email, makeOrder);
-    }
+//    @PostMapping(path = "/customers/order/checkout")
+//    @PreAuthorize("hasAuthority('CUSTOMER')")
+//    @ResponseStatus(HttpStatus.ACCEPTED)
+//    public Order makeAnOrder(@RequestBody MakeOrder makeOrder, HttpServletResponse response, HttpServletRequest request){
+//        String email = jwUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
+//        return orderService.makeAnOrder(email, makeOrder);
+//    }
 
     @GetMapping(path="/customers/view-order/{orderNumber}")
     @ResponseStatus(HttpStatus.OK)

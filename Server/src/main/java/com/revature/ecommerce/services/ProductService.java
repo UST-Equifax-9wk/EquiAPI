@@ -66,7 +66,4 @@ public class ProductService {
         productRepository.delete(product);
     }
 
-    public List<Product> findBySellerId(Integer sellerId) {
-        return productRepository.findBySellerId(sellerId);
-    }
 }
