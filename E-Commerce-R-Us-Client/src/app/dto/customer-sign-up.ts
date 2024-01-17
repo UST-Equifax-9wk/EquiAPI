@@ -1,4 +1,4 @@
-export class SignUpSeller {
+export class CustomerSignUp {
   constructor(
     public firstName: string,
     public lastName: string,
