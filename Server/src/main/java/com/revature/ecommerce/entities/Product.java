@@ -38,7 +38,7 @@ public class Product {
 
     @Column(name = "product_type")
     private String productType;
-    @Column  //Setting default values ???
+    @Column
     private Integer inventory;
 
     @Column

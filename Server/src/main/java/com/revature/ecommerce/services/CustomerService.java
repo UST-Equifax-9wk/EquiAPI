@@ -1,15 +1,20 @@
 package com.revature.ecommerce.services;
 
+import com.revature.ecommerce.dto.CustomerDto;
 import com.revature.ecommerce.entities.Customer;
 import com.revature.ecommerce.exceptions.UserAlreadyExistsException;
 import com.revature.ecommerce.exceptions.UserDoesNotExistException;
+import com.revature.ecommerce.interfaces.CustomerDetails;
+import com.revature.ecommerce.mappers.CustomerMapper;
 import com.revature.ecommerce.repositories.CustomerRepository;
 import jakarta.transaction.Transactional;
+import org.hibernate.ObjectNotFoundException;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import java.util.Optional;
 
 
 @Service
@@ -17,10 +22,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Transactional(Transactional.TxType.REQUIRED)
 public class CustomerService {
     private final CustomerRepository customerRepository;
+    private final CustomerMapper customerMapper;
 
     @Autowired
-    public CustomerService(CustomerRepository customerRepository){
+    public CustomerService(CustomerRepository customerRepository, CustomerMapper customerMapper){
         this.customerRepository = customerRepository;
+        this.customerMapper = customerMapper;
     }
 
     /**
@@ -69,5 +76,28 @@ public class CustomerService {
      */
     public Customer findByEmail(String email) {
         return customerRepository.findByEmail(email);
+    }
+
+    public Optional<CustomerDetails> findCustomerDetailsByCustomerId(Integer customerId) {
+        return customerRepository.findCustomerDetailsByCustomerId(customerId);
+    }
+
+    public Optional<Customer> findById(Integer customerId) {
+        return customerRepository.findById(customerId);
+    }
+
+    /**
+     *
+     * @param customerDto
+     */
+    public void updateCustomer(CustomerDto customerDto) {
+        Optional<Customer> optionalCustomer = findById(customerDto.customerId);
+        if (optionalCustomer.isPresent()) {
+            Customer customer = optionalCustomer.get();
+            customerMapper.updateCustomerFromDto(customerDto, customer);
+            customerRepository.save(customer);
+        } else {
+            throw new ObjectNotFoundException(Customer.class, "Customer");
+        }
     }
 }
