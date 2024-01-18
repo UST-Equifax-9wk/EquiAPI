@@ -1,26 +1,11 @@
-<article
-  class="bg-white p-3 min-h-[500px] max-w-64"
-  (click)="goToProductDetail(product.productId)"
->
-  <a
-    title="Ranjithsiji, CC BY-SA 4.0 &lt;https://creativecommons.org/licenses/by-sa/4.0&gt;, via Wikimedia Commons"
-    href="https://commons.wikimedia.org/wiki/File:No-Image-Placeholder.svg"
-    *ngIf="product.image?.url == null; else image"
-    ><img
-      width="256"
-      alt="No-Image-Placeholder"
-      src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/256px-No-Image-Placeholder.svg.png"
-    />
-  </a>
-  <ng-template #image>
-    <img width="256" />
-  </ng-template>
-  <h3>{{ product.name }}</h3>
-  <a routerLink=""
-    >{{ product.seller?.firstName }} {{ product.seller?.lastName }}</a
-  >
-  <p>
-    <span>Retail price: </span><span>{{ product.retailPrice | currency }}</span>
-  </p>
-  <p><span>Discounted price: </span>{{ product.discountedPrice | currency }}</p>
-</article>
+<div class="flex flex-col gap-3 p-3 h-[500px] max-72 cursor-pointer">
+  <h4 class="text-third">{{ product.name }}</h4>
+  <div class="felx w-full">
+    <p [ngClass]="{ 'line-through': product.discountedPrice !== 0 }">
+      {{ product.retailPrice | currency }}
+    </p>
+    <p *ngIf="product.discountedPrice !== 0">
+      {{ product.discountedPrice | currency }}
+    </p>
+  </div>
+</div>

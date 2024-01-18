@@ -1,4 +1,4 @@
-<section class="flex gap-4 flex-wrap justify-center">
+<section class="flex gap-5 flex-wrap justify-center">
   <ng-container *ngFor="let product of products">
     <app-product-card [product]="product"></app-product-card>
   </ng-container>
@@ -8,7 +8,7 @@
     *ngIf="moreProducts; else noMoreProducts"
     class="w-full flex justify-end"
   >
-    <button (click)="nextPage()" class="bg-white p-2">Next</button>
+    <button (click)="nextPage()" class="btnWhite">Next</button>
   </div>
   <ng-template #noMoreProducts>
     <div class="text-center w-full bg-white py-2">No more products</div>
