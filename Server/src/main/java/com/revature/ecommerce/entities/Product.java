@@ -22,13 +22,6 @@ public class Product {
         String getName();
         Double getRetailPrice();
         Double getDiscountedPrice();
-        SellerSummary getSeller();
-
-        interface SellerSummary {
-            Integer getId();
-            String getFirstName();
-            String getLastName();
-        }
     }
 
     @Id
@@ -38,42 +31,33 @@ public class Product {
 
     @Column(name = "product_type")
     private String productType;
-    @Column
-    private Integer inventory;
 
     @Column
     private String name;
+
     @Column(length = 2000)
     private String description;
     @Column(name = "retail_price")
     private Double retailPrice;
     @Column(name = "discounted_price")
     private Double discountedPrice;
-    @Column
-    private Integer threshold;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private Set<Review> reviews;
 
-//    @OneToOne(mappedBy = "product")
-//    private Cart cart;
   
     public Product() {
     }
 
-    public Product(String productType, Integer inventory, Integer threshold, String name, String description) {
+    public Product(String productType, Integer threshold, String name, String description) {
         this.productType = productType;
-        this.inventory = inventory;
-        this.threshold = threshold;
         this.name = name;
         this.description = description;
     }
 
-    public Product(Integer productId, String productType, Integer inventory, Integer threshold, String name, String description) {
+    public Product(Integer productId, String productType, Integer threshold, String name, String description) {
         this.productId = productId;
         this.productType = productType;
-        this.inventory = inventory;
-        this.threshold = threshold;
         this.name = name;
         this.description = description;
     }
@@ -92,14 +76,6 @@ public class Product {
 
     public void setProductType(String productType) {
         this.productType = productType;
-    }
-
-    public Integer getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(Integer inventory) {
-        this.inventory = inventory;
     }
 
     public String getName() {
@@ -134,13 +110,6 @@ public class Product {
         this.discountedPrice = discountedPrice;
     }
 
-    public Integer getThreshold() {
-        return threshold;
-    }
-
-    public void setThreshold(Integer threshold) {
-        this.threshold = threshold;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -148,14 +117,14 @@ public class Product {
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
         return Objects.equals(productId, product.productId) && Objects.equals(productType, product.productType)
-                && Objects.equals(inventory, product.inventory) && Objects.equals(name, product.name)
+                && Objects.equals(name, product.name)
                 && Objects.equals(description, product.description) && Objects.equals(retailPrice, product.retailPrice)
-                && Objects.equals(discountedPrice, product.discountedPrice) && Objects.equals(threshold, product.threshold);
+                && Objects.equals(discountedPrice, product.discountedPrice);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, productType, inventory, name, description, retailPrice, discountedPrice, threshold);
+        return Objects.hash(productId, productType, name, description, retailPrice, discountedPrice);
     }
 
     @Override
@@ -163,12 +132,10 @@ public class Product {
         return "Product{" +
                 "productId=" + productId +
                 ", productType='" + productType + '\'' +
-                ", inventory=" + inventory +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", retailPrice=" + retailPrice +
                 ", discountedPrice=" + discountedPrice +
-                ", threshold=" + threshold +
                 '}';
     }
 }
