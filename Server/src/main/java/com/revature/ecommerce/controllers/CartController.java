@@ -38,8 +38,6 @@ public class CartController {
     public Cart addProduct(@RequestBody AddToCart addToCart, HttpServletRequest request, HttpServletResponse response)
     throws UnableToAddItemException {
         String email = jwtUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
-        addToCart.setCustomerEmail(email);
-        System.out.println(email);
         return cartService.addProductToCart(email, addToCart);
     }
 
@@ -58,13 +56,6 @@ public class CartController {
             (@RequestBody AddToCart addToCart, HttpServletRequest request, HttpServletResponse response) throws UnableToDeleteItemException {
         String email = jwtUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
         return cartService.removeProductFromCart(email, addToCart);
-    }
-    @GetMapping(path = "/customer/cart/get-total")
-    @PreAuthorize("hasAuthority('CUSTOMER')")
-    @ResponseStatus(HttpStatus.OK)
-    public Double getTotalCost(HttpServletRequest request, HttpServletResponse response){
-        String email = jwtUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
-        return cartService.getTotal(email);
     }
 
 

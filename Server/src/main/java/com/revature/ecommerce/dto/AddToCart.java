@@ -5,13 +5,11 @@ import java.util.Objects;
 public class AddToCart {
     Integer productId;
     String customerEmail;
-    Integer quantity;
     Double price;
 
 
-    public AddToCart(Integer productId, Integer quantity, Double price) {
+    public AddToCart(Integer productId, Double price) {
         this.productId = productId;
-        this.quantity = quantity;
         this.price = price;
     }
 
@@ -31,14 +29,6 @@ public class AddToCart {
         this.customerEmail = customerEmail;
     }
 
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
     public Double getPrice() {
         return price;
     }
@@ -52,20 +42,19 @@ public class AddToCart {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AddToCart addToCart = (AddToCart) o;
-        return Objects.equals(productId, addToCart.productId) && Objects.equals(customerEmail, addToCart.customerEmail) && Objects.equals(quantity, addToCart.quantity);
+        return Objects.equals(productId, addToCart.productId) && Objects.equals(customerEmail, addToCart.customerEmail);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, customerEmail, quantity);
+        return Objects.hash(productId, customerEmail);
     }
 
     @Override
     public String toString() {
         return "AddToCart{" +
                 "productId=" + productId +
-                ", customerEmail='" + customerEmail + '\'' +
-                ", quantity=" + quantity +
+                ", customerEmail='" + customerEmail +
                 '}';
     }
 }

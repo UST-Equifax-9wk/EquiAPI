@@ -16,52 +16,29 @@ public class Cart {
     Integer cartId;
 
     @Column
-    Integer quantity;
-
-    @Column
     Integer productId;
 
     @Column
     Double price;
 
-    @Column
-    Double totalPrice;
 
-//    public Order getOrder() {
-//        return order;
-//    }
-//
-//    public void setOrder(Order order) {
-//        this.order = order;
-//    }
-
-    @JsonBackReference(value = "customerReference")
+    @JsonBackReference(value = "cartReference")
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
     private Customer customer;
 
-//    @JsonBackReference(value = "orderReference")
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "order_id", referencedColumnName = "order_id")
-//    private Order order;
 
     /**
      * Constructor with all parameters
      * @param cartId
-     * @param quantity
      * @param productId
-     * @param totalPrice
      * @param customer
      * @param price
      */
-    public Cart(Integer cartId, Integer quantity, Integer productId, Double totalPrice,
-                Customer customer, Double price) {
+    public Cart(Integer cartId, Integer productId, Customer customer, Double price) {
         this.cartId = cartId;
-        this.quantity = quantity;
         this.productId = productId;
-        this.totalPrice = totalPrice;
         this.customer = customer;
-//        this.order = order;
         this.price = price;
     }
 
@@ -72,45 +49,27 @@ public class Cart {
     }
 
     /**
-     * Constructor without Order and without cartId
-     * @param quantity
+     *
      * @param customer
      * @param productId
-     * @param totalPrice
+     * @param price
      */
-    public Cart(Integer quantity, Customer customer, Integer productId, Double totalPrice, Double price) {
-        this.quantity = quantity;
+    public Cart(Customer customer, Integer productId, Double price) {
         this.customer = customer;
         this.productId = productId;
-        this.totalPrice = totalPrice;
         this.price = price;
     }
 
-
     /**
-     * I am unsure if I used this constructor anymore, but since it doesn't hurt...
-     * @param quantity
-     * @param customer
-     */
-    public Cart(Integer quantity, Customer customer) {
-        this.quantity = quantity;
-        this.customer = customer;
-    }
-
-    /**
-     * Constructor without the order as the order is only available at the time of purchase...Lazy?
      * @param cartId
-     * @param quantity
      * @param customer
      * @param productId
-     * @param totalPrice
+     * @param price
      */
-    public Cart(Integer cartId, Integer quantity, Customer customer, Integer productId, Double totalPrice, Double price) {
+    public Cart(Integer cartId, Customer customer, Integer productId, Double price) {
         this.cartId = cartId;
-        this.quantity = quantity;
         this.productId = productId;
         this.customer = customer;
-        this.totalPrice = totalPrice;
         this.price = price;
     }
 
@@ -134,23 +93,6 @@ public class Cart {
         return cartId;
     }
 
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
     public Double getPrice() {
         return price;
     }
@@ -164,23 +106,20 @@ public class Cart {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cart cart = (Cart) o;
-        return Objects.equals(cartId, cart.cartId)
-                && Objects.equals(quantity, cart.quantity);
-        //&& Objects.equals(customer, cart.customer);
+        return Objects.equals(cartId, cart.cartId) && Objects.equals(productId, cart.productId) && Objects.equals(price, cart.price) && Objects.equals(customer, cart.customer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cartId, quantity)//, customer)
-                ;
+        return Objects.hash(cartId, productId, price, customer);
     }
 
     @Override
     public String toString() {
         return "Cart{" +
-                "serialNumber=" + cartId +
-                ", quantity=" + quantity +
+                "cartId=" + cartId +
                 ", productId=" + productId +
+                ", price=" + price +
                 ", customer=" + customer +
                 '}';
     }

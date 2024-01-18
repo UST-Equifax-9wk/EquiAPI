@@ -1,5 +1,6 @@
 package com.revature.ecommerce.controllers;
 
+import com.revature.ecommerce.dto.OrderDto;
 import com.revature.ecommerce.entities.Order;
 import com.revature.ecommerce.services.OrderService;
 import com.revature.ecommerce.util.CookieUtil;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
@@ -25,18 +28,35 @@ public class OrderController {
         this.cookieUtil = cookieUtil;
     }
 
-//    @PostMapping(path = "/customers/order/checkout")
-//    @PreAuthorize("hasAuthority('CUSTOMER')")
-//    @ResponseStatus(HttpStatus.ACCEPTED)
-//    public Order makeAnOrder(@RequestBody MakeOrder makeOrder, HttpServletResponse response, HttpServletRequest request){
-//        String email = jwUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
-//        return orderService.makeAnOrder(email, makeOrder);
-//    }
+    @PostMapping(path = "/customers/order/checkout")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Order makeAnOrder(HttpServletResponse response, HttpServletRequest request){
+        String email = jwUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
+        return orderService.makeAnOrder(email);
+    }
 
     @GetMapping(path="/customers/view-order/{orderNumber}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('CUSTOMER')")
-    public Order viewOrder(@PathVariable Integer orderNumber){
+    public OrderDto viewOrder(@PathVariable Integer orderNumber){
         return orderService.viewOrder(orderNumber);
+    }
+
+    /*NOT DONE*/
+//    @GetMapping(path = "/customers/delete-order")
+//    @ResponseStatus(HttpStatus.OK)
+//    @PreAuthorize("hasAuthority('CUSTOMER')")
+//    public Set<OrderDto> viewOrderByCustomer(HttpServletRequest request){
+//        String email = jwUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
+//        return orderService.viewOrderByCustomer(email);
+//    }
+
+    @GetMapping(path="/customers/view-order")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('CUSTOMER')")
+    public Set<OrderDto> viewCustomerOrder(HttpServletRequest request){
+        String email = jwUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
+        return orderService.viewOrderByCustomer (email);
     }
 }
