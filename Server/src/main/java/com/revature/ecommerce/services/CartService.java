@@ -46,43 +46,20 @@ public class CartService {
      * @throws UnableToAddItemException
      */
     public Cart addProductToCart (String email, AddToCart addToCart) throws UnableToAddItemException{
-        Customer customer = customerRepository.findByEmail(addToCart.getCustomerEmail());
-
+        Customer customer = customerRepository.findByEmail(email);
         Product product = productRepository.getReferenceById(addToCart.getProductId());
 
-        if(customerRepository.findByEmail(addToCart.getCustomerEmail())==null) {
-            throw new UnableToAddItemException("User does not exist");
-            }
-
-        System.out.println(addToCart.getQuantity());
-
-        if (addToCart.getQuantity() > product.getInventory()) {
-            addToCart.setQuantity(product.getInventory());
-        }
-
-        Customer presentCustomer = customerRepository.findByEmail(addToCart.getCustomerEmail());
-        Set<Cart> carts = presentCustomer.getCart();
+        Set<Cart> carts = customer.getCart();
         for(Cart c : carts){
             if(c.getProductId().equals(product.getProductId())){
-                c.setQuantity(c.getQuantity() + addToCart.getQuantity());
-                return cartRepository.save(c);
+                throw new UnableToAddItemException("Item already in cart");
             }
         }
 
         Cart cart = new Cart();
-        cart.setQuantity(addToCart.getQuantity());
-        cart.setProductId(product.getProductId());
-        cart.setTotalPrice(addToCart.getPrice()* addToCart.getQuantity());
+        cart.setProductId(addToCart.getProductId());
         cart.setPrice(addToCart.getPrice());
-
         cart.setCustomer(customer);
-
-        int newNumber = product.getInventory() - addToCart.getQuantity();
-
-        if(newNumber < 0){newNumber = 0;}
-
-        product.setInventory(newNumber);
-        productRepository.save(product);
 
         return cartRepository.save(cart);
     }
@@ -99,22 +76,10 @@ public class CartService {
         Set<Cart> carts = cartRepository.findAllCartByCustomerId(customerRepository.findByEmail(email).getCustomerId());
         for (Cart c : carts) {
             if (c.getProductId().equals(product.getProductId())) {
-
-                if(c.getQuantity() - addToCart.getQuantity()<0){
-                    throw new UnableToDeleteItemException("Quantity is more than on cart");
-                }
-
-                c.setQuantity(c.getQuantity() - addToCart.getQuantity());
-                c.setTotalPrice(c.getPrice()*c.getQuantity());
-                product.setInventory(product.getInventory() + addToCart.getQuantity());
-                productRepository.save(product);
-                if (c.getQuantity() == 0) {
-                    cartRepository.delete(c);
+                    cartRepository.delete(cartRepository.findCartByCartId(c.getCartId()));
                     break;
                 }
-
             }
-        }
         return carts;
     }
 
@@ -129,14 +94,5 @@ public class CartService {
         return customer.getCart();
     }
 
-    public Double getTotal(String email){
-        Double totalCost = 0.0;
-        Customer customer = customerRepository.findByEmail(email);
-        Set<Cart> customerCart = customer.getCart();
-        for(Cart c : customerCart){
-            totalCost = totalCost + c.getTotalPrice();
-        }
-        return totalCost;
-    }
 
 }

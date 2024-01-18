@@ -35,33 +35,36 @@ public class Customer implements UserDetails {
 
 
     @JsonIgnore
-    @JsonManagedReference(value = "customerReference")
+    @JsonManagedReference(value = "cartReference")
     @OneToMany(mappedBy = "customer")
     private Set<Cart> carts = new HashSet<Cart>();
-
-
 
     @Getter
     @JsonManagedReference(value = "orderReference")
     @OneToMany(mappedBy = "customer")
     private Set<Order> orders = new HashSet<Order>();
 
+    @JsonManagedReference(value = "apiReference")
+    @OneToMany(mappedBy = "customer")
+    private Set<Api> apis = new HashSet<Api>();
+
 
     public Customer() {
     }
 
     public Customer(String email, String firstName, String lastName, String password,
-                    Set<Cart> carts,  Set<Order> orders) {
+                    Set<Cart> carts,  Set<Order> orders, Set<Api> apis) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.carts = carts;
         this.orders = orders;
+        this.apis = apis;
     }
 
     public Customer(Integer customerId, String email, String firstName, String lastName, String password,
-                    Set<Cart> carts,  Set<Order> orders) {
+                    Set<Cart> carts,  Set<Order> orders, Set<Api> apis) {
         this.customerId = customerId;
         this.email = email;
         this.firstName = firstName;
@@ -76,6 +79,13 @@ public class Customer implements UserDetails {
         return List.of(() -> role);
     }
 
+    public Set<Api> getApis() {
+        return apis;
+    }
+
+    public void setApis(Set<Api> apis) {
+        this.apis = apis;
+    }
 
     public Integer getCustomerId() {
         return customerId;

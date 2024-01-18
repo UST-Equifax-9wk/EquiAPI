@@ -56,8 +56,6 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-
-
     /**
      * View customer by entering email
      * @param email
@@ -66,7 +64,6 @@ public class CustomerService {
     public Customer viewCustomer(String email){
         return customerRepository.findByEmail(email);
     }
-
 
 
     /**
