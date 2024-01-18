@@ -14,27 +14,23 @@ public class Api {
 
     private Integer productId;
 
-    private Integer orderId;
-
     @JsonBackReference(value = "apiReference")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
     private Customer customer;
 
     public Api() {
     }
 
-    public Api(Integer productId, Customer customer, Integer orderId) {
+    public Api(Integer productId, Customer customer) {
         this.productId = productId;
         this.customer = customer;
-        this.orderId = orderId;
     }
 
-    public Api(UUID apiId, Integer productId, Customer customer, Integer orderId) {
+    public Api(UUID apiId, Integer productId, Customer customer) {
         this.apiId = apiId;
         this.productId = productId;
         this.customer = customer;
-        this.orderId = orderId;
     }
 
     public UUID getApiId() {
@@ -57,13 +53,6 @@ public class Api {
         this.customer = customer;
     }
 
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
 
     @Override
     public boolean equals(Object o) {

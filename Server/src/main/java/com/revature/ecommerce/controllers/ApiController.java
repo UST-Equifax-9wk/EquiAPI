@@ -28,7 +28,7 @@ public class ApiController {
         this.cookieUtil = cookieUtil;
     }
 
-    @PostMapping(path = "/customer/view-apis")
+    @GetMapping(path = "/customer/view-apis")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyAuthority('CUSTOMER')")
     public Set<Api> viewApis(HttpServletResponse response, HttpServletRequest request){

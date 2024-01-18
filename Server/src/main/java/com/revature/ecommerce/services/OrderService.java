@@ -4,6 +4,7 @@ import com.revature.ecommerce.entities.Api;
 import com.revature.ecommerce.entities.Cart;
 import com.revature.ecommerce.entities.Customer;
 import com.revature.ecommerce.entities.Order;
+import com.revature.ecommerce.exceptions.UnableToAddItemException;
 import com.revature.ecommerce.repositories.ApiRepository;
 import com.revature.ecommerce.repositories.CartRepository;
 import com.revature.ecommerce.repositories.OrderRepository;
@@ -46,7 +47,7 @@ public class OrderService {
     EMailService eMailService;
 
 
-    public Order makeAnOrder(String email) {
+    public Order makeAnOrder(String email) throws UnableToAddItemException{
         List<String> list = new ArrayList<String>();
         StringBuilder listBuffer = new StringBuilder();
         Double cost = 0.0;
@@ -61,7 +62,11 @@ public class OrderService {
 
         Set<Cart> customerCarts = customer.getCart();
         for (Cart c : customerCarts) {
-            list.add("productId: " + String.valueOf(productService.findById(c.getProductId()).getName()));
+            if(productService.findById(c.getProductId()) == null){
+                throw new UnableToAddItemException(c.getProductId() + "Product has been removed");
+            }
+            list.add("productId: " + String.valueOf(c.getProductId()));
+            System.out.println(c.getProductId());
             list.add("%");
             list.add("productType: " + String.valueOf(productService.findById(c.getProductId()).getProductType()));
             list.add("%");
@@ -93,9 +98,9 @@ public class OrderService {
 
         public void SendEmail(Order order){
         String msg ="";
-        msg = "Hello " + order.getCustomer().getFirstName() + ", \r\n" + order.getOrderId() + "has been processed";
+        msg = "Hello " + order.getCustomer().getFirstName() + ",\nOrder number: " + order.getOrderId() + "has been processed";
             String subject = "E-Commerce-R-Us Order Summary";
-            String userEmail = order.getCustomer().getEmail();
+            String userEmail = "aekpewoh@gmail.com"; //order.getCustomer().getEmail();
             String message = msg;
 
             eMailService.sendEmail(userEmail, subject, message);
@@ -108,7 +113,7 @@ public class OrderService {
         if(order.isPresent()){
             Order customerOrder = orderRepository.findById(orderNumber).get();
             String str = customerOrder.getOrderedItems();
-            String [] strArray = str.replace("%", "\r\n").split("#");
+            String [] strArray = str.replace("%", "\n").split("#");
             receipt = new OrderDto(customerOrder.getOrderId(), customerOrder.getDateOfPurchase(),
                     customerOrder.getTotalCost(), strArray);
             return receipt;
@@ -128,11 +133,6 @@ public class OrderService {
        return orderDtos;
     }
 
-//    public Order deleteOrder(String email, Order order){
-//        Customer customer = order.getCustomer();
-//        orderRepository.delete(order);  //Or should I just set the orderStatus to false?
-//        return order;
-//    }
 
 
 }

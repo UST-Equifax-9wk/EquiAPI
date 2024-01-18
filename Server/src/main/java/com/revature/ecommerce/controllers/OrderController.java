@@ -2,6 +2,7 @@ package com.revature.ecommerce.controllers;
 
 import com.revature.ecommerce.dto.OrderDto;
 import com.revature.ecommerce.entities.Order;
+import com.revature.ecommerce.exceptions.UnableToAddItemException;
 import com.revature.ecommerce.services.OrderService;
 import com.revature.ecommerce.util.CookieUtil;
 import com.revature.ecommerce.util.JwtUtil;
@@ -31,7 +32,8 @@ public class OrderController {
     @PostMapping(path = "/customers/order/checkout")
     @PreAuthorize("hasAuthority('CUSTOMER')")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Order makeAnOrder(HttpServletResponse response, HttpServletRequest request){
+    public Order makeAnOrder(HttpServletResponse response, HttpServletRequest request)
+    throws UnableToAddItemException {
         String email = jwUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
         return orderService.makeAnOrder(email);
     }
@@ -42,15 +44,6 @@ public class OrderController {
     public OrderDto viewOrder(@PathVariable Integer orderNumber){
         return orderService.viewOrder(orderNumber);
     }
-
-    /*NOT DONE*/
-//    @GetMapping(path = "/customers/delete-order")
-//    @ResponseStatus(HttpStatus.OK)
-//    @PreAuthorize("hasAuthority('CUSTOMER')")
-//    public Set<OrderDto> viewOrderByCustomer(HttpServletRequest request){
-//        String email = jwUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
-//        return orderService.viewOrderByCustomer(email);
-//    }
 
     @GetMapping(path="/customers/view-order")
     @ResponseStatus(HttpStatus.OK)

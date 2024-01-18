@@ -31,11 +31,10 @@ public class Product {
 
     @Column(name = "product_type")
     private String productType;
-    @Column  //Setting default values ???
-    private Integer inventory;
 
     @Column
     private String name;
+
     @Column(length = 2000)
     private String description;
     @Column(name = "retail_price")
@@ -50,17 +49,15 @@ public class Product {
     public Product() {
     }
 
-    public Product(String productType, Integer inventory, Integer threshold, String name, String description) {
+    public Product(String productType, Integer threshold, String name, String description) {
         this.productType = productType;
-        this.inventory = inventory;
         this.name = name;
         this.description = description;
     }
 
-    public Product(Integer productId, String productType, Integer inventory, Integer threshold, String name, String description) {
+    public Product(Integer productId, String productType, Integer threshold, String name, String description) {
         this.productId = productId;
         this.productType = productType;
-        this.inventory = inventory;
         this.name = name;
         this.description = description;
     }
@@ -79,14 +76,6 @@ public class Product {
 
     public void setProductType(String productType) {
         this.productType = productType;
-    }
-
-    public Integer getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(Integer inventory) {
-        this.inventory = inventory;
     }
 
     public String getName() {
@@ -128,14 +117,14 @@ public class Product {
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
         return Objects.equals(productId, product.productId) && Objects.equals(productType, product.productType)
-                && Objects.equals(inventory, product.inventory) && Objects.equals(name, product.name)
+                && Objects.equals(name, product.name)
                 && Objects.equals(description, product.description) && Objects.equals(retailPrice, product.retailPrice)
                 && Objects.equals(discountedPrice, product.discountedPrice);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, productType, inventory, name, description, retailPrice, discountedPrice);
+        return Objects.hash(productId, productType, name, description, retailPrice, discountedPrice);
     }
 
     @Override
@@ -143,7 +132,6 @@ public class Product {
         return "Product{" +
                 "productId=" + productId +
                 ", productType='" + productType + '\'' +
-                ", inventory=" + inventory +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", retailPrice=" + retailPrice +

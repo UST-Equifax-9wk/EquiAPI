@@ -39,7 +39,6 @@ public class Customer implements UserDetails {
     @OneToMany(mappedBy = "customer")
     private Set<Cart> carts = new HashSet<Cart>();
 
-
     @Getter
     @JsonManagedReference(value = "orderReference")
     @OneToMany(mappedBy = "customer")
