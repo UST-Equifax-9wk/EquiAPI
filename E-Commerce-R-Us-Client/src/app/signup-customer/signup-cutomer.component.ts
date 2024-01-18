@@ -2,16 +2,16 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RemoteService } from '../remote.service';
-import { SignUpSeller } from '../dto/signup-seller-dto';
+import { CustomerSignUp } from '../dto/customer-sign-up';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-signup-seller',
   standalone: true,
   imports: [FormsModule, CommonModule],
-  templateUrl: './signup-seller.component.html',
+  templateUrl: './signup-customer.component.html',
 })
-export class SignupSellerComponent {
+export class SignupCustomerComponent {
   public firstName: string;
   public lastName: string;
   public email: string;
@@ -25,14 +25,14 @@ export class SignupSellerComponent {
   }
 
   onSubmit() {
-    let seller: SignUpSeller = {
+    let customer: CustomerSignUp = {
       firstName: this.firstName,
       lastName: this.lastName,
       email: this.email,
       password: this.password,
     };
 
-    this.remote.postSeller(seller).subscribe({
+    this.remote.postCustomerSignUp(customer).subscribe({
       next: (data) => {
         alert(' Hello ' + data.firstName);
       },

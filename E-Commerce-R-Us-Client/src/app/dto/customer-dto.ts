@@ -1,6 +1,6 @@
-export class Seller {
+export class Customer {
   constructor(
-    public sellerId: any,
+    public customer: any,
     public firstName: string,
     public lastName: string,
     public email: string

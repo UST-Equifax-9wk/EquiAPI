@@ -1,0 +1,36 @@
+<div class="flex w-full justify-center items-center h-[80vh] m-auto">
+  <form
+    (ngSubmit)="onSubmit()"
+    class="flex flex-col rounded-lg w-100 gap-5 shadow-md p-10"
+  >
+    <h3 class="font-semibold text-center">Welcome Back</h3>
+
+    <div>
+      <label for="emailAddress">Email address</label>
+      <input
+        [(ngModel)]="email"
+        id="emailAddress"
+        type="email"
+        name="emailAddress"
+      />
+    </div>
+    <div>
+      <label for="password">Password</label>
+      <input
+        [(ngModel)]="password"
+        id="password"
+        type="password"
+        name="password"
+        class="border-black border-2"
+      />
+    </div>
+
+    <button type="submit" class="btnRed">Login</button>
+    <p class="text-center">Don't have an account?</p>
+    <p class="text-center">
+      <a href="/signup" class="text-blue-700 underline underline-offset-1"
+        >Signup</a
+      >
+    </p>
+  </form>
+</div>
