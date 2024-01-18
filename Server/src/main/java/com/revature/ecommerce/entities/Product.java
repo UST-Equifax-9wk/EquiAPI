@@ -22,6 +22,7 @@ public class Product {
         String getName();
         Double getRetailPrice();
         Double getDiscountedPrice();
+        String getDescription();
     }
 
     @Id

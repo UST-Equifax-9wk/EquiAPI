@@ -3,6 +3,7 @@ import { ProductsComponent } from './products/products.component';
 import { SignupCustomerComponent } from './signup-customer/signup-cutomer.component';
 import { SigninCustomerComponent } from './signin-customer/signin-cutomer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
 
 export const routes: Routes = [
   {
@@ -20,5 +21,9 @@ export const routes: Routes = [
   {
     path: 'user/:email',
     component: DashboardComponent,
+  },
+  {
+    path: 'product/:id',
+    component: ProductDetailComponent,
   },
 ];
