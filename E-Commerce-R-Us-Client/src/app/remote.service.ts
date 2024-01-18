@@ -15,7 +15,7 @@ export class RemoteService {
   // Sign up
   postCustomerSignUp(customer: CustomerSignUp): Observable<Customer> {
     return this.http
-      .post<Customer>('/api' + '/auth/seller/sign-up', customer, {
+      .post<Customer>('/api' + '/auth/customer/sign-up', customer, {
         withCredentials: true,
       })
       .pipe(retry(1));
@@ -24,7 +24,24 @@ export class RemoteService {
   // Sign in Customer
   postCustomerLogin(customer: CustomerSignIn): Observable<Customer> {
     return this.http
-      .post<Customer>('/api' + '/auth/seller/sign-in', customer, {
+      .post<Customer>('/api' + '/auth/customer/sign-in', customer, {
+        withCredentials: true,
+      })
+      .pipe(retry(1));
+  }
+
+  // Customer logout
+  postCustomerLogout(): Observable<object> {
+    return this.http
+      .post('/api' + '/auth/customer/logout', null, { withCredentials: true })
+      .pipe(retry(1));
+  }
+
+  // Check auth
+
+  getCustomerAuth(): Observable<Customer> {
+    return this.http
+      .get<Customer>('/api' + '/auth/customer/auth', {
         withCredentials: true,
       })
       .pipe(retry(1));
