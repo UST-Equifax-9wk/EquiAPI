@@ -1,9 +1,8 @@
 import { Routes } from '@angular/router';
 import { ProductsComponent } from './products/products.component';
-import { CustomerSignUp } from './dto/customer-sign-up';
-import { CustomerSignIn } from './dto/customer-sign-in';
 import { SignupCustomerComponent } from './signup-customer/signup-cutomer.component';
 import { SigninCustomerComponent } from './signin-customer/signin-cutomer.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 export const routes: Routes = [
   {
@@ -17,5 +16,9 @@ export const routes: Routes = [
   {
     path: 'signin',
     component: SigninCustomerComponent,
+  },
+  {
+    path: 'user/:email',
+    component: DashboardComponent,
   },
 ];
