@@ -1,11 +1,22 @@
-<div class="flex flex-col gap-3 p-3 h-[500px] max-72 cursor-pointer">
+<div class="flex flex-col gap-3 p-3 h-[300px] shadow-md">
   <h4 class="text-third">{{ product.name }}</h4>
-  <div class="felx w-full">
-    <p [ngClass]="{ 'line-through': product.discountedPrice !== 0 }">
-      {{ product.retailPrice | currency }}
-    </p>
+  <p>{{ product.description | truncate : 180 : true }}</p>
+  <div class="flex w-full relative h-8 gap-2">
     <p *ngIf="product.discountedPrice !== 0">
       {{ product.discountedPrice | currency }}
     </p>
+    <p
+      [ngClass]="{
+        'line-through text-sm decoration-highlight decoration-2':
+          product.discountedPrice !== 0
+      }"
+      class="w-1/2"
+    >
+      {{ product.retailPrice | currency }}
+    </p>
+  </div>
+  <div class="flex w-full justify-end gap-2 self-baseline">
+    <button class="btnWhite">View More</button>
+    <button class="btnRed">Add To Cart</button>
   </div>
 </div>
