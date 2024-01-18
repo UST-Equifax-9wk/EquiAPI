@@ -29,7 +29,7 @@ export class SigninCustomerComponent {
     this.remote.postCustomerLogin(customer).subscribe({
       next: (data) => {
         this.remote.setLocalStorage('customer', data);
-        this.remote.redirect('');
+        this.remote.redirect(`/user/${data.customerId}`);
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.error);

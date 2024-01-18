@@ -1,21 +1,33 @@
 <nav class="border-b-2 px-28 py-2 mb-2">
   <ul class="flex justify-between items-center gap-8 text-base font-normal">
-    <div class="flex gap-3 h-10 items-center justify-center">
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/2/24/Equifax.svg"
-        class="h-7"
-      />
-      <div class="border-2 border-black h-10"></div>
-      <h5 class="">API</h5>
-    </div>
+    <a routerLink="/">
+      <div class="flex gap-3 h-10 items-center justify-center">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/2/24/Equifax.svg"
+          class="h-7"
+        />
+        <div class="border border-black h-10"></div>
+        <h5 class="">API</h5>
+      </div>
+    </a>
     <div></div>
-    <div class="flex gap-3">
+    <div class="flex gap-3 justify-center items-center">
+      @if(!isLoggedIn){
       <li>
         <button routerLink="signup" class="btnRed">Sign Up</button>
       </li>
       <li>
         <button routerLink="signin" class="btnWhite h-auto">Login</button>
       </li>
+      } @else {
+
+      <li>
+        <a [routerLink]="['user', user.customerId]">{{ user.email }}</a>
+      </li>
+      <li>
+        <button (click)="onLogout()" class="btnRed">Logout</button>
+      </li>
+      }
     </div>
   </ul>
 </nav>

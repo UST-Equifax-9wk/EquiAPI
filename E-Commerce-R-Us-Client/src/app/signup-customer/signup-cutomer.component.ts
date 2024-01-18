@@ -34,7 +34,8 @@ export class SignupCustomerComponent {
 
     this.remote.postCustomerSignUp(customer).subscribe({
       next: (data) => {
-        alert(' Hello ' + data.firstName);
+        this.remote.setLocalStorage('customer', data);
+        this.remote.redirect(`/user/${data.customerId}`);
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.error);
