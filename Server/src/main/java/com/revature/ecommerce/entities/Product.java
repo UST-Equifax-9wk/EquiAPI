@@ -46,7 +46,8 @@ public class Product {
     private Double retailPrice;
     @Column(name = "discounted_price")
     private Double discountedPrice;
-
+    @Column(name = "image_url")
+    private String imageUrl;
 //    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 //    private Set<Review> reviews;
 

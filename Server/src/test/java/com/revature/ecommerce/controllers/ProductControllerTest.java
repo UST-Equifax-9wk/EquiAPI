@@ -49,14 +49,21 @@ class ProductControllerTest {
             public Integer getProductId() {
                 return 1;
             }
+            @Override
             public String getName() {
                 return "Test";
             }
+            @Override
             public Double getRetailPrice() {
                 return 20.00;
             }
+            @Override
             public Double getDiscountedPrice() {
                 return 10.00;
+            }
+            @Override
+            public String getDescription() {
+                return null;
             }
         };
         List<Product.ProductCard> productCardList = List.of(productCard);

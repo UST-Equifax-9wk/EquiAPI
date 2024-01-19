@@ -56,6 +56,11 @@ public class ProductServiceTest {
             public Double getDiscountedPrice() {
                 return 10.00;
             }
+
+            @Override
+            public String getDescription() {
+                return "test";
+            }
         };
         List<Product.ProductCard> productCardList = List.of(productCard);
         Page<Product.ProductCard> productCardPage = new PageImpl<>(productCardList, paging, 1);
@@ -105,10 +110,20 @@ public class ProductServiceTest {
         productDto.setName("Test2");
         Product updated = new Product();
         updated.setProductId(1);
-        updated.setName("Test3");
+        updated.setName("Test");
         Mockito.when(productRepository.findById(productDto.getProductId())).thenReturn(Optional.of(product));
         Mockito.when(productRepository.save(product)).thenReturn(updated);
         Product result = productService.updateProduct(productDto);
+        Mockito.verify(productMapper, Mockito.times(1)).updateProductFromDto(productDto, product);
         Assertions.assertEquals(result, updated);
+    }
+
+    @Test
+    void shouldDeleteProduct() throws Exception {
+        String productId = "1";
+        Product product = new Product();
+        Mockito.when(productRepository.findById(Integer.valueOf(productId))).thenReturn(Optional.of(product));
+        productService.deleteProduct(productId);
+        Mockito.verify(productRepository, Mockito.times(1)).delete(product);
     }
 }
