@@ -1,4 +1,4 @@
-insert into sellers (first_name, last_name, email, password) values ('Jane', 'Doe', 'jane@email.com', '123')
+--insert into sellers (first_name, last_name, email, password) values ('Jane', 'Doe', 'jane@email.com', '123')
 --Products
 
 --User

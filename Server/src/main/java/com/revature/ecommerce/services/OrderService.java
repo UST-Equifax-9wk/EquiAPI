@@ -98,7 +98,7 @@ public class OrderService {
 
         public void SendEmail(Order order){
         String msg ="";
-        msg = "Hello " + order.getCustomer().getFirstName() + ",\nOrder number: " + order.getOrderId() + "has been processed";
+        msg = "Hello " + order.getCustomer().getFirstName() + ",\nOrder number: " + order.getOrderId() + " has been processed";
             String subject = "E-Commerce-R-Us Order Summary";
             String userEmail = "aekpewoh@gmail.com"; //order.getCustomer().getEmail();
             String message = msg;

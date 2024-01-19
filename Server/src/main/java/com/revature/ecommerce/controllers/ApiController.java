@@ -36,12 +36,13 @@ public class ApiController {
         return apiService.findAllCustomerApi(email);
     }
 
-    @DeleteMapping(path = "/customer/delete-api/{apiId}")
+    @DeleteMapping(path = "/customer/delete-api")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyAuthority('CUSTOMER')")
-    public Api DeleteApi(@PathVariable UUID apiId, HttpServletResponse response, HttpServletRequest request)
+    public Api DeleteApi(@RequestBody Api api, HttpServletResponse response, HttpServletRequest request)
     throws UnableToDeleteItemException {
         String email = jwtUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
+        UUID apiId = api.getApiId();
         return apiService.deleteApi(email, apiId);
     }
 
