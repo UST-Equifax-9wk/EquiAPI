@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { RemoteService } from '../remote.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Customer } from '../dto/customer-dto';
+import { CartComponent } from '../cart/cart.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, CommonModule],
+  imports: [RouterOutlet, RouterLink, CommonModule, CartComponent],
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent implements OnInit, DoCheck {
@@ -34,6 +35,7 @@ export class NavbarComponent implements OnInit, DoCheck {
 
   ngOnInit(): void {
     this.isLoggedIn = this.remote.getStorageItem('customer') ? true : false;
+    this.user = this.remote.getStorageItem('customer');
   }
 
   ngDoCheck(): void {

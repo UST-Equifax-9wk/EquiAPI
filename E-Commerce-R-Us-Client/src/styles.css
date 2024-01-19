@@ -7,6 +7,9 @@
 /* Custom styles */
 
 @layer base {
+  *:hover {
+    @apply transition-all duration-300;
+  }
   body {
     @apply font-main;
   }
