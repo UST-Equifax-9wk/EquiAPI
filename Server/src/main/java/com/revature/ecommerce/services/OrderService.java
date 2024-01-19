@@ -70,8 +70,6 @@ public class OrderService {
             list.add("%");
             list.add("productType: " + String.valueOf(productService.findById(c.getProductId()).getProductType()));
             list.add("%");
-            list.add("productDescription: " + String.valueOf(productService.findById(c.getProductId()).getDescription()));
-            list.add("%");
             list.add("productPrice: " + String.valueOf(c.getPrice()));
             list.add("#");
 
@@ -123,7 +121,7 @@ public class OrderService {
 
     public Set<OrderDto> viewOrderByCustomer (String email){
        Set<Order> orders = customerService.findByEmail(email).getOrders();
-       Set<OrderDto> orderDtos = null;
+       Set<OrderDto> orderDtos = new HashSet<>();
        for(Order o : orders){
            String str = o.getOrderedItems();
            String [] strArray = str.replace("%", "\r\n").split("#");
