@@ -38,7 +38,6 @@ export class RemoteService {
   }
 
   // Check auth
-
   getCustomerAuth(): Observable<Customer> {
     return this.http
       .get<Customer>('/api' + '/auth/customer/auth', {

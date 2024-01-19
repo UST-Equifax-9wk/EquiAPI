@@ -25,7 +25,9 @@
   @if(open){
   <div class="absolute top-16">
     @if(cartItems.length !== 0) {
-    <p>Cart items</p>
+    <div *ngFor="let item of cartItems" class="grid grid-cols-2">
+      <p>{{ item.productName | truncate : 20 : true }}</p>
+    </div>
     } @else {
     <p>Nothing added yet</p>
     }

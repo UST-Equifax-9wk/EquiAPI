@@ -1,25 +1,39 @@
-import { Component } from '@angular/core';
-import { RemoteService } from '../remote.service';
+import { Component, Input, OnInit } from '@angular/core';
 import { CartItem } from '../dto/cart-item-dto';
+import { CommonModule } from '@angular/common';
+import { CartService } from './cart.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { TruncatePipe } from '../truncate.pipe';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, TruncatePipe],
   templateUrl: './cart.component.html',
-  styleUrl: './cart.component.css',
 })
-export class CartComponent {
+export class CartComponent implements OnInit {
   open: Boolean;
-  cartItems: number[];
 
-  constructor(private remote: RemoteService) {
+  @Input() cartItems!: CartItem[];
+
+  constructor(private cartService: CartService) {
     this.open = true;
-    this.cartItems = [1, 2, 3];
   }
 
   onOpen(): void {
     console.log('hit');
     this.open = !this.open;
+  }
+
+  ngOnInit(): void {
+    this.cartService.getCartItems().subscribe({
+      next: (data) => {
+        this.cartItems = data;
+        console.log(this.cartItems);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error);
+      },
+    });
   }
 }
