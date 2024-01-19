@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.data.rest.core.config.Projection;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -19,6 +20,7 @@ public class Product {
         It is used as a response body for GET /products
         Reference: https://docs.spring.io/spring-data/jpa/reference/repositories/projections.html#projections.interfaces
      */
+    @Projection(types = { Product.class })
     public interface ProductCard {
         Integer getProductId();
         String getName();
@@ -44,7 +46,8 @@ public class Product {
     private Double retailPrice;
     @Column(name = "discounted_price")
     private Double discountedPrice;
-
+    @Column(name = "image_url")
+    private String imageUrl;
 //    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 //    private Set<Review> reviews;
 
