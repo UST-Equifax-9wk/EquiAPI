@@ -48,12 +48,16 @@ public class Customer implements UserDetails {
     @OneToMany(mappedBy = "customer")
     private Set<Api> apis = new HashSet<Api>();
 
+    @JsonManagedReference(value = "customerReviewReference")
+    @OneToMany(mappedBy = "customer")
+    private Set<Review> reviews = new HashSet<Review>();
+
 
     public Customer() {
     }
 
     public Customer(String email, String firstName, String lastName, String password,
-                    Set<Cart> carts,  Set<Order> orders, Set<Api> apis) {
+                    Set<Cart> carts,  Set<Order> orders, Set<Api> apis, Set<Review> reviews) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -61,10 +65,11 @@ public class Customer implements UserDetails {
         this.carts = carts;
         this.orders = orders;
         this.apis = apis;
+        this.reviews = reviews;
     }
 
     public Customer(Integer customerId, String email, String firstName, String lastName, String password,
-                    Set<Cart> carts,  Set<Order> orders, Set<Api> apis) {
+                    Set<Cart> carts,  Set<Order> orders, Set<Api> apis, Set<Review> reviews) {
         this.customerId = customerId;
         this.email = email;
         this.firstName = firstName;
@@ -72,7 +77,9 @@ public class Customer implements UserDetails {
         this.password = password;
         this.carts = carts;
         this.orders = orders;
+        this.reviews = reviews;
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -158,14 +165,20 @@ public class Customer implements UserDetails {
     }
 
 
-
-
     public String getRole() {
         return role;
     }
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
     }
 
     @Override

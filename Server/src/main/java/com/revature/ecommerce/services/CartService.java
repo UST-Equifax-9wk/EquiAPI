@@ -60,6 +60,7 @@ public class CartService {
         cart.setProductId(addToCart.getProductId());
         cart.setPrice(addToCart.getPrice());
         cart.setCustomer(customer);
+        cart.setProductName(product.getName());
 
         return cartRepository.save(cart);
     }
@@ -92,6 +93,17 @@ public class CartService {
     public Set<Cart> viewCart (String email) {
         Customer customer = customerRepository.findByEmail(email);
         return customer.getCart();
+    }
+
+    public Double cartTotal(String email){
+        Customer customer = customerRepository.findByEmail(email);
+        Set<Cart> carts = customer.getCart();
+        Double cartTotal = 0.0;
+
+        for(Cart c : carts){
+            cartTotal += c.getPrice();
+        }
+        return cartTotal;
     }
 
 

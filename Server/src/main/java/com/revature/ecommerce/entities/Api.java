@@ -33,6 +33,11 @@ public class Api {
         this.customer = customer;
     }
 
+    public Api(UUID apiId, Integer productId) {
+        this.apiId = apiId;
+        this.productId = productId;
+    }
+
     public UUID getApiId() {
         return apiId;
     }

@@ -21,6 +21,9 @@ public class Cart {
     @Column
     Double price;
 
+    @Column
+    String productName;
+
 
     @JsonBackReference(value = "cartReference")
     @ManyToOne(cascade = CascadeType.ALL)
@@ -35,11 +38,12 @@ public class Cart {
      * @param customer
      * @param price
      */
-    public Cart(Integer cartId, Integer productId, Customer customer, Double price) {
+    public Cart(Integer cartId, Integer productId, Customer customer, Double price, String productName) {
         this.cartId = cartId;
         this.productId = productId;
         this.customer = customer;
         this.price = price;
+        this.productName = productName;
     }
 
     /**
@@ -54,10 +58,11 @@ public class Cart {
      * @param productId
      * @param price
      */
-    public Cart(Customer customer, Integer productId, Double price) {
+    public Cart(Customer customer, Integer productId, Double price, String productName) {
         this.customer = customer;
         this.productId = productId;
         this.price = price;
+        this.productName = productName;
     }
 
     /**
@@ -71,6 +76,14 @@ public class Cart {
         this.productId = productId;
         this.customer = customer;
         this.price = price;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public Integer getProductId() {
