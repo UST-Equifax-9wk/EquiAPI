@@ -58,6 +58,14 @@ public class CartController {
         return cartService.removeProductFromCart(email, addToCart);
     }
 
+    @GetMapping(path = "/customers/cart/cart-total")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Double cartTotal(HttpServletRequest request, HttpServletResponse response){
+        String email = jwtUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
+        return cartService.cartTotal(email);
+    }
+
 
     /**
      * Error handling: UnableToAddItemException
