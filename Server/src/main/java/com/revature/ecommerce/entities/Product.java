@@ -27,6 +27,7 @@ public class Product {
         Double getRetailPrice();
         Double getDiscountedPrice();
         String getDescription();
+        String getImageUrl();
     }
 
     @Id
@@ -122,6 +123,21 @@ public class Product {
         this.discountedPrice = discountedPrice;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
+    }
 
     @Override
     public boolean equals(Object o) {
