@@ -4,10 +4,15 @@ import { SignupCustomerComponent } from './signup-customer/signup-cutomer.compon
 import { SigninCustomerComponent } from './signin-customer/signin-cutomer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 export const routes: Routes = [
   {
     path: '',
+    component: LandingPageComponent,
+  },
+  {
+    path: 'products',
     component: ProductsComponent,
   },
   {
