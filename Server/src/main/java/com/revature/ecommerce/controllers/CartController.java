@@ -2,6 +2,7 @@ package com.revature.ecommerce.controllers;
 
 import com.revature.ecommerce.dto.AddToCart;
 import com.revature.ecommerce.entities.Cart;
+import com.revature.ecommerce.entities.Customer;
 import com.revature.ecommerce.entities.Product;
 import com.revature.ecommerce.exceptions.UnableToAddItemException;
 import com.revature.ecommerce.exceptions.UnableToDeleteItemException;
@@ -49,13 +50,15 @@ public class CartController {
         return cartService.viewCart(email);
     }
 
-    @PostMapping(path = "/customers/cart/remove-item")
+    @DeleteMapping(path = "/customers/cart/remove-item/{id}")
     @PreAuthorize("hasAuthority('CUSTOMER')")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public Set<Cart> deleteFromCart
-            (@RequestBody AddToCart addToCart, HttpServletRequest request, HttpServletResponse response) throws UnableToDeleteItemException {
+            (@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnableToDeleteItemException {
         String email = jwtUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
-        return cartService.removeProductFromCart(email, addToCart);
+        cartService.removeProductFromCart(id, email);
+        return viewAllCart(request);
+
     }
 
     @GetMapping(path = "/customers/cart/cart-total")

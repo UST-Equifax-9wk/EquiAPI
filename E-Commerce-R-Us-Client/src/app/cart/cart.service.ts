@@ -17,11 +17,11 @@ export class CartService {
       .pipe(retry(1));
   }
 
-  deleteCartItem(productId: number) {
+  deleteCartItem(productId: number): Observable<CartItem[]> {
     return this.http
-      .post(
-        '/api' + '/customers/cart/remove-item',
-        { productId: productId },
+      .delete<CartItem[]>(
+        '/api' + `/customers/cart/remove-item/${productId}`,
+
         { withCredentials: true }
       )
       .pipe(retry(1));

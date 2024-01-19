@@ -24,25 +24,13 @@ export class CartComponent implements OnInit {
   @Input() cartItems!: CartItem[];
   @Input() total!: number;
 
-  constructor(
-    private cartService: CartService,
-    private remote: RemoteService,
-    private cdRef: ChangeDetectorRef
-  ) {
+  constructor(private cartService: CartService, private remote: RemoteService) {
     this.open = true;
   }
 
   onOpen(): void {
     console.log('hit');
     this.open = !this.open;
-  }
-
-  onItemDelete(productId: number): void {
-    this.cartService
-      .deleteCartItem(productId)
-      .subscribe((error) => console.log(error));
-
-    this.getCartItems();
   }
 
   ngOnInit(): void {
@@ -52,6 +40,21 @@ export class CartComponent implements OnInit {
       this.cartItems = this.remote.getStorageItem('cart');
     }
     this.total = this.cartService.total(this.cartItems);
+  }
+
+  onItemDelete(productId: number): void {
+    this.cartService.deleteCartItem(productId).subscribe({
+      next: (data) => {
+        this.cartItems = data;
+        this.remote.removeStorageItem('cart');
+        this.remote.setLocalStorage('cart', data);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error);
+      },
+    });
+
+    this.getCartItems();
   }
 
   getCartItems(): void {
