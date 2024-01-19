@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.data.rest.core.config.Projection;
 
 import java.util.Objects;
 import java.util.Set;
@@ -17,6 +18,7 @@ public class Product {
         It is used as a response body for GET /products
         Reference: https://docs.spring.io/spring-data/jpa/reference/repositories/projections.html#projections.interfaces
      */
+    @Projection(types = { Product.class })
     public interface ProductCard {
         Integer getProductId();
         String getName();
