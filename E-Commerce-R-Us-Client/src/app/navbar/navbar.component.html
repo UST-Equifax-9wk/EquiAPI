@@ -1,16 +1,22 @@
-<nav class="border-b-2 px-28 py-2 mb-2">
-  <ul class="flex justify-between items-center gap-8 text-base font-normal">
+<nav class="border-b-2 py-2 mb-2">
+  <ul
+    class="flex max-w-[1440px] m-auto justify-between items-center gap-8 text-base font-normal"
+  >
     <a routerLink="/">
       <div class="flex gap-3 h-10 items-center justify-center">
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/2/24/Equifax.svg"
-          class="h-7"
+          class="h-5"
         />
         <div class="border border-black h-10"></div>
-        <h5 class="">API</h5>
+        <h4 class="">API</h4>
       </div>
     </a>
-    <div></div>
+    <div>
+      <li>
+        <a>Products</a>
+      </li>
+    </div>
     <div class="flex gap-3 justify-center items-center">
       @if(!isLoggedIn){
       <li>

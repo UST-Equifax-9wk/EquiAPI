@@ -1,11 +1,13 @@
 package com.revature.ecommerce.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.rest.core.config.Projection;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -24,6 +26,7 @@ public class Product {
         String getName();
         Double getRetailPrice();
         Double getDiscountedPrice();
+        String getDescription();
     }
 
     @Id
@@ -44,24 +47,30 @@ public class Product {
     @Column(name = "discounted_price")
     private Double discountedPrice;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private Set<Review> reviews;
+//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+//    private Set<Review> reviews;
 
+    @JsonManagedReference(value = "productReviewReference")
+    @OneToMany(mappedBy = "product")
+    private Set<Review> reviews = new HashSet<Review>();
   
     public Product() {
     }
 
-    public Product(String productType, Integer threshold, String name, String description) {
+    public Product(String productType, Integer threshold, String name, String description, Set<Review> reviews) {
         this.productType = productType;
         this.name = name;
         this.description = description;
+        this.reviews = reviews;
     }
 
-    public Product(Integer productId, String productType, Integer threshold, String name, String description) {
+    public Product(Integer productId, String productType, Integer threshold, String name,
+                   String description, Set<Review> reviews) {
         this.productId = productId;
         this.productType = productType;
         this.name = name;
         this.description = description;
+        this.reviews = reviews;
     }
 
     public Integer getProductId() {

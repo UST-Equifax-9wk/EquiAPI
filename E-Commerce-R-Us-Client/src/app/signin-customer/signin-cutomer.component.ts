@@ -6,7 +6,7 @@ import { CustomerSignIn } from '../dto/customer-sign-in';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-signup-seller',
+  selector: 'app-signup-customer',
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './signin-customer.component.html',

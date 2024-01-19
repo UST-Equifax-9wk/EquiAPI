@@ -1,16 +1,20 @@
-<section class="flex gap-4 flex-wrap justify-center">
-  <ng-container *ngFor="let product of products">
-    <app-product-card [product]="product"></app-product-card>
-  </ng-container>
-</section>
-<div class="py-2 flex">
-  <div
-    *ngIf="moreProducts; else noMoreProducts"
-    class="w-full flex justify-end"
-  >
-    <button (click)="nextPage()" class="bg-white p-2">Next</button>
+<div>
+  <div class="grid h-full grid-cols-3 col gap-8">
+    <ng-container *ngFor="let product of products">
+      <app-product-card [product]="product"></app-product-card>
+    </ng-container>
   </div>
-  <ng-template #noMoreProducts>
-    <div class="text-center w-full bg-white py-2">No more products</div>
-  </ng-template>
+
+  <div class="py-2 flex">
+    @if (moreProducts) {
+    <div class="w-full flex justify-end">
+      <button (click)="nextPage()" class="btnWhite">Next</button>
+    </div>
+    } @else{
+
+    <ng-template #noMoreProducts>
+      <div class="text-center w-full py-2">No more products</div>
+    </ng-template>
+    }
+  </div>
 </div>

@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 export interface ProductDetail extends Product {
-  description: string;
   inventory: number;
   reviews: Review[];
 }
@@ -28,11 +27,6 @@ export class ProductDetailComponent implements OnInit {
     name: '',
     retailPrice: 0,
     discountedPrice: 0,
-    seller: {
-      sellerId: 0,
-      firstName: '',
-      lastName: '',
-    },
     description: '',
     inventory: 0,
     reviews: [],
