@@ -43,7 +43,7 @@ public class ReviewService {
     public Review deleteReview(String email, ReviewDto reviewDto) throws UnableToDeleteItemException{
         Customer customer = customerService.findByEmail(email);
         Set<Review> reviews = customer.getReviews();
-        Review deletedReview = null;
+        Review deletedReview = new Review();
         for(Review r : reviews){
             if(Objects.equals(r.getReviewsId(), reviewDto.getReviewId())){
                 deletedReview = r;

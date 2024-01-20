@@ -45,7 +45,7 @@ public class OrderController {
         return orderService.viewOrder(orderNumber);
     }
 
-    @GetMapping(path="/customers/view-order")
+    @GetMapping(path="/customers/view-orders")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('CUSTOMER')")
     public Set<OrderDto> viewCustomerOrder(HttpServletRequest request){

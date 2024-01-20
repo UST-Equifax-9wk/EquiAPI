@@ -124,7 +124,7 @@ public class OrderService {
        Set<OrderDto> orderDtos = new HashSet<>();
        for(Order o : orders){
            String str = o.getOrderedItems();
-           String [] strArray = str.replace("%", "\r\n").split("#");
+           String [] strArray = str.replace(str.charAt(str.indexOf('%')), '\n').split("#");
            orderDtos.add(new OrderDto(o.getOrderId(), o.getDateOfPurchase(),
                    o.getTotalCost(), strArray));
        }
