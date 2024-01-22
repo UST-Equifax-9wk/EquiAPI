@@ -1,0 +1,21 @@
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+        web:
+          servlet:
+            handler:
+              HandlerMappingIntrospector: ERROR
+secret:
+  key: OEWh9NCFzL+ttGVu5gjeGJ9BMlWuu6+d1ZpTSwaP+Sc=
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: L<d|.dn&za2c)0lR
+    url: jdbc:postgresql://35.225.95.28:5432/postgres
+    username: postgres
+  jpa:
+    hibernate:
+      ddl-auto: create
+      show-ddl: true
