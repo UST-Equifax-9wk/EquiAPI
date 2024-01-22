@@ -1,11 +1,9 @@
 package com.revature.ecommerce.util;
 
 import com.revature.ecommerce.entities.Customer;
-import com.revature.ecommerce.entities.Seller;
 import com.revature.ecommerce.exceptions.UserDoesNotExistException;
 
 import com.revature.ecommerce.services.CustomerService;
-import com.revature.ecommerce.services.SellerService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -26,13 +24,12 @@ import java.util.*;
 public class JwtUtil {
 
   private final CustomerService customerService;
-  private final SellerService sellerService;
+
   private final String secret;
 
   @Autowired
-  public JwtUtil(CustomerService customerService, SellerService sellerService, @Value("${secret.key}") String secret){
+  public JwtUtil(CustomerService customerService, @Value("${secret.key}") String secret){
        this.customerService = customerService;
-       this.sellerService = sellerService;
        this.secret = secret;
   }
 
@@ -42,7 +39,12 @@ public class JwtUtil {
     }
 
     public String generateToken(String email, String role){
-        Date exp = new Date(System.currentTimeMillis()*1000 + 60 * 60 * 24 * 7);
+      Date currentDate = new Date();
+      Calendar calendar = Calendar.getInstance();
+      calendar.setTime(currentDate);
+      calendar.add(Calendar.DAY_OF_MONTH, 2);
+      Date exp = calendar.getTime();
+//        Date exp = new Date(System.currentTimeMillis()*1000 + 60 * 60 * 24 * 7);
 
         return Jwts.builder()
                 .subject(email+","+role)
@@ -96,13 +98,9 @@ public class JwtUtil {
         GrantedAuthority customerAuthority = new SimpleGrantedAuthority(role);
         Collection<GrantedAuthority> authorities = Collections.singleton(customerAuthority);
 
-        if(role.equals("CUSTOMER")){
-            Customer customer = customerService.findByEmail(email);
-            return new UsernamePasswordAuthenticationToken(customer.getEmail(), null, authorities);
-        } else {
-            Seller seller = sellerService.findByEmail(email);
-            return new UsernamePasswordAuthenticationToken(seller.getEmail(), null, authorities);
-        }
+        Customer customer = customerService.findByEmail(email);
+        return new UsernamePasswordAuthenticationToken(customer.getEmail(), null, authorities);
+
 
 
     }

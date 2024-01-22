@@ -1,10 +1,13 @@
 package com.revature.ecommerce.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.data.rest.core.config.Projection;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -17,18 +20,14 @@ public class Product {
         It is used as a response body for GET /products
         Reference: https://docs.spring.io/spring-data/jpa/reference/repositories/projections.html#projections.interfaces
      */
+    @Projection(types = { Product.class })
     public interface ProductCard {
         Integer getProductId();
         String getName();
         Double getRetailPrice();
         Double getDiscountedPrice();
-        SellerSummary getSeller();
-
-        interface SellerSummary {
-            Integer getId();
-            String getFirstName();
-            String getLastName();
-        }
+        String getDescription();
+        String getImageUrl();
     }
 
     @Id
@@ -38,49 +37,42 @@ public class Product {
 
     @Column(name = "product_type")
     private String productType;
-    @Column  //Setting default values ???
-    private Integer inventory;
 
     @Column
     private String name;
+
     @Column(length = 2000)
     private String description;
     @Column(name = "retail_price")
     private Double retailPrice;
     @Column(name = "discounted_price")
     private Double discountedPrice;
-    @Column
-    private Integer threshold;
+    @Column(name = "image_url")
+    private String imageUrl;
+//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+//    private Set<Review> reviews;
 
-    @ManyToOne
-//    @JoinColumn(name = "seller_id")
-//    @JsonBackReference(value = "seller-products")
-    private Seller seller;
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private Set<Review> reviews;
-
-//    @OneToOne(mappedBy = "product")
-//    private Cart cart;
+    @JsonManagedReference(value = "productReviewReference")
+    @OneToMany(mappedBy = "product")
+    private Set<Review> reviews = new HashSet<Review>();
   
     public Product() {
     }
 
-    public Product(String productType, Integer inventory, Integer threshold, String name, String description) {
+    public Product(String productType, Integer threshold, String name, String description, Set<Review> reviews) {
         this.productType = productType;
-        this.inventory = inventory;
-        this.threshold = threshold;
         this.name = name;
         this.description = description;
+        this.reviews = reviews;
     }
 
-    public Product(Integer productId, String productType, Integer inventory, Integer threshold, String name, String description) {
+    public Product(Integer productId, String productType, Integer threshold, String name,
+                   String description, Set<Review> reviews) {
         this.productId = productId;
         this.productType = productType;
-        this.inventory = inventory;
-        this.threshold = threshold;
         this.name = name;
         this.description = description;
+        this.reviews = reviews;
     }
 
     public Integer getProductId() {
@@ -97,14 +89,6 @@ public class Product {
 
     public void setProductType(String productType) {
         this.productType = productType;
-    }
-
-    public Integer getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(Integer inventory) {
-        this.inventory = inventory;
     }
 
     public String getName() {
@@ -139,12 +123,20 @@ public class Product {
         this.discountedPrice = discountedPrice;
     }
 
-    public Integer getThreshold() {
-        return threshold;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setThreshold(Integer threshold) {
-        this.threshold = threshold;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
     }
 
     @Override
@@ -153,14 +145,14 @@ public class Product {
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
         return Objects.equals(productId, product.productId) && Objects.equals(productType, product.productType)
-                && Objects.equals(inventory, product.inventory) && Objects.equals(name, product.name)
+                && Objects.equals(name, product.name)
                 && Objects.equals(description, product.description) && Objects.equals(retailPrice, product.retailPrice)
-                && Objects.equals(discountedPrice, product.discountedPrice) && Objects.equals(threshold, product.threshold);
+                && Objects.equals(discountedPrice, product.discountedPrice);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, productType, inventory, name, description, retailPrice, discountedPrice, threshold);
+        return Objects.hash(productId, productType, name, description, retailPrice, discountedPrice);
     }
 
     @Override
@@ -168,12 +160,10 @@ public class Product {
         return "Product{" +
                 "productId=" + productId +
                 ", productType='" + productType + '\'' +
-                ", inventory=" + inventory +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", retailPrice=" + retailPrice +
                 ", discountedPrice=" + discountedPrice +
-                ", threshold=" + threshold +
                 '}';
     }
 }

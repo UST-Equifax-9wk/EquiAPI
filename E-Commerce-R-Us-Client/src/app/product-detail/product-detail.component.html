@@ -4,13 +4,7 @@
 <div>{{ productDetail.name }}</div>
 <div class="flex justify-between">
   <div>Retail price: {{ productDetail.retailPrice | currency }}</div>
-  <div>Discouted price: {{ productDetail.discountedPrice | currency }}</div>
-  <div>
-    <a href=""
-      >{{ productDetail.seller?.firstName }}
-      {{ productDetail.seller?.lastName }}</a
-    >
-  </div>
+  <div>Discounted price: {{ productDetail.discountedPrice | currency }}</div>
   <div>27 ratings</div>
 </div>
 <div>

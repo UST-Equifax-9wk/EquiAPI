@@ -2,6 +2,7 @@ package com.revature.ecommerce.controllers;
 
 import com.revature.ecommerce.dto.AddToCart;
 import com.revature.ecommerce.entities.Cart;
+import com.revature.ecommerce.entities.Customer;
 import com.revature.ecommerce.entities.Product;
 import com.revature.ecommerce.exceptions.UnableToAddItemException;
 import com.revature.ecommerce.exceptions.UnableToDeleteItemException;
@@ -26,41 +27,46 @@ public class CartController {
     private CookieUtil cookieUtil;
 
     @Autowired
-
     public CartController(CartService cartService, JwtUtil jwtUtil, CookieUtil cookieUtil){
         this.cartService = cartService;
         this.jwtUtil = jwtUtil;
         this.cookieUtil = cookieUtil;
     }
 
-    @PostMapping("/customers/add-to-cart")
+    @PostMapping("/customers/cart/add-to-cart")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('CUSTOMER')")
     public Cart addProduct(@RequestBody AddToCart addToCart, HttpServletRequest request, HttpServletResponse response)
     throws UnableToAddItemException {
         String email = jwtUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
-        addToCart.setCustomerEmail(email);
-        return cartService.addProductToCart(addToCart);
+        return cartService.addProductToCart(email, addToCart);
     }
 
-    @GetMapping("/customers/view-cart")
+    @GetMapping("/customers/cart/view-cart")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     @ResponseStatus(HttpStatus.OK)
     public Set<Cart> viewAllCart(HttpServletRequest request){
         String email = jwtUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
         return cartService.viewCart(email);
     }
 
-    @PostMapping(path = "/customers/remove-item")
+    @DeleteMapping(path = "/customers/cart/remove-item/{id}")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public Set<Cart> deleteFromCart
-            (@RequestBody AddToCart addToCart, HttpServletRequest request, HttpServletResponse response) throws UnableToDeleteItemException {
+            (@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) throws UnableToDeleteItemException {
         String email = jwtUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
-        return cartService.removeProductFromCart(email, addToCart);
+        cartService.removeProductFromCart(id, email);
+        return viewAllCart(request);
+
     }
-    @GetMapping(path = "/customer/{email}/cart/get-total")
-    @ResponseStatus(HttpStatus.OK)
-    public Double getTotalCost(@PathVariable String email){
-        return cartService.getTotal(email);
+
+    @GetMapping(path = "/customers/cart/cart-total")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Double cartTotal(HttpServletRequest request, HttpServletResponse response){
+        String email = jwtUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
+        return cartService.cartTotal(email);
     }
 
 

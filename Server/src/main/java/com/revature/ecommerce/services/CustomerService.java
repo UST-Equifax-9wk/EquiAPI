@@ -1,15 +1,20 @@
 package com.revature.ecommerce.services;
 
+import com.revature.ecommerce.dto.CustomerDto;
 import com.revature.ecommerce.entities.Customer;
 import com.revature.ecommerce.exceptions.UserAlreadyExistsException;
 import com.revature.ecommerce.exceptions.UserDoesNotExistException;
+import com.revature.ecommerce.interfaces.CustomerDetails;
+import com.revature.ecommerce.mappers.CustomerMapper;
 import com.revature.ecommerce.repositories.CustomerRepository;
 import jakarta.transaction.Transactional;
+import org.hibernate.ObjectNotFoundException;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import java.util.Optional;
 
 
 @Service
@@ -17,10 +22,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Transactional(Transactional.TxType.REQUIRED)
 public class CustomerService {
     private final CustomerRepository customerRepository;
+    private final CustomerMapper customerMapper;
 
     @Autowired
-    public CustomerService(CustomerRepository customerRepository){
+    public CustomerService(CustomerRepository customerRepository, CustomerMapper customerMapper){
         this.customerRepository = customerRepository;
+        this.customerMapper = customerMapper;
     }
 
     /**
@@ -34,7 +41,6 @@ public class CustomerService {
             throw new UserAlreadyExistsException("Email already associated with user. Forgot password?");
         }
         customer.setRole("CUSTOMER");
-        customer.setPassword(hash(customer.getPassword()));
 
         return customerRepository.save(customer);
 
@@ -51,22 +57,6 @@ public class CustomerService {
     }
 
     /**
-     * Authentication method requires Customer basic fields
-     * @param customer
-     * @return
-     * @throws UserDoesNotExistException
-     */
-    public Boolean authenticateUser(Customer customer) throws UserDoesNotExistException{
-
-        Customer authCustomer = customerRepository.findByEmail(customer.getEmail());
-        if(authCustomer ==null){
-            throw new UserDoesNotExistException("This customer is not in database");
-        }
-
-        return checkHash(customer.getPassword(), authCustomer.getPassword());
-    }
-
-    /**
      * View customer by entering email
      * @param email
      * @return
@@ -75,25 +65,6 @@ public class CustomerService {
         return customerRepository.findByEmail(email);
     }
 
-    /**
-     * BCrypt encryption of password
-     * @param text
-     * @return
-     */
-    public String hash(String text) {
-        String salt = BCrypt.gensalt(12);
-        return BCrypt.hashpw(text, salt);
-    }
-
-    /**
-     * BCrypt comparison of passwords
-     * @param text
-     * @param hash
-     * @return
-     */
-    public boolean checkHash(String text, String hash) {
-        return BCrypt.checkpw(text, hash);
-    }
 
     /**
      * Unsure if this must be used?
@@ -102,5 +73,28 @@ public class CustomerService {
      */
     public Customer findByEmail(String email) {
         return customerRepository.findByEmail(email);
+    }
+
+    public Optional<CustomerDetails> findCustomerDetailsByCustomerId(Integer customerId) {
+        return customerRepository.findCustomerDetailsByCustomerId(customerId);
+    }
+
+    public Optional<Customer> findById(Integer customerId) {
+        return customerRepository.findById(customerId);
+    }
+
+    /**
+     *
+     * @param customerDto
+     */
+    public void updateCustomer(CustomerDto customerDto) {
+        Optional<Customer> optionalCustomer = findById(customerDto.customerId);
+        if (optionalCustomer.isPresent()) {
+            Customer customer = optionalCustomer.get();
+            customerMapper.updateCustomerFromDto(customerDto, customer);
+            customerRepository.save(customer);
+        } else {
+            throw new ObjectNotFoundException(Customer.class, "Customer");
+        }
     }
 }

@@ -19,49 +19,78 @@ public class Order {
     @Column(name = "date_of_purchase")
     private Date dateOfPurchase;
 
-    @Column(name = "payment_method")
-    private String paymentMethod;
-
     @Column(name = "order_status")
     private Boolean orderStatus;
 
     @Column(name = "total_cost")
     private Double totalCost;
 
-    @Column(name = "shipment_date")
-    private Date shipmentDate;
-
     @Column(name = "ordered_items")
     private String orderedItems;
 
     @JsonBackReference(value = "orderReference")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
     private Customer customer;
 
     public Order() {
     }
 
+    /**
+     *
+     * @param dateOfPurchase
+     * @param orderStatus
+     * @param totalCost
+     * @param orderedItems
+     */
 
-    public Order(Date dateOfPurchase, String paymentMethod, Boolean orderStatus, Double totalCost,
-                 Date shipmentDate, String orderedItems) {
+    public Order(Date dateOfPurchase, Boolean orderStatus, Double totalCost, String orderedItems) {
         this.dateOfPurchase = dateOfPurchase;
-        this.paymentMethod = paymentMethod;
         this.orderStatus = orderStatus;
         this.totalCost = totalCost;
-        this.shipmentDate = shipmentDate;
         this.orderedItems = orderedItems;
     }
 
-    public Order(Integer orderId, Date dateOfPurchase, String paymentMethod, Boolean orderStatus, Double totalCost,
-                 Date shipmentDate, String orderedItems) {
+    /**
+     *
+     * @param orderId
+     * @param dateOfPurchase
+     * @param orderStatus
+     * @param totalCost
+     * @param orderedItems
+     */
+
+    public Order(Integer orderId, Date dateOfPurchase, Boolean orderStatus, Double totalCost, String orderedItems) {
         this.orderId = orderId;
         this.dateOfPurchase = dateOfPurchase;
-        this.paymentMethod = paymentMethod;
         this.orderStatus = orderStatus;
         this.totalCost = totalCost;
-        this.shipmentDate = shipmentDate;
         this.orderedItems = orderedItems;
+    }
+
+    public Order(Integer orderId, Date dateOfPurchase, Boolean orderStatus, Double totalCost, String orderedItems, Customer customer) {
+        this.orderId = orderId;
+        this.dateOfPurchase = dateOfPurchase;
+        this.orderStatus = orderStatus;
+        this.totalCost = totalCost;
+        this.orderedItems = orderedItems;
+        this.customer = customer;
+    }
+
+    public Order(Date dateOfPurchase, Boolean orderStatus, Double totalCost, String orderedItems, Customer customer) {
+        this.dateOfPurchase = dateOfPurchase;
+        this.orderStatus = orderStatus;
+        this.totalCost = totalCost;
+        this.orderedItems = orderedItems;
+        this.customer = customer;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Integer getOrderId() {
@@ -74,14 +103,6 @@ public class Order {
 
     public void setDateOfPurchase(Date dateOfPurchase) {
         this.dateOfPurchase = dateOfPurchase;
-    }
-
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
     }
 
     public Boolean getOrderStatus() {
@@ -100,14 +121,6 @@ public class Order {
         this.totalCost = totalCost;
     }
 
-    public Date getShipmentDate() {
-        return shipmentDate;
-    }
-
-    public void setShipmentDate(Date shipmentDate) {
-        this.shipmentDate = shipmentDate;
-    }
-
     public String getOrderedItems() {
         return orderedItems;
     }
@@ -116,25 +129,17 @@ public class Order {
         this.orderedItems = orderedItems;
     }
 
-//    public Set<Cart> getCart() {
-//        return cart;
-//    }
-//
-//    public void setCart(Set<Cart> cart) {
-//        this.cart = cart;
-//    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return Objects.equals(orderId, order.orderId) && Objects.equals(dateOfPurchase, order.dateOfPurchase) && Objects.equals(paymentMethod, order.paymentMethod) && Objects.equals(orderStatus, order.orderStatus) && Objects.equals(totalCost, order.totalCost) && Objects.equals(shipmentDate, order.shipmentDate);
+        return Objects.equals(orderId, order.orderId) && Objects.equals(dateOfPurchase, order.dateOfPurchase) && Objects.equals(orderStatus, order.orderStatus) && Objects.equals(totalCost, order.totalCost) && Objects.equals(orderedItems, order.orderedItems) && Objects.equals(customer, order.customer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(orderId, dateOfPurchase, paymentMethod, orderStatus, totalCost, shipmentDate);
+        return Objects.hash(orderId, dateOfPurchase, orderStatus, totalCost, orderedItems, customer);
     }
 
     @Override
@@ -142,10 +147,10 @@ public class Order {
         return "Order{" +
                 "orderId=" + orderId +
                 ", dateOfPurchase=" + dateOfPurchase +
-                ", paymentMethod='" + paymentMethod + '\'' +
                 ", orderStatus=" + orderStatus +
                 ", totalCost=" + totalCost +
-                ", shipmentDate=" + shipmentDate +
+                ", orderedItems='" + orderedItems + '\'' +
+                ", customer=" + customer +
                 '}';
     }
 }

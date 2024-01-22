@@ -62,11 +62,11 @@ public class ProductService {
     }
 
     public void deleteProduct(String productId) {
-        Product product = findById(Integer.valueOf(productId));
-        productRepository.delete(product);
-    }
-
-    public List<Product> findBySellerId(Integer sellerId) {
-        return productRepository.findBySellerId(sellerId);
+        Optional<Product> found = productRepository.findById(Integer.valueOf(productId));
+        if (found.isPresent()) {
+            productRepository.delete(found.get());
+        } else {
+            throw new ObjectNotFoundException(Product.class, "Product");
+        }
     }
 }

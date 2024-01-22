@@ -1,7 +1,42 @@
-<nav class="border-b-2 p-2 mb-2">
-  <ul class="flex gap-8">
-    <li>
-      <a routerLink="seller/sign-up" class="cursor-pointer">Seller Sign Up</a>
-    </li>
+<nav class="border-b-2 py-2 mb-2">
+  <ul
+    class="flex max-w-[1440px] m-auto justify-between items-center gap-8 text-base font-normal"
+  >
+    <a routerLink="/">
+      <div class="flex gap-3 h-10 items-center justify-center">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/2/24/Equifax.svg"
+          class="h-5 -mb-2"
+        />
+        <div class="border border-black h-10"></div>
+        <h4 class="font-bold">API</h4>
+      </div>
+    </a>
+    <div>
+      <li>
+        <a routerLink="products" class="text-lg">Products</a>
+      </li>
+    </div>
+    <div class="flex gap-3 justify-center items-center">
+      @if(!isLoggedIn){
+      <li>
+        <button routerLink="signup" class="btnRed">Sign Up</button>
+      </li>
+      <li>
+        <button routerLink="signin" class="btnWhite h-auto">Login</button>
+      </li>
+      } @else {
+
+      <li>
+        <a [routerLink]="['user', user.customerId]">{{ user.email }}</a>
+      </li>
+      <li>
+        <app-cart></app-cart>
+      </li>
+      <li>
+        <button (click)="onLogout()" class="btnRed">Logout</button>
+      </li>
+      }
+    </div>
   </ul>
 </nav>

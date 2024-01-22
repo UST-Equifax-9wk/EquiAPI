@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,49 +35,64 @@ public class Customer implements UserDetails {
 
 
     @JsonIgnore
-    @JsonManagedReference(value = "customerReference")
+    @JsonManagedReference(value = "cartReference")
     @OneToMany(mappedBy = "customer")
     private Set<Cart> carts = new HashSet<Cart>();
 
-    @JsonManagedReference(value = "addressReference")
-    @OneToMany(mappedBy = "customer")
-    private Set<Address> addresses = new HashSet<Address>();
-
+    @Getter
     @JsonManagedReference(value = "orderReference")
     @OneToMany(mappedBy = "customer")
     private Set<Order> orders = new HashSet<Order>();
 
+    @JsonManagedReference(value = "apiReference")
+    @OneToMany(mappedBy = "customer")
+    private Set<Api> apis = new HashSet<Api>();
+
+    @JsonManagedReference(value = "customerReviewReference")
+    @OneToMany(mappedBy = "customer")
+    private Set<Review> reviews = new HashSet<Review>();
 
 
     public Customer() {
     }
 
     public Customer(String email, String firstName, String lastName, String password,
-                    Set<Cart> carts, Set<Address> addresses) {
+                    Set<Cart> carts,  Set<Order> orders, Set<Api> apis, Set<Review> reviews) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.carts = carts;
-        this.addresses = addresses;
+        this.orders = orders;
+        this.apis = apis;
+        this.reviews = reviews;
     }
 
     public Customer(Integer customerId, String email, String firstName, String lastName, String password,
-                    Set<Cart> carts, Set<Address> addresses) {
+                    Set<Cart> carts,  Set<Order> orders, Set<Api> apis, Set<Review> reviews) {
         this.customerId = customerId;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.carts = carts;
-        this.addresses = addresses;
+        this.orders = orders;
+        this.reviews = reviews;
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(() -> role);
     }
 
+    public Set<Api> getApis() {
+        return apis;
+    }
+
+    public void setApis(Set<Api> apis) {
+        this.apis = apis;
+    }
 
     public Integer getCustomerId() {
         return customerId;
@@ -148,14 +164,6 @@ public class Customer implements UserDetails {
         this.carts = carts;
     }
 
-    public Set<Address> getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(Set<Address> addresses) {
-        this.addresses = addresses;
-    }
-
 
     public String getRole() {
         return role;
@@ -163,6 +171,14 @@ public class Customer implements UserDetails {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
     }
 
     @Override

@@ -45,77 +45,40 @@ public class CartService {
      * @return
      * @throws UnableToAddItemException
      */
-    public Cart addProductToCart (AddToCart addToCart) throws UnableToAddItemException{
-        Customer customer = customerRepository.findByEmail(addToCart.getCustomerEmail());
-
+    public Cart addProductToCart (String email, AddToCart addToCart) throws UnableToAddItemException{
+        Customer customer = customerRepository.findByEmail(email);
         Product product = productRepository.getReferenceById(addToCart.getProductId());
 
-        if(customerRepository.findByEmail(addToCart.getCustomerEmail())==null) {
-            throw new UnableToAddItemException("User does not exist");
-            }
-
-        System.out.println(addToCart.getQuantity());
-
-        if (addToCart.getQuantity() > product.getInventory()) {
-            addToCart.setQuantity(product.getInventory());
-        }
-
-        Customer presentCustomer = customerRepository.findByEmail(addToCart.getCustomerEmail());
-        Set<Cart> carts = presentCustomer.getCart();
+        Set<Cart> carts = customer.getCart();
         for(Cart c : carts){
             if(c.getProductId().equals(product.getProductId())){
-                c.setQuantity(c.getQuantity() + addToCart.getQuantity());
-                return cartRepository.save(c);
+                throw new UnableToAddItemException("Item already in cart");
             }
         }
 
         Cart cart = new Cart();
-        cart.setQuantity(addToCart.getQuantity());
-        cart.setProductId(product.getProductId());
-        cart.setTotalPrice(addToCart.getPrice()* addToCart.getQuantity());
+        cart.setProductId(addToCart.getProductId());
         cart.setPrice(addToCart.getPrice());
-
         cart.setCustomer(customer);
-
-        int newNumber = product.getInventory() - addToCart.getQuantity();
-
-        if(newNumber < 0){newNumber = 0;}
-
-        product.setInventory(newNumber);
-        productRepository.save(product);
+        cart.setProductName(product.getName());
 
         return cartRepository.save(cart);
     }
 
     /**
      *
-     * @param email
-     * @param addToCart
+     *
      * Add to cart has 3 fields: CustomerEmail, ProductId and Quantity. When deleting items, limit to what is in cart
      * @return
      */
-    public Set<Cart> removeProductFromCart (String email, AddToCart addToCart) throws UnableToDeleteItemException{
-        Product product = productRepository.getReferenceById(addToCart.getProductId());
-        Set<Cart> carts = cartRepository.findAllCartByCustomerId(customerRepository.findByEmail(email).getCustomerId());
-        for (Cart c : carts) {
-            if (c.getProductId().equals(product.getProductId())) {
-
-                if(c.getQuantity() - addToCart.getQuantity()<0){
-                    throw new UnableToDeleteItemException("Quantity is more than on cart");
-                }
-
-                c.setQuantity(c.getQuantity() - addToCart.getQuantity());
-                c.setTotalPrice(c.getPrice()*c.getQuantity());
-                product.setInventory(product.getInventory() + addToCart.getQuantity());
-                productRepository.save(product);
-                if (c.getQuantity() == 0) {
-                    cartRepository.delete(c);
-                    break;
-                }
-
-            }
+    public void removeProductFromCart (Integer cartId, String email) throws UnableToDeleteItemException{
+        Customer customer = customerRepository.findByEmail(email);
+        Cart item = cartRepository.findCartByCustomerID(customer.getCustomerId(), cartId);
+        if(item == null) {
+            throw new UnableToDeleteItemException("Could not delete Item");
+        } else {
+            cartRepository.deleteById(cartId);
         }
-        return carts;
     }
 
     /**
@@ -129,14 +92,16 @@ public class CartService {
         return customer.getCart();
     }
 
-    public Double getTotal(String email){
-        Double totalCost = 0.0;
+    public Double cartTotal(String email){
         Customer customer = customerRepository.findByEmail(email);
-        Set<Cart> customerCart = customer.getCart();
-        for(Cart c : customerCart){
-            totalCost = totalCost + c.getTotalPrice();
+        Set<Cart> carts = customer.getCart();
+        Double cartTotal = 0.0;
+
+        for(Cart c : carts){
+            cartTotal += c.getPrice();
         }
-        return totalCost;
+        return cartTotal;
     }
+
 
 }
