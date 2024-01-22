@@ -28,7 +28,7 @@ export class ProductsComponent implements OnInit {
     this.products = [];
     this.pgNo = 0;
     this.pgSize = 6;
-    this.moreProducts = false;
+    this.moreProducts = true;
   }
 
   ngOnInit(): void {
@@ -44,7 +44,7 @@ export class ProductsComponent implements OnInit {
     this.productsService.getAllProducts(this.pgNo, this.pgSize).subscribe({
       next: (value) => {
         console.log(value);
-        this.products = value;
+        this.products = this.products.concat(value);
         if (value.length === 0) {
           this.moreProducts = false;
         }

@@ -1,22 +1,19 @@
-<div>
-  <img />
-</div>
-<div>{{ productDetail.name }}</div>
-<div class="flex justify-between">
-  <div>Retail price: {{ productDetail.retailPrice | currency }}</div>
-  <div>Discounted price: {{ productDetail.discountedPrice | currency }}</div>
-  <div>27 ratings</div>
-</div>
-<div>
-  <h3>Description</h3>
+<div class="flex flex-col items-center gap-8">
+  <div class="self-start">
+    <h1 class="text-4xl font-bold">{{ productDetail.name }}</h1>
+  </div>
+  <div class="max-w-[500px]">
+    <img src="{{ productDetail.imageUrl }}" alt="product-ui" />
+  </div>
+
+  <h3 class="text-3xl font-semibold self-start">Description</h3>
   <p>{{ productDetail.description }}</p>
-</div>
-<div>
-  <form>
-    <textarea></textarea>
-    <button type="submit">Submit</button>
-  </form>
-</div>
-<div class="flex justify-end py-4">
-  <button class="bg-white p-2">Add to cart</button>
+  <div class="flex justify-end py-4 self-end items-center gap-6">
+    <div class="text-xl font-bold">
+      {{ productDetail.retailPrice | currency }}
+    </div>
+    <button class="btnRed" (click)="addToCart(productDetail)">
+      Add to cart
+    </button>
+  </div>
 </div>

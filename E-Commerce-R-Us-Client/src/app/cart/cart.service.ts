@@ -2,12 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, retry } from 'rxjs';
 import { CartItem } from '../dto/cart-item-dto';
+import { RemoteService } from '../remote.service';
+import { Product } from '../products/products.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private remoteService: RemoteService) {}
 
   getCartItems(): Observable<CartItem[]> {
     return this.http
@@ -25,6 +27,22 @@ export class CartService {
         { withCredentials: true }
       )
       .pipe(retry(1));
+  }
+
+  addToCart(product: Product): Observable<CartItem> {
+    let cart = this.remoteService.getStorageItem('cart');
+    cart.push(product);
+    this.remoteService.setLocalStorage('cart', cart);
+    return this.http.post<CartItem>(
+      `http://localhost:8080/customers/cart/add-to-cart`,
+      {
+        productId: product.productId,
+        price: product.retailPrice,
+      },
+      {
+        withCredentials: true,
+      }
+    );
   }
 
   // calculate Total
