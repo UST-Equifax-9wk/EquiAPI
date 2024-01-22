@@ -27,4 +27,12 @@ export class ApiComponent implements OnInit {
     })
   }
 
+  deleteApi(apiId: string): void {
+    this.apiService.deleteApiKey(apiId).subscribe(() => {
+      this.apiService.getApiKeys().subscribe((data) => {
+        this.apiData = data;
+      });
+    });
+  }
+
 }

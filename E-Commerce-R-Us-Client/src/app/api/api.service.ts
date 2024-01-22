@@ -16,4 +16,18 @@ export class ApiService {
     };
     return this.http.get<Api[]>(this.apiUrl, options);
   }
+
+  deleteApiKey(apiId: string): Observable<Api>{
+    const url = `http://localhost:8080/customer/delete-api`;
+
+    const body = { "apiId": apiId };
+
+    const options = {
+      body,
+      withCredentials: true,
+    };
+
+    return this.http.delete<Api>(url, options);
+
+  }
 }
