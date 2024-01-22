@@ -3,7 +3,9 @@ import {
   Component,
   DoCheck,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
 } from '@angular/core';
 import { CartItem } from '../dto/cart-item-dto';
 import { CommonModule } from '@angular/common';
@@ -18,18 +20,21 @@ import { RemoteService } from '../remote.service';
   imports: [CommonModule, TruncatePipe],
   templateUrl: './cart.component.html',
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit, OnChanges {
   open: Boolean;
 
   @Input() cartItems!: CartItem[];
   @Input() total!: number;
 
-  constructor(private cartService: CartService, private remote: RemoteService) {
+  constructor(
+    private cartService: CartService,
+    private remote: RemoteService,
+    private cdRef: ChangeDetectorRef
+  ) {
     this.open = true;
   }
 
   onOpen(): void {
-    console.log('hit');
     this.open = !this.open;
   }
 
@@ -68,5 +73,13 @@ export class CartComponent implements OnInit {
       },
     });
     this.total = this.cartService.total(this.cartItems);
+  }
+
+  ngOnChanges(): void {
+    if (this.cartItems != this.remote.getStorageItem('cart')) {
+      this.cartItems.push(this.remote.getStorageItem('cart'));
+      console.log(this.cartItems);
+      this.cdRef.detectChanges();
+    }
   }
 }

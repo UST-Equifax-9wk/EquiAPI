@@ -17,6 +17,11 @@
   </div>
   <div class="flex w-full justify-end gap-2 self-baseline">
     <button class="btnWhite">View More</button>
-    <button class="btnRed">Add To Cart</button>
+    <button
+      class="btnRed"
+      (click)="addToCart(product.productId, product.retailPrice)"
+    >
+      Add To Cart
+    </button>
   </div>
 </div>

@@ -24,7 +24,7 @@ export const routes: Routes = [
     component: SigninCustomerComponent,
   },
   {
-    path: 'user/:email',
+    path: 'user/:id',
     component: DashboardComponent,
   },
   {

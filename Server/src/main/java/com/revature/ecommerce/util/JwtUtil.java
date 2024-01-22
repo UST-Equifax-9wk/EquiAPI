@@ -43,14 +43,12 @@ public class JwtUtil {
       Calendar calendar = Calendar.getInstance();
       calendar.setTime(currentDate);
       calendar.add(Calendar.DAY_OF_MONTH, 2);
-      Date exp = calendar.getTime();
-//        Date exp = new Date(System.currentTimeMillis()*1000 + 60 * 60 * 24 * 7);
+      Date exp = new Date(System.currentTimeMillis()+ 1000 * 60 * 60 * 24 * 7);
 
         return Jwts.builder()
                 .subject(email+","+role)
                 .signWith(getKey())
                 .expiration(exp)
-//                Fix expiration date
                 .compact();
     }
 

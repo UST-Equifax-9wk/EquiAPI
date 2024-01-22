@@ -19,13 +19,28 @@ export class CartService {
 
   deleteCartItem(productId: number): Observable<CartItem[]> {
     return this.http
-      .delete<CartItem[]>(
-        '/api' + `/customers/cart/remove-item/${productId}`,
+      .delete<CartItem[]>('/api' + `/customers/cart/remove-item/${productId}`, {
+        withCredentials: true,
+      })
+      .pipe(retry(1));
+  }
 
-        { withCredentials: true }
+  addToCart(productId: number, price: number): Observable<CartItem[]> {
+    return this.http
+      .post<CartItem[]>(
+        '/api' + '/customers/cart/add-to-cart',
+        {
+          productId: productId,
+          price: price,
+        },
+        {
+          withCredentials: true,
+        }
       )
       .pipe(retry(1));
   }
+
+  // get cart array
 
   // calculate Total
   total(items: CartItem[]): number {
