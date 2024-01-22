@@ -9,6 +9,8 @@ public class OrderDto {
     private Double totalCost;
     private String [] itemDescription;
 
+    public OrderDto() {
+    }
 
     public OrderDto(Integer orderId, Date datoOfPurchase, Double totalCost, String [] itemDescription) {
         this.orderId = orderId;
