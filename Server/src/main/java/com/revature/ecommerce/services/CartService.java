@@ -67,21 +67,18 @@ public class CartService {
 
     /**
      *
-     * @param email
-     * @param addToCart
+     *
      * Add to cart has 3 fields: CustomerEmail, ProductId and Quantity. When deleting items, limit to what is in cart
      * @return
      */
-    public Set<Cart> removeProductFromCart (String email, AddToCart addToCart) throws UnableToDeleteItemException{
-        Product product = productRepository.getReferenceById(addToCart.getProductId());
-        Set<Cart> carts = cartRepository.findAllCartByCustomerId(customerRepository.findByEmail(email).getCustomerId());
-        for (Cart c : carts) {
-            if (c.getProductId().equals(product.getProductId())) {
-                    cartRepository.delete(cartRepository.findCartByCartId(c.getCartId()));
-                    break;
-                }
-            }
-        return carts;
+    public void removeProductFromCart (Integer cartId, String email) throws UnableToDeleteItemException{
+        Customer customer = customerRepository.findByEmail(email);
+        Cart item = cartRepository.findCartByCustomerID(customer.getCustomerId(), cartId);
+        if(item == null) {
+            throw new UnableToDeleteItemException("Could not delete Item");
+        } else {
+            cartRepository.deleteById(cartId);
+        }
     }
 
     /**
