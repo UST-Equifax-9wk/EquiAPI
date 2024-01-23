@@ -4,6 +4,7 @@ import { Product } from '../products/products.component';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { CartService } from '../cart/cart.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export interface ProductDetail extends Product {
   inventory: number;
@@ -62,11 +63,14 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  addToCart(product: Product) {
-    console.log(product);
-    this.cartService.addToCart(product).subscribe({
-      next(value) {
-        console.log(value);
+  addToCart(productId: number, price: number) {
+    this.cartService.addToCart(productId, price).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.cartService.changeCart(data);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error.message);
       },
     });
   }

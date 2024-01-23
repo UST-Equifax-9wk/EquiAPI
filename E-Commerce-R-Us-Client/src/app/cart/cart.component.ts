@@ -33,7 +33,7 @@ export class CartComponent implements OnInit, OnChanges {
     private remote: RemoteService,
     private ngZone: NgZone
   ) {
-    this.open = true;
+    this.open = false;
   }
 
   onOpen(): void {

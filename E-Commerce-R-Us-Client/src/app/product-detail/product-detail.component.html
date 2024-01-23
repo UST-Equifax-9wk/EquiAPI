@@ -12,7 +12,10 @@
     <div class="text-xl font-bold">
       {{ productDetail.retailPrice | currency }}
     </div>
-    <button class="btnRed" (click)="addToCart(productDetail)">
+    <button
+      class="btnRed"
+      (click)="addToCart(productDetail.productId, productDetail.retailPrice)"
+    >
       Add to cart
     </button>
   </div>
