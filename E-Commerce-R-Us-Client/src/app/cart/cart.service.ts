@@ -1,14 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, retry } from 'rxjs';
+import { BehaviorSubject, Observable, retry } from 'rxjs';
 import { CartItem } from '../dto/cart-item-dto';
+import { RemoteService } from '../remote.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  constructor(private http: HttpClient) {}
+  private cart = new BehaviorSubject<CartItem[]>([]);
+  currentCart = this.cart.asObservable();
 
+  changeCart(items: CartItem[]) {
+    this.cart.next(items);
+  }
+
+  constructor(private http: HttpClient, private remote: RemoteService) {}
   getCartItems(): Observable<CartItem[]> {
     return this.http
       .get<CartItem[]>('/api' + '/customers/cart/view-cart', {
@@ -19,10 +26,23 @@ export class CartService {
 
   deleteCartItem(productId: number): Observable<CartItem[]> {
     return this.http
-      .delete<CartItem[]>(
-        '/api' + `/customers/cart/remove-item/${productId}`,
+      .delete<CartItem[]>('/api' + `/customers/cart/remove-item/${productId}`, {
+        withCredentials: true,
+      })
+      .pipe(retry(1));
+  }
 
-        { withCredentials: true }
+  addToCart(productId: number, price: number): Observable<CartItem[]> {
+    return this.http
+      .post<CartItem[]>(
+        '/api' + '/customers/cart/add-to-cart',
+        {
+          productId: productId,
+          price: price,
+        },
+        {
+          withCredentials: true,
+        }
       )
       .pipe(retry(1));
   }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, retry } from 'rxjs';
+import { Observable, map, retry } from 'rxjs';
 import { CustomerSignUp } from './dto/customer-sign-up';
 import { Customer } from './dto/customer-dto';
 import { CustomerSignIn } from './dto/customer-sign-in';
@@ -44,6 +44,15 @@ export class RemoteService {
         withCredentials: true,
       })
       .pipe(retry(1));
+  }
+
+  // Cookie
+  getCookieExist(): Observable<boolean> {
+    return this.http
+      .get<{ exists: boolean }>('/api' + '/auth/cookie', {
+        withCredentials: true,
+      })
+      .pipe(map((data) => data.exists));
   }
 
   // Util functions

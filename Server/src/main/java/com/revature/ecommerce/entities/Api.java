@@ -14,6 +14,8 @@ public class Api {
 
     private Integer productId;
 
+    private String productName;
+
     @JsonBackReference(value = "apiReference")
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
@@ -22,20 +24,30 @@ public class Api {
     public Api() {
     }
 
-    public Api(Integer productId, Customer customer) {
+    public Api(Integer productId, Customer customer, String productName) {
         this.productId = productId;
         this.customer = customer;
+        this.productName = productName;
     }
 
-    public Api(UUID apiId, Integer productId, Customer customer) {
+    public Api(UUID apiId, Integer productId, Customer customer, String productName) {
         this.apiId = apiId;
         this.productId = productId;
         this.customer = customer;
+        this.productName = productName;
     }
 
     public Api(UUID apiId, Integer productId) {
         this.apiId = apiId;
         this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public UUID getApiId() {

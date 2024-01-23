@@ -36,7 +36,7 @@ build/
 dist/
 .idea/
 *.yml
-
+*.yaml
 .JAR
 .WAR
 *.EAR

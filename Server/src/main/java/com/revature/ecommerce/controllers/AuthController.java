@@ -18,6 +18,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping(path = "/auth")
@@ -42,7 +44,7 @@ public class AuthController {
         cookie.setSecure(true); // Send over HTTPS only
         cookie.setHttpOnly(true);
         cookie.setPath("/");
-        cookie.setMaxAge(10800);
+        cookie.setMaxAge(60 * 60 * 24 * 7);
         response.addCookie(cookie);
 
         CustomerResponse res = new CustomerResponse(
@@ -73,7 +75,7 @@ public class AuthController {
         cookie.setSecure(true); // Send over HTTPS only
         cookie.setHttpOnly(true);
         cookie.setPath("/");
-        cookie.setMaxAge(10800);
+        cookie.setMaxAge(60 * 60 * 24 * 7);
         response.addCookie(cookie);
 
         CustomerResponse res = new CustomerResponse(
@@ -119,6 +121,12 @@ public class AuthController {
         );
 
         return ResponseEntity.ok(res);
+    }
+
+    @GetMapping("/cookie")
+    public Boolean checkCookie(HttpServletRequest request) {
+        String jwtCookie = cookieUtil.getCookie(request, "jwt");
+        return jwtCookie != null;
     }
 
 
