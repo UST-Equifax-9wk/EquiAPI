@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, map, retry } from 'rxjs';
 import { CustomerSignUp } from './dto/customer-sign-up';
 import { Customer } from './dto/customer-dto';
 import { CustomerSignIn } from './dto/customer-sign-in';
+import { CartItem } from './dto/cart-item-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -95,4 +96,17 @@ export class RemoteService {
   clearStorage(): void {
     localStorage.clear();
   }
+
+
+  postCheckOut(): Observable <object>{
+    return this.http
+    .post("/customers/order/checkout", null,
+    {
+      withCredentials: true,
+      headers: new HttpHeaders({
+        'Content-Type':'application/json'
+      })
+    })
+  }
 }
+
