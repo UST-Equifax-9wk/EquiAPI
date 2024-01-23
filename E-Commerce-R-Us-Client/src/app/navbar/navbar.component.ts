@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, DoCheck, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  DoCheck,
+  OnChanges,
+  OnInit,
+} from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RemoteService } from '../remote.service';
@@ -40,6 +46,7 @@ export class NavbarComponent implements OnInit {
       next: () => {
         this.remote.clearStorage();
         this.remote.changeLoggedIn(false);
+        this.cdRef.detectChanges();
         this.remote.redirect('/');
       },
       error: (error: HttpErrorResponse) => {
