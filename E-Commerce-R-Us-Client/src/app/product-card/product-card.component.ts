@@ -44,7 +44,6 @@ export class ProductCardComponent implements OnInit {
         console.log(error.message);
       },
     });
-    this.getCartItems();
   }
 
   getCartItems(): void {

@@ -56,8 +56,16 @@ public class Customer implements UserDetails {
     public Customer() {
     }
 
+    public Customer(Integer customerId, String email, String firstName, String lastName, String password) {
+        this.customerId = customerId;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+    }
+
     public Customer(String email, String firstName, String lastName, String password,
-                    Set<Cart> carts,  Set<Order> orders, Set<Api> apis, Set<Review> reviews) {
+                    Set<Cart> carts, Set<Order> orders, Set<Api> apis, Set<Review> reviews) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;

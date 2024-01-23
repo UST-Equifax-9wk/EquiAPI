@@ -1,11 +1,8 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ProductCardComponent } from '../product-card/product-card.component';
 import { CommonModule } from '@angular/common';
 import { ProductsService } from './products.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { EventEmitter } from 'http-proxy';
-import { CartItem } from '../dto/cart-item-dto';
-import { CartService } from '../cart/cart.service';
 
 export interface Product {
   productId: number;
@@ -27,10 +24,7 @@ export class ProductsComponent implements OnInit {
   pgSize: number;
   moreProducts: boolean;
 
-  constructor(
-    private productsService: ProductsService,
-    private cartService: CartService
-  ) {
+  constructor(private productsService: ProductsService) {
     this.products = [];
     this.pgNo = 0;
     this.pgSize = 6;
@@ -48,8 +42,7 @@ export class ProductsComponent implements OnInit {
   getAllProducts(pgNo: number, pgSize: number): void {
     this.productsService.getAllProducts(this.pgNo, this.pgSize).subscribe({
       next: (value) => {
-        console.log(value);
-        this.products = this.products.concat(value);
+        this.products = value;
         if (value.length === 0) {
           this.moreProducts = false;
         }

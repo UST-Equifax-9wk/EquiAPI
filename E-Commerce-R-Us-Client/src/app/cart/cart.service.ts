@@ -9,10 +9,13 @@ import { RemoteService } from '../remote.service';
 })
 export class CartService {
   private cart = new BehaviorSubject<CartItem[]>([]);
+  private total = new BehaviorSubject<number>(0);
   currentCart = this.cart.asObservable();
+  currentTotal = this.total.asObservable();
 
   changeCart(items: CartItem[]) {
     this.cart.next(items);
+    this.total.next(this.totalCalc(items));
   }
 
   constructor(private http: HttpClient, private remote: RemoteService) {}
@@ -48,7 +51,7 @@ export class CartService {
   }
 
   // calculate Total
-  total(items: CartItem[]): number {
+  totalCalc(items: CartItem[]): number {
     let total = 0;
 
     for (let item of items) {
@@ -57,4 +60,6 @@ export class CartService {
 
     return total;
   }
+
+  
 }

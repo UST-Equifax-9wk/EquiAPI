@@ -7,6 +7,7 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { authGuard } from './guards/auth.guard';
+import { OrdersComponent } from './orders/orders.component';
 
 export const routes: Routes = [
   {
@@ -28,7 +29,11 @@ export const routes: Routes = [
   {
     path: 'checkout',
     component: CheckoutComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+  },
+  {
+    path: 'orders',
+    component: OrdersComponent,
   },
   {
     path: 'user/:email',

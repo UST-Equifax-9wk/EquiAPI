@@ -15,6 +15,7 @@ import { CartService } from './cart.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TruncatePipe } from '../truncate.pipe';
 import { RemoteService } from '../remote.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -26,14 +27,15 @@ export class CartComponent implements OnInit, OnChanges {
   open: Boolean;
 
   cartItems!: CartItem[];
-  @Input() total!: number;
+  total!: number;
 
   constructor(
     private cartService: CartService,
     private remote: RemoteService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private router:Router
   ) {
-    this.open = true;
+    this.open = false;
   }
 
   onOpen(): void {
@@ -42,8 +44,8 @@ export class CartComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.cartService.currentCart.subscribe((cart) => (this.cartItems = cart));
+    this.cartService.currentTotal.subscribe((total) => (this.total = total));
     this.getCartItems();
-    this.total = this.cartService.total(this.cartItems);
   }
 
   onItemDelete(productId: number): void {
@@ -70,10 +72,13 @@ export class CartComponent implements OnInit, OnChanges {
         console.log(error);
       },
     });
-    this.total = this.cartService.total(this.cartItems);
   }
 
   ngOnChanges() {
     this.cartService.currentCart;
+  }
+
+  goToCheckoutPage(){
+    this.router.navigate(['checkout'])
   }
 }
