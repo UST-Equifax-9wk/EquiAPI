@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RemoteService } from '../remote.service';
 import { CustomerSignIn } from '../dto/customer-sign-in';
@@ -47,6 +47,8 @@ export class SigninCustomerComponent implements OnInit {
     this.remote.postCustomerLogin(customer).subscribe({
       next: (data) => {
         this.remote.setLocalStorage('customer', data);
+        this.remote.changeLoggedIn(true);
+
         this.remote.redirect(`/user/${data.customerId}`);
       },
       error: (error: HttpErrorResponse) => {
