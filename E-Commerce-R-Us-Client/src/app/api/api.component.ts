@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 export interface Api {
   apiId: string;
   productId: number;
+  productName: string;
 }
 
 @Component({
