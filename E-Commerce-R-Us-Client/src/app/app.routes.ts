@@ -34,10 +34,12 @@ export const routes: Routes = [
   {
     path: 'orders',
     component: OrdersComponent,
+    canActivate: [authGuard],
   },
   {
     path: 'user/:email',
     component: DashboardComponent,
+    canActivate: [authGuard],
   },
   {
     path: 'products/:id',

@@ -8,26 +8,36 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './orders.component.html',
-  styleUrl: './orders.component.css'
+  styleUrl: './orders.component.css',
 })
-export class OrdersComponent implements OnInit{
+export class OrdersComponent implements OnInit {
+  constructor(private orderService: OrderService) {}
 
-  constructor(private orderService:OrderService){}
-
-  orderDtos:OrderDtos [] = []
+  orderDtos: any[] = [];
+  itemDescription: any = [];
 
   ngOnInit(): void {
     let that = this;
-    this.orderService.getOrders().subscribe(
-      {
-        next(value){
-          that.orderDtos=value;
-        }
-      }
-    )
-      
+    this.orderService.getOrders().subscribe({
+      next(value) {
+        let itemDescription = value.map((x) => x.itemDescription);
+        console.log(itemDescription);
+        let arr = itemDescription.map((x) => {
+          return x.map((str) => str.split(', \n,'));
+        });
+        console.log(arr);
+        that.itemDescription = arr;
+        that.itemDescription = arr.map((x) => {
+          // console.log(x);
+          return x.map((str: any) =>
+            str.map((i: any) => {
+              return i.split(':');
+            })
+          );
+        });
+        console.log(that.itemDescription);
+        that.orderDtos = value;
+      },
+    });
   }
-
-
-
 }

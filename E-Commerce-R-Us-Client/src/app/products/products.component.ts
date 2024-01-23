@@ -42,7 +42,7 @@ export class ProductsComponent implements OnInit {
   getAllProducts(pgNo: number, pgSize: number): void {
     this.productsService.getAllProducts(this.pgNo, this.pgSize).subscribe({
       next: (value) => {
-        this.products = value;
+        this.products = this.products.concat(value);
         if (value.length === 0) {
           this.moreProducts = false;
         }

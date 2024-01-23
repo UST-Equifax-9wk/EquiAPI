@@ -1,14 +1,25 @@
 <!-- <p>orders works!</p> -->
 <div>
-    <div>
-        <div *ngFor="let item of orderDtos">
-        <div>
-            {{item.orderId}} <br>
-            {{item.dateOfPurchase}}<br>
-            {{item.totalCost}}<br>
-            {{item.itemDescription}}
-        </div>
-        </div>
+  <div class="flex flex-col gap-8">
+    <div
+      *ngFor="let item of orderDtos; index as i"
+      class="ring-2 p-2 flex flex-col gap-4"
+    >
+      <div>Order ID: {{ item.orderId }}</div>
+      <div>Date of Purchase: {{ item.datoOfPurchase | date }}</div>
+      <div>Totol Cost: {{ item.totalCost | currency }}</div>
     </div>
+    <!-- <div *ngFor="let des of itemDescription; index as y">
+      <div *ngFor="let str of des">
+        <div *ngFor="let x of str; index as i">
+          <div>
+            {{ x[0] }} : {{ x[1] }}
+            <hr />
+            <br />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  </div>
 </div>
-
