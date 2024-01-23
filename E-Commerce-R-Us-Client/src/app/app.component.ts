@@ -20,7 +20,7 @@ import { ApiComponent } from './api/api.component';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-  title = 'E-Commerce-R-Us-Client';
+  title = 'EquiAPI';
 
   constructor(private remote: RemoteService) {}
 }

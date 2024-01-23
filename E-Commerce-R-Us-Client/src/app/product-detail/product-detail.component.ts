@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { CartService } from '../cart/cart.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CartItem } from '../dto/cart-item-dto';
 
 export interface ProductDetail extends Product {
   inventory: number;
@@ -21,6 +22,7 @@ interface Review {}
   templateUrl: './product-detail.component.html',
 })
 export class ProductDetailComponent implements OnInit {
+  cartItems!: CartItem[];
   constructor(
     private productDetailService: ProductDetailService,
     private cartService: CartService,
@@ -38,6 +40,7 @@ export class ProductDetailComponent implements OnInit {
   };
   productId: string = '1';
   ngOnInit(): void {
+    this.cartService.currentCart.subscribe((cart) => (this.cartItems = cart));
     this.setProductIdFromUrlSeg();
     this.getProductDetail(this.productId);
   }

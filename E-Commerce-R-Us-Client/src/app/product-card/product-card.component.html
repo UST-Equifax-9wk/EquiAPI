@@ -21,7 +21,9 @@
     </div>
   </div>
   <div class="flex w-full justify-end gap-2 self-baseline">
-    <button class="btnWhite">View More</button>
+    <button class="btnWhite" (click)="goToProductDetail(product.productId)">
+      View More
+    </button>
     <button
       class="btnRed"
       (click)="addToCart(product.productId, product.retailPrice)"
