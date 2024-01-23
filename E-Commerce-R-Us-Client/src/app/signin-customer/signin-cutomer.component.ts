@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RemoteService } from '../remote.service';
 import { CustomerSignIn } from '../dto/customer-sign-in';
@@ -11,13 +11,31 @@ import { HttpErrorResponse } from '@angular/common/http';
   imports: [FormsModule, CommonModule],
   templateUrl: './signin-customer.component.html',
 })
-export class SigninCustomerComponent {
+export class SigninCustomerComponent implements OnInit {
   public email: string;
   public password: string;
 
   constructor(private remote: RemoteService) {
     this.email = '';
     this.password = '';
+  }
+
+  loggedIn!: boolean;
+
+  ngOnInit(): void {
+    this.remote.currentLoggedIn.subscribe(
+      (loggedIn) => (this.loggedIn = loggedIn)
+    );
+
+    this.remote.getCookieExist().subscribe({
+      next: (data) => {
+        this.remote.changeLoggedIn(data);
+      },
+    });
+
+    if (this.loggedIn) {
+      this.remote.redirect('/products');
+    }
   }
 
   onSubmit(): any {

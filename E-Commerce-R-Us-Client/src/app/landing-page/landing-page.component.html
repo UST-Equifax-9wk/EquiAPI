@@ -1,12 +1,163 @@
-<div>
-  <div>
-    <!-- Todo: Banner -->
+<div class="relative flex flex-col gap-10 overflow-visible w-full">
+  <div
+    class="relative grid grid-cols-2 gap-6 w-full justify-center items-center h-[500px] wrapper"
+  >
+    <div
+      class="absolute top-0 -z-20 border-highlight border-8 rounded-full w-[100px] h-[100px] -left-11"
+    ></div>
+    <div class="p-10 relative h-full">
+      <div
+        class="border-white border-8 top-0 right-24 rounded-tr-full absolute w-[240px] h-[240px] bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-left bg-cover bg-no-repeat"
+      ></div>
+      <div
+        class="rounded-bl-[5rem] top-10 -z-10 rounded-tr-[5rem] absolute w-[450px] h-[450px] bg-[url('https://images.unsplash.com/photo-1630569266941-f8a348786bf0?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-center bg-cover bg-no-repeat"
+      ></div>
+      <div
+        class="rounded-full border-white border-8 absolute right-24 -bottom-20 w-[250px] h-[250px] overflow-hidden bg-[url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-center bg-cover bg-no-repeat"
+      ></div>
+    </div>
+    <div
+      class="flex flex-col gap-5 col-span-1 bg-gradient-to-r from-transparent from-5% via-white via-35% to-white via-90 p-10"
+    >
+      <h1 class="font-normal w-[85%]">
+        Empower Your Business with Equifax API Solutions
+      </h1>
+      <p class="font-medium w-[72%]">
+        Unlock Real-Time Financial Insights for Informed Decision-Making
+      </p>
+      <div>
+        <button routerLink="products" class="btnRed flex gap-3">
+          Get Started
+          <span class=""
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+              />
+            </svg>
+          </span>
+        </button>
+      </div>
+    </div>
   </div>
 
-  <div>
-    <!-- Todo:What we offer -->
+  <div class="mt-20 max-w-[1440px] m-auto">
+    <div>
+      <h2 class="text-center font-light">API Benefits</h2>
+
+      <div class="grid grid-cols-3 gap-2 my-20 h-[350px]">
+        <div
+          class="flex flex-col gap-3 justify-center items-center w-full text-center border h-full border-gray-400 border-b-4 border-b-third"
+        >
+          <div class="">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-24 h-24 text-highlight"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5m.75-9 3-3 2.148 2.148A12.061 12.061 0 0 1 16.5 7.605"
+              />
+            </svg>
+          </div>
+          <div class="felx-col gap-5 p-10">
+            <h4>Enhanced Decision-Making</h4>
+            <p>
+              Elevate your decision-making process by accessing instant and
+              accurate credit information, empowering you to make informed
+              choices that drive success.
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="flex flex-col gap-3 justify-center items-center w-full text-center border h-full border-gray-400 border-b-4 border-b-third"
+        >
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-24 h-24 text-highlight"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="m6.75 7.5 3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0 0 21 18V6a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 6v12a2.25 2.25 0 0 0 2.25 2.25Z"
+              />
+            </svg>
+          </div>
+          <div class="felx-col gap-5 p-10">
+            <h4>Seamless Integration</h4>
+            <p>
+              Our Equifax API ensures a smooth integration process, allowing you
+              to harness its powerful features without hassle, saving you time
+              and resources.
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="flex flex-col gap-3 justify-center items-center w-full text-center border h-full border-gray-400 border-b-4 border-b-third"
+        >
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-24 h-24 text-highlight"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M7.864 4.243A7.5 7.5 0 0 1 19.5 10.5c0 2.92-.556 5.709-1.568 8.268M5.742 6.364A7.465 7.465 0 0 0 4.5 10.5a7.464 7.464 0 0 1-1.15 3.993m1.989 3.559A11.209 11.209 0 0 0 8.25 10.5a3.75 3.75 0 1 1 7.5 0c0 .527-.021 1.049-.064 1.565M12 10.5a14.94 14.94 0 0 1-3.6 9.75m6.633-4.596a18.666 18.666 0 0 1-2.485 5.33"
+              />
+            </svg>
+          </div>
+          <div class="felx-col gap-5 p-10">
+            <h4>Trusted Data Source</h4>
+            <p>
+              Benefit from data provided by Equifax, a trusted leader in
+              consumer and business information, ensuring the reliability and
+              authenticity of the insights you receive.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div>
-    <!-- Todo:What that unlocks for ypu -->
+
+  <div class="bg-gray-300 bg-cover w-full py-20 my-10">
+    <div class="wrapper flex flex-col justify-center items-center gap-5">
+      <h3 class="font-thin text-highlight text-center">Success Story</h3>
+      <div class="w-[50%]">
+        <h5 class="text-center">
+          "In just weeks after integrating our Equifax API, ABC Company
+          experienced a remarkable shift in their decision-making dynamics.
+          Armed with real-time financial insights, they made informed choices
+          that not only mitigated risks but also propelled their business to new
+          heights. The seamless integration and reliability of Equifax data
+          proved to be the catalyst for their success, showcasing the true power
+          of our API in transforming businesses."
+        </h5>
+      </div>
+    </div>
   </div>
 </div>

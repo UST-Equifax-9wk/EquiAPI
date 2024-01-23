@@ -43,7 +43,9 @@ export class CartComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.cartService.currentCart.subscribe((cart) => (this.cartItems = cart));
     this.cartService.currentTotal.subscribe((total) => (this.total = total));
-    this.getCartItems();
+    if (this.remote.getCookieExist()) {
+      this.getCartItems();
+    }
   }
 
   onItemDelete(productId: number): void {

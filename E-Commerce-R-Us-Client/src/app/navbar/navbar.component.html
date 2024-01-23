@@ -1,4 +1,4 @@
-<nav class="border-b-2 py-2 mb-2">
+<nav class="border-b-2 py-2 mb-2 h-full">
   <ul
     class="flex max-w-[1440px] m-auto justify-between items-center gap-8 text-base font-normal"
   >
@@ -18,25 +18,26 @@
       </li>
     </div>
     <div class="flex gap-3 justify-center items-center">
-      @if(!isLoggedIn){
-      <li>
-        <button routerLink="signup" class="btnRed">Sign Up</button>
-      </li>
-      <li>
-        <button routerLink="signin" class="btnWhite h-auto">Login</button>
-      </li>
-      } @else {
+      <div *ngIf="!loggedIn" class="flex gap-3">
+        <li>
+          <button routerLink="signup" class="btnRed">Sign Up</button>
+        </li>
+        <li>
+          <button routerLink="signin" class="btnWhite h-auto">Login</button>
+        </li>
+      </div>
 
-      <li>
-        <a [routerLink]="['user', user.customerId]">{{ user.email }}</a>
-      </li>
-      <li>
-        <app-cart></app-cart>
-      </li>
-      <li>
-        <button (click)="onLogout()" class="btnRed">Logout</button>
-      </li>
-      }
+      <div *ngIf="loggedIn">
+        <li>
+          <a [routerLink]="['user', user.customerId]">{{ user.email }}</a>
+        </li>
+        <li>
+          <app-cart *ngIf="loggedIn"></app-cart>
+        </li>
+        <li>
+          <button (click)="onLogout()" class="btnRed">Logout</button>
+        </li>
+      </div>
     </div>
   </ul>
 </nav>

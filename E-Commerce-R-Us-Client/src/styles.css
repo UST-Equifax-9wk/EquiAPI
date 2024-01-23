@@ -64,4 +64,7 @@
   .btnWhite:hover {
     @apply bg-highlight border-highlight text-main;
   }
+  .wrapper {
+    @apply max-w-[1440px] m-auto;
+  }
 }
