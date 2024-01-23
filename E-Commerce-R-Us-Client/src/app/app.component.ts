@@ -4,16 +4,18 @@ import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ProductsComponent } from './products/products.component';
 import { RemoteService } from './remote.service';
-<<<<<<< HEAD
-import { HttpErrorResponse } from '@angular/common/http';
-=======
 import { ApiComponent } from './api/api.component';
->>>>>>> dfad17ef07deac1aa1c1a75e4326053bee2c5f5a
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, NavbarComponent, ProductsComponent, ApiComponent],
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    NavbarComponent,
+    ProductsComponent,
+    ApiComponent,
+  ],
   templateUrl: './app.component.html',
 })
 export class AppComponent {
