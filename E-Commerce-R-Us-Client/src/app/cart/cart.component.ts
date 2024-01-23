@@ -1,10 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  DoCheck,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CartItem } from '../dto/cart-item-dto';
 import { CommonModule } from '@angular/common';
 import { CartService } from './cart.service';
