@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @RestController
-
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class ApiController {
     private final ApiService apiService;
     private final JwtUtil jwtUtil;

@@ -45,7 +45,7 @@ public class CartService {
      * @return
      * @throws UnableToAddItemException
      */
-    public Cart addProductToCart (String email, AddToCart addToCart) throws UnableToAddItemException{
+    public void addProductToCart (String email, AddToCart addToCart) throws UnableToAddItemException{
         Customer customer = customerRepository.findByEmail(email);
         Product product = productRepository.getReferenceById(addToCart.getProductId());
 
@@ -61,8 +61,10 @@ public class CartService {
         cart.setPrice(addToCart.getPrice());
         cart.setCustomer(customer);
         cart.setProductName(product.getName());
+        cartRepository.save(cart);
+        customer.getCart().add(cart);
+        customerRepository.save(customer);
 
-        return cartRepository.save(cart);
     }
 
     /**
