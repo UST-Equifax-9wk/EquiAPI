@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ProductsComponent } from './products/products.component';
 import { RemoteService } from './remote.service';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ApiComponent } from './api/api.component';
 
 @Component({
@@ -22,23 +23,4 @@ export class AppComponent {
   title = 'EquiAPI';
 
   constructor(private remote: RemoteService) {}
-
-  // ngOnInit(): void {
-  //   let user = this.remote.getStorageItem('user');
-  //   if (!user) {
-  //     this.remote.getCustomerAuth().subscribe({
-  //       next: (data) => {
-  //         if (data.valueOf()) {
-  //           this.remote.setLocalStorage('customer', data);
-  //           this.remote.redirect(`/dashboard/${data.customerId}`);
-  //         } else {
-  //           this.remote.redirect('');
-  //         }
-  //       },
-  //       error: (error: HttpErrorResponse) => {
-  //         console.log(error.message);
-  //       },
-  //     });
-  //   }
-  // }
 }

@@ -29,7 +29,7 @@ export const routes: Routes = [
     component: CheckoutComponent,
   },
   {
-    path: 'user/:email',
+    path: 'user/:id',
     component: DashboardComponent,
   },
   {
