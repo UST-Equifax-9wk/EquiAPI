@@ -22,10 +22,10 @@ import { RemoteService } from '../remote.service';
   imports: [CommonModule, TruncatePipe],
   templateUrl: './cart.component.html',
 })
-export class CartComponent implements OnInit, OnChanges, OnDestroy {
+export class CartComponent implements OnInit, OnChanges {
   open: Boolean;
 
-  @Input() cartItems!: CartItem[];
+  cartItems!: CartItem[];
   @Input() total!: number;
 
   constructor(
@@ -41,28 +41,16 @@ export class CartComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (this.remote.getStorageItem('cart') === null) {
-      this.getCartItems();
-    } else {
-      this.cartItems = this.remote.getStorageItem('cart');
-    }
+    this.cartService.currentCart.subscribe((cart) => (this.cartItems = cart));
+    this.getCartItems();
     this.total = this.cartService.total(this.cartItems);
-    window.addEventListener('storage', (event: StorageEvent) => {
-      console.log('here');
-      console.log(event.key);
-      if (event.key === 'cart') {
-        console.log('hit');
-        this.cartItems = this.remote.getStorageItem('cart');
-      }
-    });
   }
 
   onItemDelete(productId: number): void {
     this.cartService.deleteCartItem(productId).subscribe({
       next: (data) => {
-        this.cartItems = data;
-        this.remote.removeStorageItem('cart');
-        this.remote.setLocalStorage('cart', data);
+        this.cartService.changeCart(data);
+        console.log(data);
       },
       error: (error: HttpErrorResponse) => {
         console.log(error);
@@ -75,7 +63,7 @@ export class CartComponent implements OnInit, OnChanges, OnDestroy {
   getCartItems(): void {
     this.cartService.getCartItems().subscribe({
       next: (data) => {
-        this.cartItems = data;
+        this.cartService.changeCart(data);
         this.remote.setLocalStorage('cart', data);
       },
       error: (error: HttpErrorResponse) => {
@@ -83,5 +71,9 @@ export class CartComponent implements OnInit, OnChanges, OnDestroy {
       },
     });
     this.total = this.cartService.total(this.cartItems);
+  }
+
+  ngOnChanges() {
+    this.cartService.currentCart;
   }
 }

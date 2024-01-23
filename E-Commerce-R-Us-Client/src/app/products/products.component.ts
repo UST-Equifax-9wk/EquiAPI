@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { ProductCardComponent } from '../product-card/product-card.component';
 import { CommonModule } from '@angular/common';
 import { ProductsService } from './products.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { EventEmitter } from 'http-proxy';
+import { CartItem } from '../dto/cart-item-dto';
+import { CartService } from '../cart/cart.service';
 
 export interface Product {
   productId: number;
@@ -24,7 +27,10 @@ export class ProductsComponent implements OnInit {
   pgSize: number;
   moreProducts: boolean;
 
-  constructor(private productsService: ProductsService) {
+  constructor(
+    private productsService: ProductsService,
+    private cartService: CartService
+  ) {
     this.products = [];
     this.pgNo = 0;
     this.pgSize = 6;

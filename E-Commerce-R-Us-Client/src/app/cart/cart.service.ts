@@ -8,7 +8,12 @@ import { RemoteService } from '../remote.service';
   providedIn: 'root',
 })
 export class CartService {
-  // private cart = new BehaviorSubject :TODO!!
+  private cart = new BehaviorSubject<CartItem[]>([]);
+  currentCart = this.cart.asObservable();
+
+  changeCart(items: CartItem[]) {
+    this.cart.next(items);
+  }
 
   constructor(private http: HttpClient, private remote: RemoteService) {}
   getCartItems(): Observable<CartItem[]> {
