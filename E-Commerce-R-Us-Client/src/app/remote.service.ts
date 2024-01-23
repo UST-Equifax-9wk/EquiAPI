@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, map, retry } from 'rxjs';
@@ -11,12 +11,17 @@ import { CartItem } from './dto/cart-item-dto';
   providedIn: 'root',
 })
 export class RemoteService {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private appRef: ApplicationRef
+  ) {}
   private loggedIn = new BehaviorSubject<boolean>(false);
   currentLoggedIn = this.loggedIn.asObservable();
 
   changeLoggedIn(item: boolean) {
     this.loggedIn.next(item);
+    this.appRef.tick();
   }
 
   // Sign u

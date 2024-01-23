@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/test")
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+@CrossOrigin(origins = "http://76.36.233.126", allowCredentials = "true")
 public class TestController {
 
     @GetMapping("/")
@@ -19,4 +19,6 @@ public class TestController {
     public ResponseEntity<String> test(HttpServletResponse response){
         return ResponseEntity.ok().body("Hit endpoint test");
     }
+
+
 }
