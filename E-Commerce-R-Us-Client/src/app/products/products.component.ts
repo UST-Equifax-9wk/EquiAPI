@@ -48,12 +48,7 @@ export class ProductsComponent implements OnInit {
   getAllProducts(pgNo: number, pgSize: number): void {
     this.productsService.getAllProducts(this.pgNo, this.pgSize).subscribe({
       next: (value) => {
-<<<<<<< HEAD
         this.products = value;
-=======
-        console.log(value);
-        this.products = this.products.concat(value);
->>>>>>> dfad17ef07deac1aa1c1a75e4326053bee2c5f5a
         if (value.length === 0) {
           this.moreProducts = false;
         }
