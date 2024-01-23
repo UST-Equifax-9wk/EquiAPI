@@ -52,4 +52,10 @@ public class OrderController {
         String email = jwUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
         return orderService.viewOrderByCustomer (email);
     }
+
+    @ExceptionHandler(UnableToAddItemException.class)
+    @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
+    public String UnableToAddItemExceptionHandler (UnableToAddItemException e){
+        return e.getMessage();
+    }
 }
