@@ -5,6 +5,7 @@ import { SigninCustomerComponent } from './signin-customer/signin-cutomer.compon
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 export const routes: Routes = [
   {
@@ -24,11 +25,19 @@ export const routes: Routes = [
     component: SigninCustomerComponent,
   },
   {
+<<<<<<< HEAD
     path: 'user/:id',
+=======
+    path: 'checkout',
+    component: CheckoutComponent,
+  },
+  {
+    path: 'user/:email',
+>>>>>>> dfad17ef07deac1aa1c1a75e4326053bee2c5f5a
     component: DashboardComponent,
   },
   {
-    path: 'product/:id',
+    path: 'products/:id',
     component: ProductDetailComponent,
   },
 ];

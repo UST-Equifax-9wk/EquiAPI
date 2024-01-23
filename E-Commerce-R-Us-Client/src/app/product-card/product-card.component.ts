@@ -4,10 +4,13 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { TruncatePipe } from '../truncate.pipe';
 import { CartService } from '../cart/cart.service';
+<<<<<<< HEAD
 import { NotExpr } from '@angular/compiler';
 import { RemoteService } from '../remote.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CartItem } from '../dto/cart-item-dto';
+=======
+>>>>>>> dfad17ef07deac1aa1c1a75e4326053bee2c5f5a
 
 @Component({
   selector: 'app-product-card',
@@ -15,6 +18,7 @@ import { CartItem } from '../dto/cart-item-dto';
   imports: [CommonModule, RouterLink, TruncatePipe],
   templateUrl: './product-card.component.html',
 })
+<<<<<<< HEAD
 export class ProductCardComponent implements OnInit {
   cartItems!: CartItem[];
   constructor(
@@ -22,6 +26,10 @@ export class ProductCardComponent implements OnInit {
     private cartService: CartService,
     private remote: RemoteService
   ) {}
+=======
+export class ProductCardComponent {
+  constructor(private router: Router, private cartService: CartService) {}
+>>>>>>> dfad17ef07deac1aa1c1a75e4326053bee2c5f5a
 
   @Input() product: any;
 
@@ -34,6 +42,7 @@ export class ProductCardComponent implements OnInit {
     this.router.navigate(['/products', productId]);
   }
 
+<<<<<<< HEAD
   addToCart(productId: number, price: number) {
     this.cartService.addToCart(productId, price).subscribe({
       next: (data) => {
@@ -55,6 +64,13 @@ export class ProductCardComponent implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         console.log(error);
+=======
+  addToCart(product: Product): void {
+    console.log(product);
+    this.cartService.addToCart(this.product).subscribe({
+      next(value) {
+        console.log(value);
+>>>>>>> dfad17ef07deac1aa1c1a75e4326053bee2c5f5a
       },
     });
   }

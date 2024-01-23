@@ -20,12 +20,12 @@ public class Review {
     private Double rating;
 
     @JsonBackReference(value = "customerReviewReference")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
     private Customer customer;
 
     @JsonBackReference(value = "productReviewReference")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "product_id", referencedColumnName = "product_id")
     private Product product;
 

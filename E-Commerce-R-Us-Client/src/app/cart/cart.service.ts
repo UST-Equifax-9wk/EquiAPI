@@ -47,8 +47,6 @@ export class CartService {
       .pipe(retry(1));
   }
 
-  // get cart array
-
   // calculate Total
   total(items: CartItem[]): number {
     let total = 0;
