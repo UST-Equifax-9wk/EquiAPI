@@ -33,7 +33,6 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllProducts(this.pgNo, this.pgSize);
-    console.log(this.products);
   }
   nextPage() {
     this.pgNo = this.pgNo + 1;
@@ -43,7 +42,6 @@ export class ProductsComponent implements OnInit {
   getAllProducts(pgNo: number, pgSize: number): void {
     this.productsService.getAllProducts(this.pgNo, this.pgSize).subscribe({
       next: (value) => {
-        console.log(value);
         this.products = value;
         if (value.length === 0) {
           this.moreProducts = false;

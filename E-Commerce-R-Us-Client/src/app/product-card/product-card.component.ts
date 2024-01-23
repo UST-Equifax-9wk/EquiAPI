@@ -29,15 +29,8 @@ export class ProductCardComponent {
 
   addToCart(productId: number, price: number) {
     this.cartService.addToCart(productId, price).subscribe({
-      next: (data) => {
-        this.cartService.getCartItems().subscribe({
-          next: (data) => {
-            this.remote.setLocalStorage('cart', data);
-          },
-          error: (error: HttpErrorResponse) => {
-            console.log(error);
-          },
-        });
+      next: () => {
+        this.cartService.getCartItemsData();
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);

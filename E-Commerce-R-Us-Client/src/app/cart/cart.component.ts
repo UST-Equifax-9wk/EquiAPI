@@ -1,11 +1,13 @@
 import {
   ChangeDetectorRef,
   Component,
-  DoCheck,
   Input,
   OnChanges,
   OnInit,
+  NgZone,
+  SimpleChange,
   SimpleChanges,
+  OnDestroy,
 } from '@angular/core';
 import { CartItem } from '../dto/cart-item-dto';
 import { CommonModule } from '@angular/common';
@@ -20,7 +22,7 @@ import { RemoteService } from '../remote.service';
   imports: [CommonModule, TruncatePipe],
   templateUrl: './cart.component.html',
 })
-export class CartComponent implements OnInit, OnChanges {
+export class CartComponent implements OnInit, OnChanges, OnDestroy {
   open: Boolean;
 
   @Input() cartItems!: CartItem[];
@@ -29,7 +31,7 @@ export class CartComponent implements OnInit, OnChanges {
   constructor(
     private cartService: CartService,
     private remote: RemoteService,
-    private cdRef: ChangeDetectorRef
+    private ngZone: NgZone
   ) {
     this.open = true;
   }
@@ -45,6 +47,14 @@ export class CartComponent implements OnInit, OnChanges {
       this.cartItems = this.remote.getStorageItem('cart');
     }
     this.total = this.cartService.total(this.cartItems);
+    window.addEventListener('storage', (event: StorageEvent) => {
+      console.log('here');
+      console.log(event.key);
+      if (event.key === 'cart') {
+        console.log('hit');
+        this.cartItems = this.remote.getStorageItem('cart');
+      }
+    });
   }
 
   onItemDelete(productId: number): void {
@@ -73,13 +83,5 @@ export class CartComponent implements OnInit, OnChanges {
       },
     });
     this.total = this.cartService.total(this.cartItems);
-  }
-
-  ngOnChanges(): void {
-    if (this.cartItems != this.remote.getStorageItem('cart')) {
-      this.cartItems.push(this.remote.getStorageItem('cart'));
-      console.log(this.cartItems);
-      this.cdRef.detectChanges();
-    }
   }
 }

@@ -1,14 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, retry } from 'rxjs';
+import { BehaviorSubject, Observable, retry } from 'rxjs';
 import { CartItem } from '../dto/cart-item-dto';
+import { RemoteService } from '../remote.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  constructor(private http: HttpClient) {}
+  // private cart = new BehaviorSubject :TODO!!
 
+  constructor(private http: HttpClient, private remote: RemoteService) {}
   getCartItems(): Observable<CartItem[]> {
     return this.http
       .get<CartItem[]>('/api' + '/customers/cart/view-cart', {
