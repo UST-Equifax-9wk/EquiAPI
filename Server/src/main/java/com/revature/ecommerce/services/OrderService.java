@@ -78,6 +78,7 @@ public class OrderService {
             Api api = new Api();
             api.setProductId(c.getProductId());
             api.setCustomer(customer);
+            api.setProductName(c.getProductName());
 
             apiRepository.save(api);
 
@@ -106,7 +107,7 @@ public class OrderService {
 
 
     public OrderDto viewOrder(Integer orderNumber){
-        OrderDto receipt = null;
+        OrderDto receipt = new OrderDto();
         Optional<Order> order = orderRepository.findById(orderNumber);
         if(order.isPresent()){
             Order customerOrder = orderRepository.findById(orderNumber).get();
@@ -124,7 +125,7 @@ public class OrderService {
        Set<OrderDto> orderDtos = new HashSet<>();
        for(Order o : orders){
            String str = o.getOrderedItems();
-           String [] strArray = str.replace("%", "\r\n").split("#");
+           String [] strArray = str.replace(str.charAt(str.indexOf('%')), '\n').split("#");
            orderDtos.add(new OrderDto(o.getOrderId(), o.getDateOfPurchase(),
                    o.getTotalCost(), strArray));
        }
