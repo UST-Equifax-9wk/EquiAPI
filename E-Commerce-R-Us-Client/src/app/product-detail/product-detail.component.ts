@@ -4,6 +4,8 @@ import { Product } from '../products/products.component';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { CartService } from '../cart/cart.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { CartItem } from '../dto/cart-item-dto';
 
 export interface ProductDetail extends Product {
   inventory: number;
@@ -20,6 +22,7 @@ interface Review {}
   templateUrl: './product-detail.component.html',
 })
 export class ProductDetailComponent implements OnInit {
+  cartItems!: CartItem[];
   constructor(
     private productDetailService: ProductDetailService,
     private cartService: CartService,
@@ -37,6 +40,7 @@ export class ProductDetailComponent implements OnInit {
   };
   productId: string = '1';
   ngOnInit(): void {
+    this.cartService.currentCart.subscribe((cart) => (this.cartItems = cart));
     this.setProductIdFromUrlSeg();
     this.getProductDetail(this.productId);
   }
@@ -62,11 +66,14 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  addToCart(product: Product) {
-    console.log(product);
-    this.cartService.addToCart(product).subscribe({
-      next(value) {
-        console.log(value);
+  addToCart(productId: number, price: number) {
+    this.cartService.addToCart(productId, price).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.cartService.changeCart(data);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error.message);
       },
     });
   }

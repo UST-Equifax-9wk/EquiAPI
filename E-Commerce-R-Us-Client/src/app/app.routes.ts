@@ -6,10 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { CheckoutComponent } from './checkout/checkout.component';
-<<<<<<< Updated upstream
-=======
 import { OrdersComponent } from './orders/orders.component';
->>>>>>> Stashed changes
 
 export const routes: Routes = [
   {
@@ -29,25 +26,16 @@ export const routes: Routes = [
     component: SigninCustomerComponent,
   },
   {
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-    path: 'user/:id',
-=======
-=======
->>>>>>> Stashed changes
     path: 'checkout',
     component: CheckoutComponent,
   },
   {
-<<<<<<< Updated upstream
-=======
     path: 'orders',
     component: OrdersComponent,
   },
   {
->>>>>>> Stashed changes
+
     path: 'user/:email',
->>>>>>> dfad17ef07deac1aa1c1a75e4326053bee2c5f5a
     component: DashboardComponent,
   },
   {

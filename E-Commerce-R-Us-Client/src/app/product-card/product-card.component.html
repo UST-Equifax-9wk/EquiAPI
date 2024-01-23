@@ -21,19 +21,14 @@
     </div>
   </div>
   <div class="flex w-full justify-end gap-2 self-baseline">
-<<<<<<< HEAD
-    <button class="btnWhite">View More</button>
+    <button class="btnWhite" (click)="goToProductDetail(product.productId)">
+      View More
+    </button>
     <button
       class="btnRed"
       (click)="addToCart(product.productId, product.retailPrice)"
     >
       Add To Cart
     </button>
-=======
-    <button class="btnWhite" (click)="goToProductDetail(product.productId)">
-      View More
-    </button>
-    <button class="btnRed" (click)="addToCart(product)">Add To Cart</button>
->>>>>>> dfad17ef07deac1aa1c1a75e4326053bee2c5f5a
   </div>
 </div>
