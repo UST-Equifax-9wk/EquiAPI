@@ -25,11 +25,15 @@ export const routes: Routes = [
     component: SigninCustomerComponent,
   },
   {
+<<<<<<< HEAD
+    path: 'user/:id',
+=======
     path: 'checkout',
     component: CheckoutComponent,
   },
   {
     path: 'user/:email',
+>>>>>>> dfad17ef07deac1aa1c1a75e4326053bee2c5f5a
     component: DashboardComponent,
   },
   {

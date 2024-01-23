@@ -36,10 +36,12 @@ public class CartController {
     @PostMapping("/customers/cart/add-to-cart")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('CUSTOMER')")
-    public Cart addProduct(@RequestBody AddToCart addToCart, HttpServletRequest request, HttpServletResponse response)
+    public Set<Cart> addProduct(@RequestBody AddToCart addToCart, HttpServletRequest request, HttpServletResponse response)
     throws UnableToAddItemException {
         String email = jwtUtil.parseEmail(cookieUtil.getCookie(request, "jwt"));
-        return cartService.addProductToCart(email, addToCart);
+        cartService.addProductToCart(email, addToCart);
+        Set<Cart> cart =viewAllCart(request);
+        return cart;
     }
 
     @GetMapping("/customers/cart/view-cart")
