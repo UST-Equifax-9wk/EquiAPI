@@ -1,7 +1,7 @@
-<div class="flex flex-col w-full justify-center items-center">
+<div class="flex flex-col items-center">
   <div
     *ngFor="let item of cartItems"
-    class="ring-2 p-2 flex my-2 w-1/2 justify-between items-center gap-4"
+    class="ring-2 p-2 flex my-2 w-1/2 justify-between items-center gap-4 max-4xl"
   >
     <div>
       <p>Product Id: {{ item.productId }}</p>
@@ -27,8 +27,9 @@
       </button>
     </div>
   </div>
-  <button (click)="submitCartItems()" class="btnRed">Checkout</button>
-  <div>
-    <!-- This should show last 3 orders -->
-  </div>
+  <button (click)="submitCartItems()" class="btnRed">
+    <span *ngIf="loading; else purchased" class="animate-pulse"
+      >Purchasing...</span
+    ><ng-template #purchased>Checkout</ng-template>
+  </button>
 </div>

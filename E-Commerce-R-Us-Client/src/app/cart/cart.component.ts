@@ -33,7 +33,7 @@ export class CartComponent implements OnInit, OnChanges {
     private cartService: CartService,
     private remote: RemoteService,
     private ngZone: NgZone,
-    private router:Router
+    private router: Router
   ) {
     this.open = false;
   }
@@ -80,7 +80,8 @@ export class CartComponent implements OnInit, OnChanges {
     this.cartService.currentCart;
   }
 
-  goToCheckoutPage(){
-    this.router.navigate(['checkout'])
+  goToCheckoutPage() {
+    this.open = false;
+    this.router.navigate(['checkout']);
   }
 }

@@ -19,6 +19,7 @@ export class CheckoutComponent implements OnInit {
     private remoteService: RemoteService,
     private router: Router
   ) {}
+  loading: boolean = false;
 
   deleteCartItem(arg0: number) {
     this.cartService.deleteCartItem(arg0).subscribe();
@@ -36,6 +37,8 @@ export class CheckoutComponent implements OnInit {
   }
 
   submitCartItems() {
+    let that = this;
+    that.loading = true;
     this.remoteService.postCheckOut().subscribe({
       next(value) {
         console.log(value);
@@ -43,8 +46,12 @@ export class CheckoutComponent implements OnInit {
       error(e) {
         console.log(e);
       },
+      complete() {
+        that.loading = false;
+        that.router.navigate(['orders']);
+      },
     });
-    this.router.navigate(['orders']);
+
     console.log(this.cartItems);
   }
 }
