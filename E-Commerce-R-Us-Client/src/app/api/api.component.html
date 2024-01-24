@@ -2,7 +2,7 @@
 <div class="my-5 flex flex-col gap-3"><h4>Your API Keys:</h4>
   <div *ngFor="let api of apiData" class="grid grid-cols-4 justify-center items-center">
       <div class="col-span-2">API KEY: {{ api.apiId }}</div>
-      <div>Product Name: {{ api.productId }}</div>
+      <div>Product Name: {{ api.productName }}</div>
       <div><button (click)="deleteApi(api.apiId)" class="btnRed"><svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

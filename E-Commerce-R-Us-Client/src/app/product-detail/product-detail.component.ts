@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CartService } from '../cart/cart.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CartItem } from '../dto/cart-item-dto';
+import { RemoteService } from '../remote.service';
 
 export interface ProductDetail extends Product {
   inventory: number;
@@ -26,7 +27,8 @@ export class ProductDetailComponent implements OnInit {
   constructor(
     private productDetailService: ProductDetailService,
     private cartService: CartService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private remote: RemoteService
   ) {}
   productDetail: ProductDetail = {
     productId: 0,
@@ -39,7 +41,19 @@ export class ProductDetailComponent implements OnInit {
     reviews: [],
   };
   productId: string = '1';
+
+  loggedIn!: boolean;
+
   ngOnInit(): void {
+    this.remote.currentLoggedIn.subscribe(
+      (loggedIn) => (this.loggedIn = loggedIn)
+    );
+
+    this.remote.getCookieExist().subscribe({
+      next: (data) => {
+        this.remote.changeLoggedIn(data);
+      },
+    });
     this.cartService.currentCart.subscribe((cart) => (this.cartItems = cart));
     this.setProductIdFromUrlSeg();
     this.getProductDetail(this.productId);
@@ -67,14 +81,18 @@ export class ProductDetailComponent implements OnInit {
   }
 
   addToCart(productId: number, price: number) {
-    this.cartService.addToCart(productId, price).subscribe({
-      next: (data) => {
-        console.log(data);
-        this.cartService.changeCart(data);
-      },
-      error: (error: HttpErrorResponse) => {
-        console.log(error.message);
-      },
-    });
+    if (this.loggedIn) {
+      this.cartService.addToCart(productId, price).subscribe({
+        next: (data) => {
+          console.log(data);
+          this.cartService.changeCart(data);
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log(error.message);
+        },
+      });
+    } else {
+      this.remote.redirect('signin');
+    }
   }
 }

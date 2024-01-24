@@ -68,7 +68,7 @@ public class OrderService {
             list.add("productId: " + String.valueOf(c.getProductId()));
             System.out.println(c.getProductId());
             list.add("%");
-            list.add("productType: " + String.valueOf(productService.findById(c.getProductId()).getProductType()));
+            list.add("productName: " + String.valueOf(productService.findById(c.getProductId()).getName()));
             list.add("%");
             list.add("productPrice: " + String.valueOf(c.getPrice()));
             list.add("#");

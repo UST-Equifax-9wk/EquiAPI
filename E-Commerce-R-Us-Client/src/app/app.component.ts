@@ -19,8 +19,22 @@ import { ApiComponent } from './api/api.component';
   ],
   templateUrl: './app.component.html',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'EquiAPI';
 
   constructor(private remote: RemoteService) {}
+
+  loggedIn!: boolean;
+
+  ngOnInit(): void {
+    this.remote.currentLoggedIn.subscribe(
+      (loggedIn) => (this.loggedIn = loggedIn)
+    );
+
+    this.remote.getCookieExist().subscribe({
+      next: (data) => {
+        this.remote.changeLoggedIn(data);
+      },
+    });
+  }
 }
