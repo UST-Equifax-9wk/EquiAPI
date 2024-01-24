@@ -25,9 +25,22 @@ export class ProductCardComponent implements OnInit {
 
   @Input() product: any;
 
+  loggedIn!: boolean;
+
   ngOnInit(): void {
+    this.remote.currentLoggedIn.subscribe(
+      (loggedIn) => (this.loggedIn = loggedIn)
+    );
+
+    this.remote.getCookieExist().subscribe({
+      next: (data) => {
+        this.remote.changeLoggedIn(data);
+      },
+    });
     this.cartService.currentCart.subscribe((cart) => (this.cartItems = cart));
-    this.getCartItems();
+    if (this.loggedIn) {
+      this.getCartItems();
+    }
   }
 
   goToProductDetail(productId: string): void {
@@ -35,22 +48,24 @@ export class ProductCardComponent implements OnInit {
   }
 
   addToCart(productId: number, price: number) {
-    this.cartService.addToCart(productId, price).subscribe({
-      next: (data) => {
-        console.log(data);
-        this.cartService.changeCart(data);
-      },
-      error: (error: HttpErrorResponse) => {
-        console.log(error.message);
-      },
-    });
+    if (this.loggedIn) {
+      this.cartService.addToCart(productId, price).subscribe({
+        next: (data) => {
+          this.cartService.changeCart(data);
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log(error.message);
+        },
+      });
+    } else {
+      this.remote.redirect('signin');
+    }
   }
 
   getCartItems(): void {
     this.cartService.getCartItems().subscribe({
       next: (data) => {
         this.cartService.changeCart(data);
-        console.log(data);
       },
       error: (error: HttpErrorResponse) => {
         console.log(error);

@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { ApplicationRef, ChangeDetectorRef, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, map, retry } from 'rxjs';
+import { BehaviorSubject, Observable, map, retry } from 'rxjs';
 import { CustomerSignUp } from './dto/customer-sign-up';
 import { Customer } from './dto/customer-dto';
 import { CustomerSignIn } from './dto/customer-sign-in';
@@ -11,9 +11,20 @@ import { CartItem } from './dto/cart-item-dto';
   providedIn: 'root',
 })
 export class RemoteService {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private appRef: ApplicationRef
+  ) {}
+  private loggedIn = new BehaviorSubject<boolean>(false);
+  currentLoggedIn = this.loggedIn.asObservable();
 
-  // Sign up
+  changeLoggedIn(item: boolean) {
+    this.loggedIn.next(item);
+    this.appRef.tick();
+  }
+
+  // Sign u
   postCustomerSignUp(customer: CustomerSignUp): Observable<Customer> {
     return this.http
       .post<Customer>('/api' + '/auth/customer/sign-up', customer, {
@@ -50,10 +61,10 @@ export class RemoteService {
   // Cookie
   getCookieExist(): Observable<boolean> {
     return this.http
-      .get<{ exists: boolean }>('/api' + '/auth/cookie', {
+      .get<boolean>('/api' + '/auth/cookie', {
         withCredentials: true,
       })
-      .pipe(map((data) => data.exists));
+      .pipe(retry(1));
   }
 
   // Util functions
