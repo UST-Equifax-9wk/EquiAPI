@@ -64,7 +64,6 @@ public class CartService {
         cartRepository.save(cart);
         customer.getCart().add(cart);
         customerRepository.save(customer);
-
     }
 
     /**

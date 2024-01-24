@@ -1,5 +1,5 @@
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ApplicationRef, ChangeDetectorRef, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, map, retry } from 'rxjs';
 import { CustomerSignUp } from './dto/customer-sign-up';
@@ -106,5 +106,14 @@ export class RemoteService {
 
   clearStorage(): void {
     localStorage.clear();
+  }
+
+  postCheckOut(): Observable<object> {
+    return this.http.post('/api' + '/customers/order/checkout', null, {
+      withCredentials: true,
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    });
   }
 }

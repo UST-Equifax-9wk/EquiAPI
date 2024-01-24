@@ -15,6 +15,7 @@ import { CartService } from './cart.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TruncatePipe } from '../truncate.pipe';
 import { RemoteService } from '../remote.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -31,7 +32,8 @@ export class CartComponent implements OnInit, OnChanges {
   constructor(
     private cartService: CartService,
     private remote: RemoteService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private router:Router
   ) {
     this.open = false;
   }
@@ -76,5 +78,9 @@ export class CartComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.cartService.currentCart;
+  }
+
+  goToCheckoutPage(){
+    this.router.navigate(['checkout'])
   }
 }

@@ -52,12 +52,20 @@ public class Cart {
     public Cart() {
     }
 
+    public Cart(Integer productId, Double price, String productName) {
+        this.productId = productId;
+        this.price = price;
+        this.productName = productName;
+    }
+
     /**
      *
      * @param customer
      * @param productId
      * @param price
      */
+
+
     public Cart(Customer customer, Integer productId, Double price, String productName) {
         this.customer = customer;
         this.productId = productId;
