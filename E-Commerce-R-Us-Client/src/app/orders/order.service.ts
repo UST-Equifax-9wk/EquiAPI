@@ -11,9 +11,9 @@ export class OrderService {
 
   getOrders(): Observable<OrderDtos[]> {
     return this.http
-      .get<OrderDtos[]>('http://localhost:8080/customers/view-orders', {
-        withCredentials: true,
-      })
-      .pipe(retry(1));
+    .get<OrderDtos[]>('http://localhost:8080/customers/view-orders',{
+      withCredentials: true,
+    } )
+    .pipe(retry(1));
   }
 }

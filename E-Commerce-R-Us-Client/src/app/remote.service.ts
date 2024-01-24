@@ -97,8 +97,11 @@ export class RemoteService {
     localStorage.clear();
   }
 
-  postCheckOut(): Observable<object> {
-    return this.http.post('/api' + '/customers/order/checkout', null, {
+
+  postCheckOut(): Observable <object>{
+    return this.http
+    .post("http://localhost:8080/customers/order/checkout", null,
+    {
       withCredentials: true,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
